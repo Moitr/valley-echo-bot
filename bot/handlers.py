@@ -4,6 +4,7 @@ import base64
 import io
 import os
 import random
+import re
 import threading
 import time
 from collections import defaultdict, deque
@@ -40,15 +41,17 @@ from modules.wiki.sve import (
     get_direct_page_summary_data as sve_get_direct_page_summary_data,
     get_page_summary_data as sve_get_page_summary_data,
     get_search_results as sve_get_search_results,
+    save_infobox_screenshot as sve_save_infobox_screenshot,
+    SCREENSHOT_DIR as SVE_SCREENSHOT_DIR,
 )
-from modules.wiki.sve import save_infobox_screenshot as sve_save_infobox_screenshot
 from modules.wiki.stardew import (
     WikiRequestError,
     get_direct_page_summary_data,
     get_page_summary_data,
     get_search_results,
+    save_infobox_screenshot,
+    SCREENSHOT_DIR as STARDEW_SCREENSHOT_DIR,
 )
-from modules.wiki.stardew import save_infobox_screenshot
 from modules.wiki.summarize import summarize_wiki_page
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -426,15 +429,55 @@ def send_image_with_retry(group_id, image_path, retries=3):
         time.sleep(1)
 
 
-def send_wiki_image(group_id, html, url):
+_WIKI_IMAGE_CACHE_LOCK = threading.RLock()
+
+
+def _wiki_cache_path(item_name, cache_dir):
+    """按物品名称生成稳定缓存路径，不把 URL 或用户信息写入文件名。"""
+    name = str(item_name or "").strip()
+    name = re.sub(r"[^0-9A-Za-z\u4e00-\u9fff._-]+", "_", name).strip("._-")
+    if not name:
+        return None
+    return os.path.join(cache_dir, f"{name}.png")
+
+
+def _save_cached_wiki_image(item_name, html, url, save_func, cache_dir, label):
+    """Return an existing item image or render it once and store by item name."""
+    cache_path = _wiki_cache_path(item_name, cache_dir)
+    if not cache_path:
+        return save_func(html, url)
+
+    with _WIKI_IMAGE_CACHE_LOCK:
+        if wait_image_ready(cache_path):
+            logger.info("%s Wiki 图片命中缓存: %s", label, item_name)
+            return cache_path
+
+        image_path = save_func(html, url)
+        if not image_path or not wait_image_ready(image_path):
+            return image_path
+        os.makedirs(cache_dir, exist_ok=True)
+        try:
+            os.replace(image_path, cache_path)
+        except OSError:
+            # Another process may have created the same item between checks.
+            if not os.path.exists(cache_path):
+                raise
+        logger.info("%s Wiki 图片写入缓存: %s", label, item_name)
+        return cache_path if os.path.exists(cache_path) else image_path
+
+
+def send_wiki_image(group_id, html, url, item_name):
     """在后台线程中截取并发送 Wiki 信息框图片。
 
     Args:
         html: 页面 HTML 内容（用于快速判断有无 infobox）
         url: Wiki 页面 URL
+        item_name: 物品名称，用作持久化缓存键
     """
     try:
-        image_path = save_infobox_screenshot(html, url)
+        image_path = _save_cached_wiki_image(
+            item_name, html, url, save_infobox_screenshot, STARDEW_SCREENSHOT_DIR, "原版"
+        )
         if image_path:
             send_image_with_retry(group_id, image_path)
         else:
@@ -465,15 +508,18 @@ def _auto_summarize(group_id, message_id, summary, page_url):
 
 # ── SVE Wiki helpers ──
 
-def sve_send_wiki_image(group_id, html, url):
+def sve_send_wiki_image(group_id, html, url, item_name):
     """在后台线程中截取并发送 SVE Wiki 信息框图片。
 
     Args:
         html: 页面 HTML 内容（用于快速判断有无 infobox）
         url: Wiki 页面 URL
+        item_name: 物品名称，用作持久化缓存键
     """
     try:
-        image_path = sve_save_infobox_screenshot(html, url)
+        image_path = _save_cached_wiki_image(
+            item_name, html, url, sve_save_infobox_screenshot, SVE_SCREENSHOT_DIR, "SVE"
+        )
         if image_path:
             send_image_with_retry(group_id, image_path)
         else:
@@ -545,7 +591,7 @@ def handle_wiki_command(message, group_id, user_id, message_id, self_id):
             if has_image:
                 threading.Thread(
                     target=send_wiki_image,
-                    args=(group_id, html, page_url),
+                    args=(group_id, html, page_url, selected.get("title") or pending.get("item_name")),
                     daemon=True,
                 ).start()
         return True
@@ -572,7 +618,7 @@ def handle_wiki_command(message, group_id, user_id, message_id, self_id):
             if has_image:
                 threading.Thread(
                     target=sve_send_wiki_image,
-                    args=(group_id, html, page_url),
+                    args=(group_id, html, page_url, selected.get("title") or sve_pending.get("item_name")),
                     daemon=True,
                 ).start()
         return True
@@ -597,7 +643,7 @@ def handle_wiki_command(message, group_id, user_id, message_id, self_id):
                 if has_image:
                     threading.Thread(
                         target=send_wiki_image,
-                        args=(group_id, html, page_url),
+                        args=(group_id, html, page_url, search_text),
                         daemon=True,
                     ).start()
                 return True
@@ -621,6 +667,7 @@ def handle_wiki_command(message, group_id, user_id, message_id, self_id):
                     PENDING_SEARCHES[pending_key] = {
                         "group_id": group_id,
                         "message_id": message_id,
+                        "item_name": search_text,
                         "results": results,
                         "timer": timer,
                     }
@@ -647,7 +694,7 @@ def handle_wiki_command(message, group_id, user_id, message_id, self_id):
                 if has_image:
                     threading.Thread(
                         target=sve_send_wiki_image,
-                        args=(group_id, html, page_url),
+                        args=(group_id, html, page_url, search_text),
                         daemon=True,
                     ).start()
                 return True
@@ -671,6 +718,7 @@ def handle_wiki_command(message, group_id, user_id, message_id, self_id):
                     SVE_PENDING_SEARCHES[sve_pending_key] = {
                         "group_id": group_id,
                         "message_id": message_id,
+                        "item_name": search_text,
                         "results": results,
                         "timer": timer,
                     }
