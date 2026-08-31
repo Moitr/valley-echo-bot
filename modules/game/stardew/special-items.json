@@ -1,0 +1,347 @@
+[
+  {
+    "id": "ForestMagic",
+    "name": "Forest Magic",
+    "type": "special-item",
+    "effect": "Unlocks the ability to read the language of the Junimos",
+    "obtainedFrom": "\"Meet The Wizard\" quest reward after examining the first golden scroll in the Community Center",
+    "image": "images/special-items/Forest Magic.png",
+    "mailFlags": ["canReadJunimoText"]
+  },
+  {
+    "id": "DwarvishTranslationGuide",
+    "name": "Dwarvish Translation Guide",
+    "type": "special-item",
+    "effect": "Unlocks the ability to speak to the Dwarf in the mines and volcano dungeon",
+    "obtainedFrom": "Museum donation reward: all 4 Dwarf Scrolls",
+    "image": "images/special-items/Dwarvish Translation Guide.png",
+    "mailFlags": ["HasDwarvishTranslationGuide"]
+  },
+  {
+    "id": "RustyKey",
+    "name": "Rusty Key",
+    "type": "special-item",
+    "effect": "Grants access to The Sewers",
+    "obtainedFrom": "Reward from Gunther after donating 60 museum items",
+    "image": "images/special-items/Rusty Key.png",
+    "mailFlags": ["HasRustyKey", "ccBoilerRoom"]
+  },
+  {
+    "id": "ClubCard",
+    "name": "Club Card",
+    "type": "special-item",
+    "effect": "Enables entry to the Casino",
+    "obtainedFrom": "\"The Mysterious Qi\" quest completion",
+    "image": "images/special-items/Club Card.png",
+    "mailFlags": ["HasClubCard"]
+  },
+  {
+    "id": "SpecialCharm",
+    "name": "Special Charm",
+    "type": "special-item",
+    "effect": "Permanently increases daily luck",
+    "obtainedFrom": "Truck driver near JojaMart/Movie Theater with Secret Note #20 and a Rabbit's Foot",
+    "image": "images/special-items/Special Charm.png",
+    "mailFlags": ["HasSpecialCharm"]
+  },
+  {
+    "id": "SkullKey",
+    "name": "Skull Key",
+    "type": "special-item",
+    "effect": "Unlocks Skull Cavern and enables the Junimo Kart machine",
+    "obtainedFrom": "Chest on floor 120 of The Mines",
+    "image": "images/special-items/Skull Key.png",
+    "mailFlags": ["HasSkullKey"]
+  },
+  {
+    "id": "MagnifyingGlass",
+    "name": "Magnifying Glass",
+    "type": "special-item",
+    "effect": "Unlocks the ability to find Secret Notes",
+    "obtainedFrom": "\"A Winter Mystery\" quest completion",
+    "image": "images/special-items/Magnifying Glass.png",
+    "mailFlags": ["HasMagnifyingGlass"]
+  },
+  {
+    "id": "DarkTalisman",
+    "name": "Dark Talisman",
+    "type": "special-item",
+    "effect": "Quest item used to open the passage to the Witch's Swamp",
+    "obtainedFrom": "Chest in the Mutant Bug Lair",
+    "image": "images/special-items/Dark Talisman.png",
+    "mailFlags": ["HasDarkTalisman"]
+  },
+  {
+    "id": "MagicInk",
+    "name": "Magic Ink",
+    "type": "special-item",
+    "effect": "Quest item returned to the Wizard to restore his magic",
+    "obtainedFrom": "Table in the Witch's Hut",
+    "image": "images/special-items/Magic Ink.png",
+    "mailFlags": ["HasMagicInk"]
+  },
+  {
+    "id": "BearPaw",
+    "name": "Bear's Knowledge",
+    "type": "special-item",
+    "effect": "Increases sell price of Blackberries and Salmonberries by 3x",
+    "obtainedFrom": "Secret Woods — bring Maple Syrup after reading Secret Note #23",
+    "image": "images/special-items/Bear's Knowledge.png",
+    "mailFlags": ["bearsKnowledge"]
+  },
+  {
+    "id": "SpringOnionMastery",
+    "name": "Spring Onion Mastery",
+    "type": "special-item",
+    "effect": "Increases sell price of Spring Onions by 5x",
+    "obtainedFrom": "Vincent and Jas' 8-heart event",
+    "image": "images/special-items/Spring Onion Mastery.png",
+    "eventFlags": ["3910979"]
+  },
+  {
+    "id": "KeyToTheTown",
+    "name": "Key To The Town",
+    "type": "special-item",
+    "effect": "Allows access to all buildings in town at any time",
+    "obtainedFrom": "Qi's Walnut Room — 20 Qi Gems",
+    "image": "images/special-items/Key To The Town.png",
+    "mailFlags": ["HasTownKey"]
+  },
+  {
+    "id": "PriceCatalogue",
+    "name": "Price Catalogue",
+    "type": "book",
+    "effect": "You can now see the value of your items",
+    "obtainedFrom": "Bookseller: 3,000g",
+    "image": "images/special-items/Price Catalogue.png"
+  },
+  {
+    "id": "Marlon",
+    "name": "Mapping Cave Systems",
+    "type": "book",
+    "effect": "50% discount on Marlon's item retrieval service",
+    "obtainedFrom": "Adventurer's Guild (1,000+ monster kills) or Bookseller: 20,000g (Year 3+)",
+    "image": "images/special-items/Mapping Cave Systems.png"
+  },
+  {
+    "id": "Speed",
+    "name": "Way Of The Wind pt. 1",
+    "type": "book",
+    "effect": "Permanently increases running speed",
+    "obtainedFrom": "Bookseller: 15,000g",
+    "image": "images/special-items/Way Of The Wind pt. 1.png"
+  },
+  {
+    "id": "Speed2",
+    "name": "Way Of The Wind pt. 2",
+    "type": "book",
+    "effect": "Additional running speed boost (requires Way Of The Wind pt. 1)",
+    "obtainedFrom": "Bookseller: 35,000g (after pt. 1 read)",
+    "image": "images/special-items/Way Of The Wind pt. 2.png"
+  },
+  {
+    "id": "Void",
+    "name": "Monster Compendium",
+    "type": "book",
+    "effect": "Monsters have a small chance to drop double loot",
+    "obtainedFrom": "Drop from slain monsters or Bookseller: 20,000g (Year 3+)",
+    "image": "images/special-items/Monster Compendium.png"
+  },
+  {
+    "id": "Friendship",
+    "name": "Friendship 101",
+    "type": "book",
+    "effect": "You become friends with people a little faster",
+    "obtainedFrom": "Lewis' house prize machine or Bookseller: 20,000g (Year 3+)",
+    "image": "images/special-items/Friendship 101.png"
+  },
+  {
+    "id": "Defense",
+    "name": "Jack Be Nimble, Jack Be Thick",
+    "type": "book",
+    "effect": "Gain +1 Defense",
+    "obtainedFrom": "Artifact Spots or Bookseller: 20,000g (Year 3+)",
+    "image": "images/special-items/Jack Be Nimble, Jack Be Thick.png"
+  },
+  {
+    "id": "Woodcutting",
+    "name": "Woody's Secret",
+    "type": "book",
+    "effect": "Felled trees have a 5% chance to yield double wood",
+    "obtainedFrom": "Chopping trees or Bookseller: 20,000g (Year 3+)",
+    "image": "images/special-items/Woody's Secret.png"
+  },
+  {
+    "id": "WildSeeds",
+    "name": "Ways Of The Wild",
+    "type": "book",
+    "effect": "Weeds have a greater chance to yield mixed seeds",
+    "obtainedFrom": "Second raccoon quest reward (Giant Stump); Raccoon Wife's Shop: 999 Fiber; Bookseller: 20,000g (Year 3+)",
+    "image": "images/special-items/Ways Of The Wild.png"
+  },
+  {
+    "id": "Roe",
+    "name": "Jewels Of The Sea",
+    "type": "book",
+    "effect": "Fishing treasure chests have a chance to yield roe",
+    "obtainedFrom": "Fishing Treasure Chest or Bookseller: 20,000g (Year 3+)",
+    "image": "images/special-items/Jewels Of The Sea.png"
+  },
+  {
+    "id": "Bombs",
+    "name": "Dwarvish Safety Manual",
+    "type": "book",
+    "effect": "Bombs deal 25% less damage to you",
+    "obtainedFrom": "Dwarf: 4,000g or Bookseller: 20,000g (Year 3+)",
+    "image": "images/special-items/Dwarvish Safety Manual.png"
+  },
+  {
+    "id": "Crabbing",
+    "name": "The Art O' Crabbing",
+    "type": "book",
+    "effect": "Crab pots have a 25% chance to yield double catch",
+    "obtainedFrom": "SquidFest Iridium tier reward or Bookseller: 20,000g (Year 3+)",
+    "image": "images/special-items/The Art O' Crabbing.png"
+  },
+  {
+    "id": "Trash",
+    "name": "The Alleyway Buffet",
+    "type": "book",
+    "effect": "Greater chance to find items in trash cans",
+    "obtainedFrom": "Gold trash can (Blacksmith/JojaMart area) or Bookseller: 20,000g (Year 3+)",
+    "image": "images/special-items/The Alleyway Buffet.png"
+  },
+  {
+    "id": "Diamonds",
+    "name": "The Diamond Hunter",
+    "type": "book",
+    "effect": "All stones have a chance to drop a diamond when mined",
+    "obtainedFrom": "Volcano Dungeon Dwarf: 10 Diamonds",
+    "image": "images/special-items/The Diamond Hunter.png"
+  },
+  {
+    "id": "Mystery",
+    "name": "Book of Mysteries",
+    "type": "book",
+    "effect": "Slightly greater chance to find Mystery Boxes",
+    "obtainedFrom": "Found in Mystery Boxes or Golden Mystery Boxes",
+    "image": "images/special-items/Book of Mysteries.png"
+  },
+  {
+    "id": "Horse",
+    "name": "Horse: The Book",
+    "type": "book",
+    "effect": "Gain a little extra speed when riding your horse",
+    "obtainedFrom": "Bookseller: 25,000g",
+    "image": "images/special-items/Horse The Book.png"
+  },
+  {
+    "id": "Artifact",
+    "name": "Treasure Appraisal Guide",
+    "type": "book",
+    "effect": "Fetch a better price when selling artifacts",
+    "obtainedFrom": "Artifact Troves or Bookseller: 20,000g (Year 3+)",
+    "image": "images/special-items/Treasure Appraisal Guide.png"
+  },
+  {
+    "id": "Grass",
+    "name": "Ol' Slitherlegs",
+    "type": "book",
+    "effect": "Run a lot faster through grass and crops",
+    "obtainedFrom": "Bookseller: 25,000g",
+    "image": "images/special-items/Ol' Slitherlegs.png"
+  },
+  {
+    "id": "AnimalCatalogue",
+    "name": "Animal Catalogue",
+    "type": "book",
+    "effect": "Access Marnie's shop when she's not around",
+    "obtainedFrom": "Marnie: 5,000g (Year 2+)",
+    "image": "images/special-items/Animal Catalogue.png"
+  },
+  {
+    "id": "BaitAndBobber",
+    "name": "Bait And Bobber",
+    "type": "skill-book",
+    "effect": "Grants 250 Fishing XP",
+    "obtainedFrom": "Bookseller; Fishing Treasure Chest; Mystery Box; monster drops; Traveling Cart; Prize Machine",
+    "image": "images/special-items/Bait And Bobber.png"
+  },
+  {
+    "id": "CombatQuarterly",
+    "name": "Combat Quarterly",
+    "type": "skill-book",
+    "effect": "Grants 250 Combat XP",
+    "obtainedFrom": "Bookseller; Fishing Treasure Chest; Mystery Box; monster drops; Traveling Cart; Prize Machine",
+    "image": "images/special-items/Combat Quarterly.png"
+  },
+  {
+    "id": "MiningMonthly",
+    "name": "Mining Monthly",
+    "type": "skill-book",
+    "effect": "Grants 250 Mining XP",
+    "obtainedFrom": "Bookseller; Fishing Treasure Chest; Mystery Box; monster drops; Traveling Cart; Prize Machine",
+    "image": "images/special-items/Mining Monthly.png"
+  },
+  {
+    "id": "StardewValleyAlmanac",
+    "name": "Stardew Valley Almanac",
+    "type": "skill-book",
+    "effect": "Grants 250 Farming XP",
+    "obtainedFrom": "Bookseller; Fishing Treasure Chest; Mystery Box; monster drops; Traveling Cart; Prize Machine",
+    "image": "images/special-items/Stardew Valley Almanac.png"
+  },
+  {
+    "id": "WoodcuttersWeekly",
+    "name": "Woodcutter's Weekly",
+    "type": "skill-book",
+    "effect": "Grants 250 Foraging XP",
+    "obtainedFrom": "Bookseller; 100 Calico Eggs at Desert Festival; Fishing Treasure Chest; Mystery Box; monster drops; Traveling Cart; Prize Machine",
+    "image": "images/special-items/Woodcutter's Weekly.png"
+  },
+  {
+    "id": "Mastery_Farming",
+    "name": "Farming Mastery",
+    "type": "mastery",
+    "skill": "farming",
+    "effect": "Golden Animal Crackers can now be found, which permanently double a farm animal's produce (excludes pigs)",
+    "obtainedFrom": "Mastery Cave pedestal (reach level 10 in all five skills)",
+    "image": "images/special-items/Mastery Icon.png"
+  },
+  {
+    "id": "Mastery_Mining",
+    "name": "Mining Mastery",
+    "type": "mastery",
+    "skill": "mining",
+    "effect": "Gem-bearing rocks now grant twice the gems",
+    "obtainedFrom": "Mastery Cave pedestal (reach level 10 in all five skills)",
+    "image": "images/special-items/Mastery Icon.png"
+  },
+  {
+    "id": "Mastery_Foraging",
+    "name": "Foraging Mastery",
+    "type": "mastery",
+    "skill": "foraging",
+    "effect": "Golden Mystery Boxes can now be found, which contain superior items",
+    "obtainedFrom": "Mastery Cave pedestal (reach level 10 in all five skills)",
+    "image": "images/special-items/Mastery Icon.png"
+  },
+  {
+    "id": "Mastery_Fishing",
+    "name": "Fishing Mastery",
+    "type": "mastery",
+    "skill": "fishing",
+    "effect": "Golden Fishing Treasure Chests can now appear",
+    "obtainedFrom": "Mastery Cave pedestal (reach level 10 in all five skills)",
+    "image": "images/special-items/Mastery Icon.png"
+  },
+  {
+    "id": "Mastery_Combat",
+    "name": "Combat Mastery",
+    "type": "mastery",
+    "skill": "combat",
+    "effect": "Unlocks a new equipment slot for trinkets with special powers",
+    "obtainedFrom": "Mastery Cave pedestal (reach level 10 in all five skills)",
+    "image": "images/special-items/Mastery Icon.png"
+  }
+]

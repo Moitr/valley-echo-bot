@@ -1,0 +1,1166 @@
+[
+  {
+    "id": "410",
+    "name": "Blackberry",
+    "description": "A sharp, tangy flavor with a powerful kick.",
+    "seasons": ["fall"],
+    "locations": "Cindersap Forest, Pelican Town, Railroad; Berry bushes during Fall 8-11",
+    "sellPrice": 20,
+    "profession": ["tiller"],
+    "knowledge": ["bears-knowledge"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "image": "images/forageables/Blackberry.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": true,
+      "juice": false,
+      "pickles": false,
+      "jelly": true,
+      "driedMushrooms": false,
+      "driedFruit": true
+    }
+  },
+  {
+    "id": "78",
+    "name": "Cave Carrot",
+    "description": "A starchy snack found in caves. It helps miners work longer.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "The Mines",
+    "sellPrice": 25,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 30,
+      "health": 13
+    },
+    "image": "images/forageables/Cave Carrot.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": true,
+      "pickles": true,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "281",
+    "name": "Chanterelle",
+    "description": "A tasty mushroom with a fruity smell and a mild flavor.",
+    "seasons": ["fall"],
+    "locations": "Secret Woods, Forest Farm, Farm Cave (mushroom option)",
+    "sellPrice": 160,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 75,
+      "health": 33
+    },
+    "image": "images/forageables/Chanterelle.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": true,
+      "jelly": false,
+      "driedMushrooms": true,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "88",
+    "name": "Coconut",
+    "description": "A sweet and nutritious tropical fruit.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "Calico Desert (palm trees), Ginger Island",
+    "sellPrice": 100,
+    "profession": [],
+    "knowledge": [],
+    "image": "images/forageables/Coconut.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": true,
+      "juice": false,
+      "pickles": false,
+      "jelly": true,
+      "driedMushrooms": false,
+      "driedFruit": true
+    }
+  },
+  {
+    "id": "404",
+    "name": "Common Mushroom",
+    "description": "A little slimy, but still good.",
+    "seasons": ["spring", "summer", "fall"],
+    "locations": "Secret Woods, Forest Farm, Farm Cave (mushroom option)",
+    "sellPrice": 40,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 38,
+      "health": 17
+    },
+    "image": "images/forageables/Common Mushroom.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": true,
+      "jelly": false,
+      "driedMushrooms": true,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "718",
+    "name": "Cockle",
+    "description": "A common saltwater clam.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "The Beach",
+    "sellPrice": 50,
+    "profession": ["fisher", "angler"],
+    "knowledge": [],
+    "image": "images/fish/Cockle.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "372",
+    "name": "Clam",
+    "description": "There's a chewy little guy in there...",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "The Beach",
+    "sellPrice": 50,
+    "profession": ["fisher", "angler"],
+    "knowledge": [],
+    "image": "images/fish/Clam.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "393",
+    "name": "Coral",
+    "description": "A rare find in the ocean.",
+    "seasons": ["summer"],
+    "locations": "The Beach",
+    "sellPrice": 80,
+    "profession": [],
+    "knowledge": [],
+    "image": "images/forageables/Coral.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "418",
+    "name": "Crocus",
+    "description": "A flower that can bloom even in the snow.",
+    "seasons": ["winter"],
+    "locations": "Pelican Town, Railroad, Bus Stop, Mountain, Cindersap Forest, Backwoods",
+    "sellPrice": 60,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 0,
+      "health": 0
+    },
+    "image": "images/forageables/Crocus.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "414",
+    "name": "Crystal Fruit",
+    "description": "In the harsh conditions of winter, this rare fruit grows from nutrient-rich sap.",
+    "seasons": ["winter"],
+    "locations": "Railroad, Cindersap Forest, Mountain, Bus Stop, Backwoods, Pelican Town",
+    "sellPrice": 150,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 63,
+      "health": 28
+    },
+    "image": "images/forageables/Crystal Fruit.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": true,
+      "juice": false,
+      "pickles": false,
+      "jelly": true,
+      "driedMushrooms": false,
+      "driedFruit": true
+    }
+  },
+  {
+    "id": "18",
+    "name": "Daffodil",
+    "description": "A yellow flower that blooms in the spring.",
+    "seasons": ["spring"],
+    "locations": "Pelican Town, Bus Stop, Railroad",
+    "sellPrice": 30,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 0,
+      "health": 0
+    },
+    "image": "images/forageables/Daffodil.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "22",
+    "name": "Dandelion",
+    "description": "Not the prettiest flower, but the leaves make a good salad.",
+    "seasons": ["spring"],
+    "locations": "Cindersap Forest, Bus Stop, Railroad, Forest Farm",
+    "sellPrice": 40,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "image": "images/forageables/Dandelion.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": true,
+      "pickles": true,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "259",
+    "name": "Fiddlehead Fern",
+    "description": "The young curled frond of a fern. Very popular in gourmet cooking.",
+    "seasons": ["summer"],
+    "locations": "Secret Woods",
+    "sellPrice": 90,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "image": "images/forageables/Fiddlehead Fern.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": true,
+      "pickles": true,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "153",
+    "name": "Green Algae",
+    "description": "It's really slimy.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "Everywhere but the Farm Pond of the Standard Farm",
+    "sellPrice": 15,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 13,
+      "health": 5
+    },
+    "image": "images/fish/Green Algae.png",
+    "maxQuality": "base",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "829",
+    "name": "Ginger",
+    "description": "This pungent root is used in many cooking recipes.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "Ginger Island West",
+    "sellPrice": 60,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "image": "images/forageables/Ginger.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "398",
+    "name": "Grape",
+    "description": "A sweet cluster of grapes.",
+    "seasons": ["summer"],
+    "locations": "Backwoods, Mountain, Bus Stop, Railroad, Forest Farm",
+    "sellPrice": 80,
+    "profession": ["tiller"],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 38,
+      "health": 17
+    },
+    "image": "images/crops/grape/crop.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": true,
+      "juice": false,
+      "pickles": false,
+      "jelly": true,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "408",
+    "name": "Hazelnut",
+    "description": "This hazelnut is of the common variety used for making chocolate.",
+    "seasons": ["fall"],
+    "locations": "Backwoods, Mountain, Bus Stop, Railroad",
+    "sellPrice": 90,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 30,
+      "health": 13
+    },
+    "image": "images/forageables/Hazelnut.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": true,
+      "pickles": true,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "283",
+    "name": "Holly",
+    "description": "The leaves and bright red berries make a popular winter decoration.",
+    "seasons": ["winter"],
+    "locations": "Secret Woods, Backwoods, Pelican Town, Bus Stop, Cindersap Forest, Mountain",
+    "sellPrice": 80,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": -37,
+      "health": 0,
+      "poison": true
+    },
+    "image": "images/forageables/Holly.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "20",
+    "name": "Leek",
+    "description": "A pungent relative of the onion. Not many people grow it.",
+    "seasons": ["spring"],
+    "locations": "Backwoods, Mountain, Forest Farm, Bus Stop, Railroad",
+    "sellPrice": 60,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 40,
+      "health": 18
+    },
+    "image": "images/forageables/Leek.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": true,
+      "pickles": true,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "851",
+    "name": "Magma Cap",
+    "description": "A very rare mushroom that lives next to pools of lava.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "Volcano Dungeon",
+    "sellPrice": 400,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 175,
+      "health": 78
+    },
+    "image": "images/forageables/Magma Cap.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": true,
+      "jelly": false,
+      "driedMushrooms": true,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "719",
+    "name": "Mussel",
+    "description": "A common bivalve that often lives in clusters.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "The Beach",
+    "sellPrice": 30,
+    "profession": ["fisher", "angler"],
+    "knowledge": [],
+    "image": "images/fish/Mussel.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "257",
+    "name": "Morel",
+    "description": "This rare mushroom has a pleasant nutty flavor.",
+    "seasons": ["spring"],
+    "locations": "Secret Woods, Forest Farm, Farm Cave (mushroom option)",
+    "sellPrice": 150,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 20,
+      "health": 9
+    },
+    "image": "images/forageables/Morel.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": true,
+      "jelly": false,
+      "driedMushrooms": true,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "392",
+    "name": "Nautilus Shell",
+    "description": "This is a rare find, as these creatures prefer deep water.",
+    "seasons": ["winter"],
+    "locations": "The Beach",
+    "sellPrice": 120,
+    "profession": [],
+    "knowledge": [],
+    "image": "images/forageables/Nautilus Shell.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "422",
+    "name": "Purple Mushroom",
+    "description": "A very rare mushroom found deep in the cave.",
+    "seasons": ["fall"],
+    "locations": "The Mines, Forest Farm, Farm Cave (mushroom option)",
+    "sellPrice": 250,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 125,
+      "health": 56
+    },
+    "image": "images/forageables/Purple Mushroom.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": true,
+      "jelly": false,
+      "driedMushrooms": true,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "723",
+    "name": "Oyster",
+    "description": "Constantly filters water to find food. In the process, it removes dangerous toxins from the environment.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "The Beach",
+    "sellPrice": 40,
+    "profession": ["fisher", "angler"],
+    "knowledge": [],
+    "image": "images/fish/Oyster.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "394",
+    "name": "Rainbow Shell",
+    "description": "A rare find in the summer ocean.",
+    "seasons": ["summer"],
+    "locations": "The Beach",
+    "sellPrice": 300,
+    "profession": [],
+    "knowledge": [],
+    "image": "images/forageables/Rainbow Shell.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "420",
+    "name": "Red Mushroom",
+    "description": "A popular culinary mushroom that can be difficult to find.",
+    "seasons": ["summer", "fall"],
+    "locations": "Secret Woods, Farm Cave (mushroom option)",
+    "sellPrice": 75,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": -50,
+      "health": 0,
+      "poison": true
+    },
+    "image": "images/forageables/Red Mushroom.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "296",
+    "name": "Salmonberry",
+    "description": "A spring-time berry with the flavor of the forest.",
+    "seasons": ["spring"],
+    "locations": "Bushes during Salmonberry Season (Spring 15-18)",
+    "sellPrice": 5,
+    "profession": ["tiller"],
+    "knowledge": ["bears-knowledge"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "image": "images/forageables/Salmonberry.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": true,
+      "juice": false,
+      "pickles": false,
+      "jelly": true,
+      "driedMushrooms": false,
+      "driedFruit": true
+    }
+  },
+  {
+    "id": "92",
+    "name": "Sap",
+    "description": "A fluid obtained from trees.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "From chopping trees",
+    "sellPrice": 2,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": -2,
+      "health": 0,
+      "poison": true
+    },
+    "image": "images/forageables/Sap.png",
+    "maxQuality": "base",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "397",
+    "name": "Sea Urchin",
+    "description": "A type of echinoderm.",
+    "seasons": ["summer"],
+    "locations": "The Beach",
+    "sellPrice": 160,
+    "profession": [],
+    "knowledge": [],
+    "image": "images/forageables/Sea Urchin.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "152",
+    "name": "Seaweed",
+    "description": "It can be used in cooking.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "The Beach",
+    "sellPrice": 20,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 13,
+      "health": 5
+    },
+    "image": "images/fish/Seaweed.png",
+    "maxQuality": "base",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "416",
+    "name": "Snow Yam",
+    "description": "This little yam was hiding beneath the snow.",
+    "seasons": ["winter"],
+    "locations": "Underground artifact spots and tillable soil",
+    "sellPrice": 100,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 30,
+      "health": 13
+    },
+    "image": "images/forageables/Snow Yam.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": true,
+      "pickles": true,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "396",
+    "name": "Spice Berry",
+    "description": "The leaves and berries are both edible. Very spicy!",
+    "seasons": ["summer"],
+    "locations": "Cindersap Forest, Backwoods, Mountain, Bus Stop, Railroad, Forest Farm",
+    "sellPrice": 80,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "image": "images/forageables/Spice Berry.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": true,
+      "juice": false,
+      "pickles": false,
+      "jelly": true,
+      "driedMushrooms": false,
+      "driedFruit": true
+    }
+  },
+  {
+    "id": "399",
+    "name": "Spring Onion",
+    "description": "These grow naturally in the wild, usually in groups.",
+    "seasons": ["spring"],
+    "locations": "Cindersap Forest",
+    "sellPrice": 8,
+    "profession": [],
+    "knowledge": ["spring-onion-mastery"],
+    "energyHealth": {
+      "energy": 13,
+      "health": 5
+    },
+    "image": "images/forageables/Spring Onion.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": true,
+      "pickles": true,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "402",
+    "name": "Sweet Pea",
+    "description": "A fragrant summer flower.",
+    "seasons": ["summer"],
+    "locations": "Pelican Town, Cindersap Forest, Bus Stop, Railroad, Forest Farm",
+    "sellPrice": 50,
+    "profession": ["tiller"],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 0,
+      "health": 0
+    },
+    "image": "images/forageables/Sweet Pea.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "16",
+    "name": "Wild Horseradish",
+    "description": "A spicy root found in the spring.",
+    "seasons": ["spring"],
+    "locations": "Cindersap Forest, Backwoods, Mountain, Forest Farm",
+    "sellPrice": 50,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 13,
+      "health": 5
+    },
+    "image": "images/forageables/Wild Horseradish.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": true,
+      "pickles": true,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "406",
+    "name": "Wild Plum",
+    "description": "Tart and juicy with a beautiful purple color.",
+    "seasons": ["fall"],
+    "locations": "Bus Stop, Railroad, Backwoods, Mountain",
+    "sellPrice": 80,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "image": "images/forageables/Wild Plum.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": true,
+      "juice": false,
+      "pickles": false,
+      "jelly": true,
+      "driedMushrooms": false,
+      "driedFruit": true
+    }
+  },
+  {
+    "id": "157",
+    "name": "White Algae",
+    "description": "It's super slimy.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "Mines, Sewers, Mutant Bug Lair, Witch's Swamp",
+    "sellPrice": 25,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 20,
+      "health": 9
+    },
+    "image": "images/fish/White Algae.png",
+    "maxQuality": "base",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "412",
+    "name": "Winter Root",
+    "description": "A starchy winter tuber.",
+    "seasons": ["winter"],
+    "locations": "Underground artifact spots and tillable soil",
+    "sellPrice": 70,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "image": "images/forageables/Winter Root.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": true,
+      "pickles": true,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "388",
+    "name": "Wood",
+    "description": "A sturdy, yet flexible plant material with a wide variety of uses.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "Felling trees and branches with an axe; Recycling Machine (from Driftwood)",
+    "sellPrice": 2,
+    "profession": [],
+    "knowledge": [],
+    "image": "images/forageables/Wood.png",
+    "maxQuality": "base",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "330",
+    "name": "Clay",
+    "description": "Used in crafting and construction.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "Tilling dirt, sand, or Artifact Spots; Ginger Island Dig Site; Geodes",
+    "sellPrice": 20,
+    "profession": [],
+    "knowledge": [],
+    "image": "images/forageables/Clay.png",
+    "maxQuality": "base",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": true,
+      "pickles": true,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "709",
+    "name": "Hardwood",
+    "description": "A special kind of wood with superior strength and beauty.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "Chopping Mahogany Trees or Large Stumps; Secret Woods (6 stumps daily); Ginger Island",
+    "sellPrice": 15,
+    "profession": [],
+    "knowledge": [],
+    "image": "images/forageables/Hardwood.png",
+    "maxQuality": "base",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "787",
+    "name": "Battery Pack",
+    "description": "It's fully charged with precious energy.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "Lightning Rod during thunderstorms; Solar Panel after 7 sunny days; Iridium Bat drop (5%)",
+    "sellPrice": 500,
+    "profession": [],
+    "knowledge": [],
+    "image": "images/forageables/Battery Pack.png",
+    "maxQuality": "base",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "812",
+    "name": "Roe",
+    "description": "Fresh fish eggs. These can be aged in a preserves jar to bring out more flavor.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "Fish Ponds; Fishing Treasure Chests (with Jewels of the Sea book)",
+    "sellPrice": 30,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 50,
+      "health": 22
+    },
+    "image": "images/forageables/Roe.png",
+    "maxQuality": "base",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "812S",
+    "name": "Sturgeon Roe",
+    "description": "Fresh sturgeon eggs. These can be made into caviar in a preserves jar.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "Fish Ponds (Sturgeon)",
+    "sellPrice": 130,
+    "profession": [],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 50,
+      "health": 22
+    },
+    "image": "images/forageables/Sturgeon Roe.png",
+    "maxQuality": "base",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "814",
+    "name": "Squid Ink",
+    "description": "Squid use this ink to confuse would-be predators.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "Squid Kids in The Mines; Blue Squids in Dangerous Mines; Squid or Midnight Squid Fish Pond",
+    "sellPrice": 110,
+    "profession": [],
+    "knowledge": [],
+    "image": "images/forageables/Squid Ink.png",
+    "maxQuality": "base",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "390",
+    "name": "Stone",
+    "description": "A common type of stone.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "Mining rocks throughout the world",
+    "sellPrice": 2,
+    "profession": [],
+    "knowledge": [],
+    "image": "images/forageables/Stone.png",
+    "maxQuality": "base",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  },
+  {
+    "id": "90",
+    "name": "Cactus Fruit",
+    "description": "The sweet fruit of a cactus. Grows year-round indoors or on Ginger Island.",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "locations": "Calico Desert (ground spawn), Ginger Island",
+    "sellPrice": 75,
+    "profession": ["tiller"],
+    "knowledge": [],
+    "energyHealth": {
+      "energy": 75,
+      "health": 33
+    },
+    "image": "images/crops/cactus-fruit/crop.png",
+    "maxQuality": "iridium",
+    "artisanUses": {
+      "honey": false,
+      "wine": true,
+      "juice": false,
+      "pickles": false,
+      "jelly": true,
+      "driedMushrooms": false,
+      "driedFruit": true
+    }
+  },
+  {
+    "id": "Moss",
+    "name": "Moss",
+    "description": "Grows on the shaded side of trees. Has a pleasant, earthy scent.",
+    "seasons": ["spring", "summer", "fall"],
+    "locations": "Foraging from trees with moss growing on them; Green Rain events",
+    "sellPrice": 5,
+    "profession": [],
+    "knowledge": [],
+    "image": "images/forageables/Moss.png",
+    "maxQuality": "base",
+    "artisanUses": {
+      "honey": false,
+      "wine": false,
+      "juice": false,
+      "pickles": false,
+      "jelly": false,
+      "driedMushrooms": false,
+      "driedFruit": false
+    }
+  }
+]

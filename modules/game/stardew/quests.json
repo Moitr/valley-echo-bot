@@ -1,0 +1,466 @@
+[
+  {
+    "id": "9",
+    "name": "Introductions",
+    "text": "It would be a nice gesture to introduce yourself around town.",
+    "providedBy": "Introductory quest",
+    "requirements": "Greet 28 people",
+    "rewards": "100 Friendship points with every known NPC"
+  },
+  {
+    "id": "25",
+    "name": "How to Win Friends",
+    "text": "Giving gifts is a great way to build friendships.",
+    "providedBy": "Complete \"Introductions\"",
+    "requirements": "Give anyone a gift",
+    "rewards": "100g"
+  },
+  {
+    "id": "132",
+    "name": "Getting Started",
+    "text": "If you want to become a farmer, you have to start with the basics.",
+    "providedBy": "Package in room at start",
+    "requirements": "Cultivate and harvest a Parsnip",
+    "rewards": "100g"
+  },
+  {
+    "id": "132",
+    "name": "Getting Started (Animals)",
+    "text": "Feed your chickens each day by letting them eat grass outside.",
+    "providedBy": "Package in room at start (Meadowlands Farm)",
+    "requirements": "Harvest an egg from chickens",
+    "rewards": "None"
+  },
+  {
+    "id": "13",
+    "name": "To The Beach",
+    "text": "Someone named Willy invited you to visit the beach south of town.",
+    "providedBy": "Mail, Spring 2",
+    "requirements": "Visit the beach before 5:00pm",
+    "rewards": "Bamboo Pole"
+  },
+  {
+    "id": "7",
+    "name": "Raising Animals",
+    "text": "Robin, the local carpenter, lives north of town.",
+    "providedBy": "Complete \"Getting Started\"",
+    "requirements": "Build a Coop",
+    "rewards": "100g"
+  },
+  {
+    "id": "133",
+    "name": "Feeding Animals",
+    "text": "Robin, the local carpenter, lives north of town.",
+    "providedBy": "Complete \"Getting Started\" (Meadowlands Farm)",
+    "requirements": "Build a Silo",
+    "rewards": "100g"
+  },
+  {
+    "id": "8",
+    "name": "Advancement",
+    "text": "As you gain experience you'll discover new crafting recipes.",
+    "providedBy": "Complete \"Getting Started\"",
+    "requirements": "Reach Farming level 1 and craft a Scarecrow",
+    "rewards": "100g"
+  },
+  {
+    "id": "14",
+    "name": "Explore The Mine",
+    "text": "There's an old mine shaft in the mountains north of town.",
+    "providedBy": "Triggered by entering the mines",
+    "requirements": "Reach level 5 in the mines",
+    "rewards": "Unlocks \"Deeper In The Mine\""
+  },
+  {
+    "id": "17",
+    "name": "Deeper In The Mine",
+    "text": "It seems that the mine elevator is still functional.",
+    "providedBy": "Complete \"Explore The Mine\"",
+    "requirements": "Reach level 40 in the mines",
+    "rewards": "Unlocks \"To The Bottom?\""
+  },
+  {
+    "id": "18",
+    "name": "To The Bottom?",
+    "text": "So far, there's no sign of the bottom.",
+    "providedBy": "Complete \"Deeper In The Mine\"",
+    "requirements": "Reach the bottom of the mine (floor 120)",
+    "rewards": "Unlocks the Skull Key quest"
+  },
+  {
+    "id": "24",
+    "name": "Archaeology",
+    "text": "Gunther asked if you'd consider donating any new artifacts you find to the Museum.",
+    "providedBy": "Enter the Museum with a mineral or artifact",
+    "requirements": "Donate an item to the Museum",
+    "rewards": "250g"
+  },
+  {
+    "id": "26",
+    "name": "Rat Problem",
+    "text": "There's something odd going on in the Community Center.",
+    "providedBy": "Trigger initial Community Center cutscene",
+    "requirements": "Enter Community Center and examine the Golden Scroll",
+    "rewards": "Letter from the Wizard triggering \"Meet The Wizard\""
+  },
+  {
+    "id": "1",
+    "name": "Meet The Wizard",
+    "text": "You received a letter from the local wizard.",
+    "providedBy": "Morning after examining first golden scroll",
+    "requirements": "Enter the wizard's tower",
+    "rewards": "Potion allowing you to read Junimo language"
+  },
+  {
+    "id": "11",
+    "name": "Forging Ahead",
+    "text": "If you're going to keep mining you should build a furnace.",
+    "providedBy": "Morning after collecting Copper Ore",
+    "requirements": "Craft a Furnace",
+    "rewards": "Unlocks \"Smelting\""
+  },
+  {
+    "id": "12",
+    "name": "Smelting",
+    "text": "Now that you've built a furnace, you can smelt some metal.",
+    "providedBy": "Complete \"Forging Ahead\"",
+    "requirements": "Use furnace to smelt a Copper Bar",
+    "rewards": "None"
+  },
+  {
+    "id": "16",
+    "name": "Initiation",
+    "text": "If you can slay 10 slimes, you'll have earned your place in the Adventurer's Guild.",
+    "providedBy": "Mailbox, morning after reaching floor 5 in the Mines",
+    "requirements": "Slay 10 Slimes",
+    "rewards": "Access to Adventurer's Guild"
+  },
+  {
+    "id": "100",
+    "name": "Robin's Lost Axe",
+    "text": "Robin lost her favorite axe.",
+    "providedBy": "Mail, Spring 11",
+    "requirements": "Find Robin's axe in Cindersap Forest",
+    "rewards": "250g, 1 Friendship heart with Robin"
+  },
+  {
+    "id": "101",
+    "name": "Jodi's Request",
+    "text": "Jodi needs a fresh cauliflower for a recipe she's making.",
+    "providedBy": "Mail, Spring 19",
+    "requirements": "Bring Jodi a Cauliflower",
+    "rewards": "350g, 1 Friendship heart with Jodi"
+  },
+  {
+    "id": "102",
+    "name": "Mayor's \"Shorts\"",
+    "text": "Mayor Lewis has lost his purple shorts.",
+    "providedBy": "Mail, Summer 3",
+    "requirements": "Find and return Mayor Lewis' purple shorts",
+    "rewards": "750g, 1 Friendship heart with Mayor Lewis"
+  },
+  {
+    "id": "107",
+    "name": "Blackberry Basket",
+    "text": "It's blackberry season, but Linus can't find his basket!",
+    "providedBy": "Mail, Fall 8",
+    "requirements": "Find Linus' basket in the Backwoods",
+    "rewards": "1 Friendship heart with Linus"
+  },
+  {
+    "id": "21",
+    "name": "Marnie's Request",
+    "text": "Marnie came by the farm and asked if you'd bring her a cave carrot.",
+    "providedBy": "She visits farm after 3 Friendship hearts",
+    "requirements": "Bring a Cave Carrot into Marnie's shop",
+    "rewards": "100 Friendship points with Marnie"
+  },
+  {
+    "id": "103",
+    "name": "Pam Is Thirsty",
+    "text": "Pam is hankerin' for a pale ale.",
+    "providedBy": "Mail, Summer 14",
+    "requirements": "Bring Pam a Pale Ale",
+    "rewards": "350g, 1 Friendship heart with Pam"
+  },
+  {
+    "id": "111",
+    "name": "A Dark Reagent",
+    "text": "The wizard wants you to descend into the mines and fetch him a Void Essence.",
+    "providedBy": "Mail, Winter 12",
+    "requirements": "Bring the Wizard a Void Essence",
+    "rewards": "1,000g, 1 Friendship heart with the Wizard"
+  },
+  {
+    "id": "106",
+    "name": "Cow's Delight",
+    "text": "Marnie wants to give her cows a special treat.",
+    "providedBy": "Mail, Fall 3",
+    "requirements": "Bring Marnie one bunch of Amaranth",
+    "rewards": "500g, 1 Friendship heart with Marnie"
+  },
+  {
+    "id": "19",
+    "name": "The Skull Key",
+    "text": "You found a strange looking key in the bottom of the mines.",
+    "providedBy": "Reach the bottom floor of the Mines",
+    "requirements": "Discover the purpose of the Skull Key",
+    "rewards": "Access to Skull Cavern"
+  },
+  {
+    "id": "104",
+    "name": "Crop Research",
+    "text": "Demetrius needs a fresh melon for his research.",
+    "providedBy": "Mail, Summer 20",
+    "requirements": "Bring Demetrius a Melon",
+    "rewards": "550g, 1 Friendship heart with Demetrius"
+  },
+  {
+    "id": "105",
+    "name": "Knee Therapy",
+    "text": "George needs a hot pepper to soothe his aching knee.",
+    "providedBy": "Mail, Summer 25",
+    "requirements": "Bring George a Hot Pepper",
+    "rewards": "200g, 1 Friendship heart with George"
+  },
+  {
+    "id": "113",
+    "name": "Robin's Request",
+    "text": "Robin needs 10 pieces of Hardwood.",
+    "providedBy": "Mail, Winter 21",
+    "requirements": "Bring Robin 10 Hardwood",
+    "rewards": "500g, 1 Friendship heart with Robin"
+  },
+  {
+    "id": "20",
+    "name": "Qi's Challenge",
+    "text": "You've been challenged to reach level 25 in the Skull Cavern.",
+    "providedBy": "Mail, day after entering Skull Cavern",
+    "requirements": "Reach level 25 in the Skull Cavern",
+    "rewards": "10,000g (by mail next day)"
+  },
+  {
+    "id": "2",
+    "name": "The Mysterious Qi (Part 1)",
+    "text": "Within a secret lock-box, you found a note with peculiar instructions.",
+    "providedBy": "Put Battery Pack in lock-box by bus stop",
+    "requirements": "Leave a Rainbow Shell in the box at the train platform",
+    "rewards": "Continues to Part 2"
+  },
+  {
+    "id": "3",
+    "name": "The Mysterious Qi (Part 2)",
+    "text": "You found another note with a strange request.",
+    "providedBy": "Complete \"The Mysterious Qi (Part 1)\"",
+    "requirements": "Place 10 Beets in Mayor Lewis' fridge",
+    "rewards": "Continues to Part 3"
+  },
+  {
+    "id": "4",
+    "name": "The Mysterious Qi (Part 3)",
+    "text": "Another cryptic note has appeared.",
+    "providedBy": "Complete \"The Mysterious Qi (Part 2)\"",
+    "requirements": "Put Solar Essence in the sand dragon's mouth on the beach",
+    "rewards": "Continues to Part 4"
+  },
+  {
+    "id": "5",
+    "name": "The Mysterious Qi (Part 4)",
+    "text": "You found another note in the sand dragon's eye.",
+    "providedBy": "Complete \"The Mysterious Qi (Part 3)\"",
+    "requirements": "Inspect the lumber pile beside the Farmhouse",
+    "rewards": "Club Card (Casino access)"
+  },
+  {
+    "id": "108",
+    "name": "Carving Pumpkins",
+    "text": "Caroline wants to carve a pumpkin with her daughter.",
+    "providedBy": "Mail, Fall 19",
+    "requirements": "Bring Caroline a Pumpkin",
+    "rewards": "500g, 1 Friendship heart with Caroline"
+  },
+  {
+    "id": "31",
+    "name": "A Winter Mystery",
+    "text": "You encountered a suspicious looking figure by the bus stop.",
+    "providedBy": "Enter Bus Stop during Winter between 6am and 4pm",
+    "requirements": "Interact with the bush to the right of the playground",
+    "rewards": "Magnifying Glass"
+  },
+  {
+    "id": "29",
+    "name": "Strange Note",
+    "text": "You found a note, barely legible, asking you to bring may-pal serrup to the woods.",
+    "providedBy": "After reading Secret Note #23",
+    "requirements": "Enter Secret Woods between 6am and 7pm with Maple Syrup",
+    "rewards": "Bear's Knowledge"
+  },
+  {
+    "id": "30",
+    "name": "Cryptic Note",
+    "text": "You found a note that reads, someone is waiting for you on level 100 of the Skull Cavern.",
+    "providedBy": "After reading Secret Note #10",
+    "requirements": "Reach level 100 in the Skull Cavern",
+    "rewards": "Iridium Snake Milk (+25 max health)"
+  },
+  {
+    "id": "115",
+    "name": "Fresh Fruit",
+    "text": "Emily wants a taste of spring. She's asking for a fresh apricot.",
+    "providedBy": "Mail, Spring 6, Year 2",
+    "requirements": "Bring Emily an Apricot",
+    "rewards": "600g, 1 Friendship heart with Emily"
+  },
+  {
+    "id": "118",
+    "name": "Aquatic Research",
+    "text": "Demetrius is studying the toxin levels of the local pufferfish.",
+    "providedBy": "Mail, Summer 6, Year 2",
+    "requirements": "Bring Demetrius a Pufferfish",
+    "rewards": "1,000g, 1 Friendship heart with Demetrius"
+  },
+  {
+    "id": "119",
+    "name": "A Soldier's Star",
+    "text": "Kent wants to give his wife a starfruit for their anniversary.",
+    "providedBy": "Mail, Summer 15, Year 2",
+    "requirements": "Bring Kent a Starfruit",
+    "rewards": "500g, 1 Friendship heart with Kent"
+  },
+  {
+    "id": "120",
+    "name": "Mayor's Need",
+    "text": "Mayor Lewis wants truffle oil.",
+    "providedBy": "Mail, Summer 21, Year 2",
+    "requirements": "Bring Lewis a bottle of Truffle Oil",
+    "rewards": "750g, 1 Friendship heart with Mayor Lewis"
+  },
+  {
+    "id": "121",
+    "name": "Wanted: Lobster",
+    "text": "Gus put out a notice requesting a fresh lobster.",
+    "providedBy": "Mail, Fall 6, Year 2",
+    "requirements": "Bring Gus a Lobster",
+    "rewards": "500g, 1 Friendship heart with Gus"
+  },
+  {
+    "id": "122",
+    "name": "Pam Needs Juice",
+    "text": "Pam's TV remote is dead.",
+    "providedBy": "Mail, Fall 19, Year 2",
+    "requirements": "Bring Pam a Battery Pack",
+    "rewards": "400g, 1 Friendship heart with Pam"
+  },
+  {
+    "id": "22",
+    "name": "Fish Casserole",
+    "text": "Jodi swung by the farm to ask you to dinner at 7:00 PM.",
+    "providedBy": "Jodi at 4 Hearts; exit Farmhouse Monday 6am–9:30am",
+    "requirements": "Enter Jodi's house with a Largemouth Bass at 7pm",
+    "rewards": "Event scene"
+  },
+  {
+    "id": "109",
+    "name": "Catch a Squid",
+    "text": "Willy is challenging you to catch a squid.",
+    "providedBy": "Mail, Winter 2",
+    "requirements": "Bring Willy a Squid",
+    "rewards": "800g, 1 Friendship heart with Willy"
+  },
+  {
+    "id": "114",
+    "name": "Fish Stew",
+    "text": "Gus wants to make fish stew, but he needs an albacore.",
+    "providedBy": "Mail, Winter 26",
+    "requirements": "Bring Gus an Albacore",
+    "rewards": "400g, 1 Friendship heart with Gus"
+  },
+  {
+    "id": "117",
+    "name": "Pierre's Notice",
+    "text": "Pierre will pay top coin to whoever brings him a plate of sashimi.",
+    "providedBy": "Mail, Spring 21, Year 2",
+    "requirements": "Bring Pierre some Sashimi",
+    "rewards": "1,000g, 1 Friendship heart with Pierre"
+  },
+  {
+    "id": "110",
+    "name": "Clint's Attempt",
+    "text": "Clint wants you to give Emily an amethyst.",
+    "providedBy": "Mail, Winter 6",
+    "requirements": "Bring Emily an Amethyst",
+    "rewards": "1 Friendship heart with Emily"
+  },
+  {
+    "id": "112",
+    "name": "A Favor For Clint",
+    "text": "Clint got a new hammer and he wants to test it out.",
+    "providedBy": "Mail, Winter 17",
+    "requirements": "Bring Clint an Iron Bar",
+    "rewards": "500g, 1 Friendship heart with Clint"
+  },
+  {
+    "id": "123",
+    "name": "Staff of Power",
+    "text": "The Wizard is creating a staff of phenomenal power.",
+    "providedBy": "Mail, Winter 5, Year 2",
+    "requirements": "Bring the Wizard an Iridium Bar",
+    "rewards": "5,000g, 1 Friendship heart with the Wizard"
+  },
+  {
+    "id": "116",
+    "name": "Granny's Gift",
+    "text": "Evelyn wants to surprise her husband with a gift.",
+    "providedBy": "Mail, Spring 15, Year 2",
+    "requirements": "Bring Evelyn a Leek",
+    "rewards": "500g, 1 Friendship heart with Evelyn"
+  },
+  {
+    "id": "125",
+    "name": "Exotic Spirits",
+    "text": "Gus wants to make a Coco-no-no, but he's missing the main ingredient.",
+    "providedBy": "Mail, Winter 19, Year 2",
+    "requirements": "Bring Gus a Coconut",
+    "rewards": "600g, 1 Friendship heart with Gus"
+  },
+  {
+    "id": "124",
+    "name": "Catch a Lingcod",
+    "text": "Willy is challenging you to catch a Lingcod.",
+    "providedBy": "Mail, Winter 13, Year 2",
+    "requirements": "Bring Willy a Lingcod",
+    "rewards": "550g, 1 Friendship heart with Willy"
+  },
+  {
+    "id": "28",
+    "name": "Dark Talisman",
+    "text": "The Wizard asked me to retrieve the magic ink from his ex-wife's house.",
+    "providedBy": "Railroad cutscene after completing Community Center or Joja Warehouse",
+    "requirements": "Speak to Krobus and retrieve dark talisman from Mutant Bug Lair",
+    "rewards": "Access to Witch's Swamp"
+  },
+  {
+    "id": "27",
+    "name": "Goblin Problem",
+    "text": "There's a goblin blocking the path to the Witch's Hut.",
+    "providedBy": "Through cave by Railroad after Dark Talisman quest",
+    "requirements": "Give Henchman Void Mayonnaise and retrieve Magic Ink from Witch's Hut",
+    "rewards": "Wizard buildings unlocked; dark shrines accessible"
+  },
+  {
+    "id": "130",
+    "name": "The Pirate's Wife",
+    "text": "An old lady living on Ginger Island is asking you to find a keepsake belonging to her late husband.",
+    "providedBy": "Speak to Birdie on Ginger Island",
+    "requirements": "Distribute 7 keepsake items to various villagers",
+    "rewards": "Fairy Dust recipe, 5 Golden Walnuts"
+  },
+  {
+    "id": "134",
+    "name": "The Giant Stump",
+    "text": "The big tree to the south of my farm blew down.",
+    "providedBy": "Giant Stump in Cindersap Forest after wind storm cutscene",
+    "requirements": "Fix giant stump with 100 Hardwood",
+    "rewards": "Access to Raccoon quests"
+  }
+]

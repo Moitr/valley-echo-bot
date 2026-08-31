@@ -1,0 +1,61 @@
+[
+  {
+    "id": "684",
+    "name": "Bug Meat",
+    "sellPrice": 8,
+    "image": "images/monsters/monster-loot/Bug Meat.png",
+    "droppedBy": ["Bug", "Grub", "Fly"]
+  },
+  {
+    "id": "766",
+    "name": "Slime",
+    "sellPrice": 5,
+    "image": "images/monsters/monster-loot/Slime.png",
+    "droppedBy": ["Green Slime", "Big Slime", "Tiger Slime"]
+  },
+  {
+    "id": "767",
+    "name": "Bat Wing",
+    "sellPrice": 15,
+    "image": "images/monsters/monster-loot/Bat Wing.png",
+    "droppedBy": ["Bat", "Frost Bat", "Lava Bat"]
+  },
+  {
+    "id": "768",
+    "name": "Solar Essence",
+    "sellPrice": 40,
+    "image": "images/monsters/monster-loot/Solar Essence.png",
+    "droppedBy": [
+      "Ghost",
+      "Squid Kid",
+      "Metal Head",
+      "Hot Head",
+      "Mummy",
+      "Iridium Bat",
+      "Blue Squid",
+      "Haunted Skull"
+    ]
+  },
+  {
+    "id": "769",
+    "name": "Void Essence",
+    "sellPrice": 50,
+    "image": "images/monsters/monster-loot/Void Essence.png",
+    "droppedBy": [
+      "Shadow Brute",
+      "Shadow Shaman",
+      "Serpent",
+      "Royal Serpent",
+      "Spider",
+      "Shadow Sniper",
+      "Haunted Skull"
+    ]
+  },
+  {
+    "id": "852",
+    "name": "Dragon Tooth",
+    "sellPrice": 500,
+    "image": "images/monsters/monster-loot/Dragon Tooth.png",
+    "droppedBy": ["Lava Lurk"]
+  }
+]

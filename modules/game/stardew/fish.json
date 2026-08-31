@@ -1,0 +1,3467 @@
+[
+  {
+    "id": "128",
+    "name": "Pufferfish",
+    "description": "Inflates when threatened.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["summer"],
+    "location": "Ocean, Ginger Island",
+    "weather": "sunny",
+    "time": "12:00 PM – 4:00 PM",
+    "difficulty": 80,
+    "sellPrice": 200,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "Specialty Fish Bundle"],
+    "energyHealth": {
+      "energy": -100,
+      "health": 0,
+      "poison": true
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Pufferfish.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Clam",
+          "minPopulation": 5
+        },
+        {
+          "product": "Coral",
+          "minPopulation": 5
+        },
+        {
+          "product": "Aquamarine",
+          "minPopulation": 7
+        },
+        {
+          "product": "Mussel",
+          "minPopulation": 7
+        },
+        {
+          "product": "Sea Urchin",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "129",
+    "name": "Anchovy",
+    "description": "A small silver fish found in the ocean.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "fall"],
+    "location": "Ocean",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 30,
+    "sellPrice": 30,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 13,
+      "health": 5
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Anchovy.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Clam",
+          "minPopulation": 5
+        },
+        {
+          "product": "Coral",
+          "minPopulation": 5
+        },
+        {
+          "product": "Aquamarine",
+          "minPopulation": 7
+        },
+        {
+          "product": "Mussel",
+          "minPopulation": 7
+        },
+        {
+          "product": "Sea Urchin",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "130",
+    "name": "Tuna",
+    "description": "A large fish that lives in the ocean.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["summer", "winter"],
+    "location": "Ocean, Ginger Island",
+    "weather": "both",
+    "time": "6:00 AM – 7:00 PM",
+    "difficulty": 70,
+    "sellPrice": 100,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Fish Taco", "Maki Roll", "Quality Fertilizer", "Sashimi", "Ocean Fish Bundle"],
+    "energyHealth": {
+      "energy": 38,
+      "health": 17
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Tuna.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Clam",
+          "minPopulation": 5
+        },
+        {
+          "product": "Coral",
+          "minPopulation": 5
+        },
+        {
+          "product": "Aquamarine",
+          "minPopulation": 7
+        },
+        {
+          "product": "Mussel",
+          "minPopulation": 7
+        },
+        {
+          "product": "Sea Urchin",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "131",
+    "name": "Sardine",
+    "description": "A common ocean fish.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Ocean",
+    "weather": "both",
+    "time": "6:00 AM – 7:00 PM",
+    "difficulty": 30,
+    "sellPrice": 40,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": [
+      "Dish O' The Sea",
+      "Maki Roll",
+      "Quality Fertilizer",
+      "Sashimi",
+      "Ocean Fish Bundle"
+    ],
+    "energyHealth": {
+      "energy": 13,
+      "health": 5
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Sardine.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Clam",
+          "minPopulation": 5
+        },
+        {
+          "product": "Coral",
+          "minPopulation": 5
+        },
+        {
+          "product": "Aquamarine",
+          "minPopulation": 7
+        },
+        {
+          "product": "Mussel",
+          "minPopulation": 7
+        },
+        {
+          "product": "Sea Urchin",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "132",
+    "name": "Bream",
+    "description": "A fairly common river fish that becomes active at night.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "River",
+    "weather": "both",
+    "time": "6:00 PM – 2:00 AM",
+    "difficulty": 35,
+    "sellPrice": 45,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Baked Fish", "Maki Roll", "Quality Fertilizer", "Sashimi", "Night Fishing Bundle"],
+    "energyHealth": {
+      "energy": 13,
+      "health": 5
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Bream.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Gold Ore",
+          "minPopulation": 5
+        },
+        {
+          "product": "Maple Syrup",
+          "minPopulation": 5
+        },
+        {
+          "product": "Mixed Seeds",
+          "minPopulation": 5
+        },
+        {
+          "product": "Crayfish",
+          "minPopulation": 7
+        },
+        {
+          "product": "Honey",
+          "minPopulation": 7
+        },
+        {
+          "product": "Jade",
+          "minPopulation": 7
+        },
+        {
+          "product": "Periwinkle",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "136",
+    "name": "Largemouth Bass",
+    "description": "A popular fish that lives in lakes.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Mountain Lake",
+    "weather": "both",
+    "time": "6:00 AM – 7:00 PM",
+    "difficulty": 50,
+    "sellPrice": 100,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": [
+      "Crispy Bass",
+      "Maki Roll",
+      "Quality Fertilizer",
+      "Sashimi",
+      "Lake Fish Bundle",
+      "Quality Fish Bundle"
+    ],
+    "energyHealth": {
+      "energy": 38,
+      "health": 17
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Largemouth Bass.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Common Mushroom",
+          "minPopulation": 5
+        },
+        {
+          "product": "Earth Crystal",
+          "minPopulation": 5
+        },
+        {
+          "product": "Limestone",
+          "minPopulation": 5
+        },
+        {
+          "product": "Mudstone",
+          "minPopulation": 7
+        },
+        {
+          "product": "Snail",
+          "minPopulation": 7
+        },
+        {
+          "product": "Wild Bait",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "137",
+    "name": "Smallmouth Bass",
+    "description": "A freshwater fish that is very sensitive to pollution.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "fall"],
+    "location": "River, Forest Pond",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 28,
+    "sellPrice": 50,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Smallmouth Bass.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Gold Ore",
+          "minPopulation": 5
+        },
+        {
+          "product": "Maple Syrup",
+          "minPopulation": 5
+        },
+        {
+          "product": "Mixed Seeds",
+          "minPopulation": 5
+        },
+        {
+          "product": "Crayfish",
+          "minPopulation": 7
+        },
+        {
+          "product": "Honey",
+          "minPopulation": 7
+        },
+        {
+          "product": "Jade",
+          "minPopulation": 7
+        },
+        {
+          "product": "Periwinkle",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "138",
+    "name": "Rainbow Trout",
+    "description": "A freshwater trout with colorful markings.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["summer"],
+    "location": "River, Mountain Lake",
+    "weather": "sunny",
+    "time": "6:00 AM – 7:00 PM",
+    "difficulty": 45,
+    "sellPrice": 65,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "Trout Soup"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Rainbow Trout.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Rainbow Shell",
+          "minPopulation": 9
+        },
+        {
+          "product": "Prismatic Shard",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "139",
+    "name": "Salmon",
+    "description": "Swims upstream to lay its eggs.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["fall"],
+    "location": "River",
+    "weather": "both",
+    "time": "6:00 AM – 7:00 PM",
+    "difficulty": 50,
+    "sellPrice": 75,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Salmon Dinner", "Sashimi"],
+    "energyHealth": {
+      "energy": 38,
+      "health": 17
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Salmon.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Gold Ore",
+          "minPopulation": 5
+        },
+        {
+          "product": "Maple Syrup",
+          "minPopulation": 5
+        },
+        {
+          "product": "Mixed Seeds",
+          "minPopulation": 5
+        },
+        {
+          "product": "Crayfish",
+          "minPopulation": 7
+        },
+        {
+          "product": "Honey",
+          "minPopulation": 7
+        },
+        {
+          "product": "Jade",
+          "minPopulation": 7
+        },
+        {
+          "product": "Periwinkle",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "140",
+    "name": "Walleye",
+    "description": "A freshwater fish caught at night.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["fall", "winter"],
+    "location": "River, Mountain Lake, Forest Pond",
+    "weather": "rainy",
+    "time": "12:00 PM – 2:00 AM",
+    "difficulty": 45,
+    "sellPrice": 105,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": [
+      "Maki Roll",
+      "Quality Fertilizer",
+      "Sashimi",
+      "Night Fishing Bundle",
+      "Quality Fish Bundle"
+    ],
+    "energyHealth": {
+      "energy": 30,
+      "health": 13
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Walleye.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Gold Ore",
+          "minPopulation": 5
+        },
+        {
+          "product": "Maple Syrup",
+          "minPopulation": 5
+        },
+        {
+          "product": "Mixed Seeds",
+          "minPopulation": 5
+        },
+        {
+          "product": "Crayfish",
+          "minPopulation": 7
+        },
+        {
+          "product": "Honey",
+          "minPopulation": 7
+        },
+        {
+          "product": "Jade",
+          "minPopulation": 7
+        },
+        {
+          "product": "Periwinkle",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "141",
+    "name": "Perch",
+    "description": "A freshwater fish of the winter.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["winter"],
+    "location": "River, Mountain Lake, Forest Pond",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 35,
+    "sellPrice": 55,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Perch.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Gold Ore",
+          "minPopulation": 5
+        },
+        {
+          "product": "Maple Syrup",
+          "minPopulation": 5
+        },
+        {
+          "product": "Mixed Seeds",
+          "minPopulation": 5
+        },
+        {
+          "product": "Crayfish",
+          "minPopulation": 7
+        },
+        {
+          "product": "Honey",
+          "minPopulation": 7
+        },
+        {
+          "product": "Jade",
+          "minPopulation": 7
+        },
+        {
+          "product": "Periwinkle",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "142",
+    "name": "Carp",
+    "description": "A common pond fish.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall"],
+    "location": "Mountain Lake, Secret Woods, Sewers, Mutant Bug Lair",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 15,
+    "sellPrice": 30,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Carp Surprise", "Maki Roll", "Quality Fertilizer", "Sashimi", "Lake Fish Bundle"],
+    "energyHealth": {
+      "energy": 13,
+      "health": 5
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Carp.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "143",
+    "name": "Catfish",
+    "description": "An uncommon fish found in streams.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "fall", "winter"],
+    "location": "River, Secret Woods, Witch's Swamp",
+    "weather": "rainy",
+    "time": "6:00 AM – 12:00 AM",
+    "difficulty": 75,
+    "sellPrice": 200,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "River Fish Bundle"],
+    "energyHealth": {
+      "energy": 50,
+      "health": 22
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Catfish.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "144",
+    "name": "Pike",
+    "description": "A freshwater fish that's difficult to catch.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["summer", "winter"],
+    "location": "River, Forest Pond",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 60,
+    "sellPrice": 100,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 38,
+      "health": 17
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Pike.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Bug Meat",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "145",
+    "name": "Sunfish",
+    "description": "A common river fish.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer"],
+    "location": "River",
+    "weather": "sunny",
+    "time": "6:00 AM – 7:00 PM",
+    "difficulty": 30,
+    "sellPrice": 30,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Baked Fish", "Maki Roll", "Quality Fertilizer", "Sashimi", "River Fish Bundle"],
+    "energyHealth": {
+      "energy": 13,
+      "health": 5
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Sunfish.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Solar Essence",
+          "minPopulation": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "146",
+    "name": "Red Mullet",
+    "description": "Long ago these were kept as pets.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["summer", "winter"],
+    "location": "Ocean",
+    "weather": "both",
+    "time": "6:00 AM – 7:00 PM",
+    "difficulty": 55,
+    "sellPrice": 75,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Red Mullet.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Clam",
+          "minPopulation": 5
+        },
+        {
+          "product": "Coral",
+          "minPopulation": 5
+        },
+        {
+          "product": "Aquamarine",
+          "minPopulation": 7
+        },
+        {
+          "product": "Mussel",
+          "minPopulation": 7
+        },
+        {
+          "product": "Sea Urchin",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "147",
+    "name": "Herring",
+    "description": "A common ocean fish.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "winter"],
+    "location": "Ocean",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 25,
+    "sellPrice": 30,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 13,
+      "health": 5
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Herring.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "148",
+    "name": "Eel",
+    "description": "A long, slippery little fish.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "fall"],
+    "location": "Ocean",
+    "weather": "rainy",
+    "time": "4:00 PM – 2:00 AM",
+    "difficulty": 70,
+    "sellPrice": 85,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": [
+      "Fried Eel",
+      "Maki Roll",
+      "Quality Fertilizer",
+      "Sashimi",
+      "Spicy Eel",
+      "Night Fishing Bundle"
+    ],
+    "energyHealth": {
+      "energy": 30,
+      "health": 13
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Eel.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Clam",
+          "minPopulation": 5
+        },
+        {
+          "product": "Coral",
+          "minPopulation": 5
+        },
+        {
+          "product": "Aquamarine",
+          "minPopulation": 7
+        },
+        {
+          "product": "Mussel",
+          "minPopulation": 7
+        },
+        {
+          "product": "Sea Urchin",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "149",
+    "name": "Octopus",
+    "description": "A mysterious and intelligent creature.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["summer"],
+    "location": "Ocean, Ginger Island, Night Market submarine",
+    "weather": "both",
+    "time": "6:00 AM – 1:00 PM",
+    "difficulty": 95,
+    "sellPrice": 150,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "Master Fisher's Bundle"],
+    "maxQuality": "iridium",
+    "image": "images/fish/Octopus.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Omni Geode",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "150",
+    "name": "Red Snapper",
+    "description": "A popular fish with a nice red color.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["summer", "fall", "winter"],
+    "location": "Ocean",
+    "weather": "rainy",
+    "time": "6:00 AM – 7:00 PM",
+    "difficulty": 40,
+    "sellPrice": 50,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "Ocean Fish Bundle"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Red Snapper.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Clam",
+          "minPopulation": 5
+        },
+        {
+          "product": "Coral",
+          "minPopulation": 5
+        },
+        {
+          "product": "Aquamarine",
+          "minPopulation": 7
+        },
+        {
+          "product": "Mussel",
+          "minPopulation": 7
+        },
+        {
+          "product": "Sea Urchin",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "151",
+    "name": "Squid",
+    "description": "A deep sea creature that can grow to enormous size.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["winter"],
+    "location": "Ocean",
+    "weather": "both",
+    "time": "6:00 PM – 2:00 AM",
+    "difficulty": 75,
+    "sellPrice": 80,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Fried Calamari", "Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Squid.png",
+    "canSmoke": true,
+    "roe": null,
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Squid Ink",
+          "minPopulation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "152",
+    "name": "Seaweed",
+    "description": "It can be used in cooking.",
+    "catchType": "rod",
+    "category": "other",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Ocean",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 5,
+    "sellPrice": 20,
+    "profession": [],
+    "fishTank": false,
+    "usedIn": ["Maki Roll"],
+    "energyHealth": {
+      "energy": 13,
+      "health": 5
+    },
+    "maxQuality": "base",
+    "image": "images/fish/Seaweed.png",
+    "canSmoke": false,
+    "roe": null,
+    "fishPond": null
+  },
+  {
+    "id": "153",
+    "name": "Green Algae",
+    "description": "It's really slimy.",
+    "catchType": "rod",
+    "category": "other",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "River, Mountain Lake",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 5,
+    "sellPrice": 15,
+    "profession": [],
+    "fishTank": false,
+    "usedIn": ["Algae Soup", "Trout Soup"],
+    "energyHealth": {
+      "energy": 13,
+      "health": 5
+    },
+    "maxQuality": "base",
+    "image": "images/fish/Green Algae.png",
+    "canSmoke": false,
+    "roe": null,
+    "fishPond": null
+  },
+  {
+    "id": "154",
+    "name": "Sea Cucumber",
+    "description": "A slippery, slimy creature found on the ocean floor.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["fall", "winter"],
+    "location": "Ocean",
+    "weather": "both",
+    "time": "6:00 AM – 7:00 PM",
+    "difficulty": 40,
+    "sellPrice": 75,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Lucky Lunch", "Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": -25,
+      "health": 0,
+      "poison": true
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Sea Cucumber.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Clam",
+          "minPopulation": 5
+        },
+        {
+          "product": "Coral",
+          "minPopulation": 5
+        },
+        {
+          "product": "Aquamarine",
+          "minPopulation": 7
+        },
+        {
+          "product": "Mussel",
+          "minPopulation": 7
+        },
+        {
+          "product": "Sea Urchin",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "155",
+    "name": "Super Cucumber",
+    "description": "A rare, purple variety of sea cucumber.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["summer", "winter"],
+    "location": "Ocean, Ginger Island",
+    "weather": "both",
+    "time": "6:00 PM – 2:00 AM",
+    "difficulty": 80,
+    "sellPrice": 250,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 125,
+      "health": 56
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Super Cucumber.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Iridium Ore",
+          "minPopulation": 9
+        },
+        {
+          "product": "Amethyst",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "156",
+    "name": "Ghostfish",
+    "description": "A pale, blind fish found in underground lakes.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Mines (Floors 20 & 60)",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 50,
+    "sellPrice": 45,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "Specialty Fish Bundle"],
+    "energyHealth": {
+      "energy": 38,
+      "health": 17
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Ghostfish.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Quartz",
+          "minPopulation": 3
+        },
+        {
+          "product": "White Algae",
+          "minPopulation": 9
+        },
+        {
+          "product": "Refined Quartz",
+          "minPopulation": 9
+        },
+        {
+          "product": "Pale Broth",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "157",
+    "name": "White Algae",
+    "description": "It's super slimy.",
+    "catchType": "rod",
+    "category": "other",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Mines",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 5,
+    "sellPrice": 25,
+    "profession": [],
+    "fishTank": false,
+    "usedIn": ["Pale Broth", "Wild Medicine Bundle"],
+    "energyHealth": {
+      "energy": 20,
+      "health": 9
+    },
+    "maxQuality": "base",
+    "image": "images/fish/White Algae.png",
+    "canSmoke": false,
+    "roe": null,
+    "fishPond": null
+  },
+  {
+    "id": "158",
+    "name": "Stonefish",
+    "description": "A bizarre fish that's shaped like a brick.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Mines (Floor 20)",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 65,
+    "sellPrice": 300,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "maxQuality": "iridium",
+    "image": "images/fish/Stonefish.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Copper Ore",
+          "minPopulation": 3
+        },
+        {
+          "product": "Geode",
+          "minPopulation": 9
+        },
+        {
+          "product": "Stone",
+          "minPopulation": 9
+        },
+        {
+          "product": "Diamond",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "159",
+    "name": "Crimsonfish",
+    "description": "Lives deep in the ocean but likes to lay its eggs in the warm summer water.",
+    "catchType": "rod",
+    "category": "legendary",
+    "seasons": ["summer"],
+    "location": "Ocean",
+    "weather": "both",
+    "time": "6:00 AM – 8:00 PM",
+    "difficulty": 95,
+    "sellPrice": 1500,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 38,
+      "health": 17
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Crimsonfish.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "160",
+    "name": "Angler",
+    "description": "Uses a bioluminescent dangler to attract prey.",
+    "catchType": "rod",
+    "category": "legendary",
+    "seasons": ["fall"],
+    "location": "River",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 85,
+    "sellPrice": 900,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Angler.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "161",
+    "name": "Ice Pip",
+    "description": "A rare fish that thrives in extremely cold conditions.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Mines (Floor 60)",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 85,
+    "sellPrice": 500,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 38,
+      "health": 17
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Ice Pip.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Iron Ore",
+          "minPopulation": 3
+        },
+        {
+          "product": "Frozen Geode",
+          "minPopulation": 9
+        },
+        {
+          "product": "Frozen Tear",
+          "minPopulation": 9
+        },
+        {
+          "product": "Diamond",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "162",
+    "name": "Lava Eel",
+    "description": "It can somehow survive in pools of red-hot lava.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Mines (Floor 100), Volcano Caldera",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 90,
+    "sellPrice": 700,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "Master Fisher's Bundle"],
+    "energyHealth": {
+      "energy": 50,
+      "health": 22
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Lava Eel.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Gold Ore",
+          "minPopulation": 3
+        },
+        {
+          "product": "Cave Jelly",
+          "minPopulation": 8
+        },
+        {
+          "product": "Spicy Eel",
+          "minPopulation": 9
+        },
+        {
+          "product": "Magma Geode",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "163",
+    "name": "Legend",
+    "description": "The king of all fish! They said he'd never be caught.",
+    "catchType": "rod",
+    "category": "legendary",
+    "seasons": ["spring"],
+    "location": "Mountain Lake",
+    "weather": "rainy",
+    "time": "6:00 AM – 8:00 PM",
+    "difficulty": 110,
+    "sellPrice": 5000,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 500,
+      "health": 225
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Legend.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "164",
+    "name": "Sandfish",
+    "description": "It tries to hide using camouflage.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Desert",
+    "weather": "both",
+    "time": "6:00 AM – 8:00 PM",
+    "difficulty": 65,
+    "sellPrice": 75,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "Specialty Fish Bundle"],
+    "energyHealth": {
+      "energy": 13,
+      "health": 5
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Sandfish.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Cactus Seeds",
+          "minPopulation": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "165",
+    "name": "Scorpion Carp",
+    "description": "It's like a regular carp but with a sharp stinger.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Desert",
+    "weather": "both",
+    "time": "6:00 AM – 8:00 PM",
+    "difficulty": 90,
+    "sellPrice": 150,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "Master Fisher's Bundle"],
+    "energyHealth": {
+      "energy": -125,
+      "health": 0,
+      "poison": true
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Scorpion Carp.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Cactus Seeds",
+          "minPopulation": 10
+        }
+      ]
+    }
+  },
+  {
+    "id": "267",
+    "name": "Flounder",
+    "description": "It lives on the bottom, so both eyes are on top of its head.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer"],
+    "location": "Ocean, Ginger Island",
+    "weather": "both",
+    "time": "6:00 AM – 8:00 PM",
+    "difficulty": 50,
+    "sellPrice": 100,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "Seafoam Pudding"],
+    "energyHealth": {
+      "energy": 38,
+      "health": 17
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Flounder.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Sea Jelly",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "269",
+    "name": "Midnight Carp",
+    "description": "This shy fish only feels comfortable at night.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["fall", "winter"],
+    "location": "Forest Pond, Mountain Lake, Ginger Island",
+    "weather": "both",
+    "time": "10:00 PM – 2:00 AM",
+    "difficulty": 55,
+    "sellPrice": 150,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "Seafoam Pudding"],
+    "energyHealth": {
+      "energy": 50,
+      "health": 22
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Midnight Carp.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "River Jelly",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "372",
+    "name": "Clam",
+    "description": "There's a chewy little guy in there...",
+    "catchType": "crab-pot",
+    "category": "crab-pot",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Ocean (crab pot)",
+    "sellPrice": 50,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Chowder", "Maki Roll", "Quality Fertilizer", "Sashimi", "Crab Pot Bundle"],
+    "maxQuality": "iridium",
+    "image": "images/fish/Clam.png",
+    "canSmoke": false,
+    "roe": null,
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Seaweed",
+          "minPopulation": 1
+        },
+        {
+          "product": "Trash",
+          "minPopulation": 1
+        },
+        {
+          "product": "Driftwood",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken Glasses",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken CD",
+          "minPopulation": 1
+        },
+        {
+          "product": "Soggy Newspaper",
+          "minPopulation": 1
+        },
+        {
+          "product": "Coral",
+          "minPopulation": 5
+        },
+        {
+          "product": "Sea Urchin",
+          "minPopulation": 5
+        },
+        {
+          "product": "Warp Totem: Beach",
+          "minPopulation": 9
+        },
+        {
+          "product": "Nautilus Shell",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "682",
+    "name": "Mutant Carp",
+    "description": "The strange waters of the sewer turned this carp into a monstrosity.",
+    "catchType": "rod",
+    "category": "legendary",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Sewers",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 80,
+    "sellPrice": 1000,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Mutant Carp.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "698",
+    "name": "Sturgeon",
+    "description": "An ancient bottom-feeder with a dwindling population. Females can live up to 150 years.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["summer", "winter"],
+    "location": "Mountain Lake",
+    "weather": "both",
+    "time": "6:00 AM – 7:00 PM",
+    "difficulty": 78,
+    "sellPrice": 200,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "Lake Fish Bundle"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Sturgeon.png",
+    "canSmoke": true,
+    "roe": "caviar",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "699",
+    "name": "Tiger Trout",
+    "description": "A rare hybrid trout that cannot bear offspring of its own.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "River",
+    "weather": "both",
+    "time": "6:00 AM – 7:00 PM",
+    "difficulty": 60,
+    "sellPrice": 150,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "River Fish Bundle"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Tiger Trout.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "700",
+    "name": "Bullhead",
+    "description": "A relative of the catfish that eats a variety of foods off the lake bottom.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Mountain Lake",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 46,
+    "sellPrice": 75,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "Lake Fish Bundle"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Bullhead.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Common Mushroom",
+          "minPopulation": 5
+        },
+        {
+          "product": "Earth Crystal",
+          "minPopulation": 5
+        },
+        {
+          "product": "Limestone",
+          "minPopulation": 5
+        },
+        {
+          "product": "Mudstone",
+          "minPopulation": 7
+        },
+        {
+          "product": "Snail",
+          "minPopulation": 7
+        },
+        {
+          "product": "Wild Bait",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "701",
+    "name": "Tilapia",
+    "description": "A primarily vegetarian fish that prefers warm water.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["summer", "fall"],
+    "location": "Ocean",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 PM",
+    "difficulty": 50,
+    "sellPrice": 75,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "Ocean Fish Bundle"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Tilapia.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Clam",
+          "minPopulation": 5
+        },
+        {
+          "product": "Coral",
+          "minPopulation": 5
+        },
+        {
+          "product": "Aquamarine",
+          "minPopulation": 7
+        },
+        {
+          "product": "Mussel",
+          "minPopulation": 7
+        },
+        {
+          "product": "Sea Urchin",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "702",
+    "name": "Chub",
+    "description": "A common freshwater fish known for its voracious appetite.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "River, Mountain Lake",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 35,
+    "sellPrice": 50,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "Field Research Bundle"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Chub.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Gold Ore",
+          "minPopulation": 5
+        },
+        {
+          "product": "Maple Syrup",
+          "minPopulation": 5
+        },
+        {
+          "product": "Mixed Seeds",
+          "minPopulation": 5
+        },
+        {
+          "product": "Crayfish",
+          "minPopulation": 7
+        },
+        {
+          "product": "Honey",
+          "minPopulation": 7
+        },
+        {
+          "product": "Jade",
+          "minPopulation": 7
+        },
+        {
+          "product": "Periwinkle",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "704",
+    "name": "Dorado",
+    "description": "A fierce carnivore with brilliant orange scales.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["summer"],
+    "location": "River",
+    "weather": "both",
+    "time": "6:00 AM – 7:00 PM",
+    "difficulty": 78,
+    "sellPrice": 100,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Dorado.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Bug Meat",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "705",
+    "name": "Albacore",
+    "description": "Prefers temperature 'edges' where cool and warm water meet.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["fall", "winter"],
+    "location": "Ocean",
+    "weather": "both",
+    "time": "6:00 AM – 11:00 AM, 6:00 PM – 2:00 AM",
+    "difficulty": 60,
+    "sellPrice": 75,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Albacore.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Clam",
+          "minPopulation": 5
+        },
+        {
+          "product": "Coral",
+          "minPopulation": 5
+        },
+        {
+          "product": "Aquamarine",
+          "minPopulation": 7
+        },
+        {
+          "product": "Mussel",
+          "minPopulation": 7
+        },
+        {
+          "product": "Sea Urchin",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "706",
+    "name": "Shad",
+    "description": "Lives in a school at sea, but returns to the rivers to spawn.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall"],
+    "location": "River",
+    "weather": "rainy",
+    "time": "9:00 AM – 2:00 AM",
+    "difficulty": 45,
+    "sellPrice": 60,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": [
+      "Maki Roll",
+      "Quality Fertilizer",
+      "Sashimi",
+      "River Fish Bundle",
+      "Quality Fish Bundle"
+    ],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Shad.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Gold Ore",
+          "minPopulation": 5
+        },
+        {
+          "product": "Maple Syrup",
+          "minPopulation": 5
+        },
+        {
+          "product": "Mixed Seeds",
+          "minPopulation": 5
+        },
+        {
+          "product": "Crayfish",
+          "minPopulation": 7
+        },
+        {
+          "product": "Honey",
+          "minPopulation": 7
+        },
+        {
+          "product": "Jade",
+          "minPopulation": 7
+        },
+        {
+          "product": "Periwinkle",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "707",
+    "name": "Lingcod",
+    "description": "A fearsome predator that will eat almost anything it can cram into its mouth.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["winter"],
+    "location": "River, Mountain Lake",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 85,
+    "sellPrice": 120,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Lingcod.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Bug Meat",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "708",
+    "name": "Halibut",
+    "description": "A flat fish that lives on the ocean floor.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "winter"],
+    "location": "Ocean",
+    "weather": "both",
+    "time": "6:00 AM – 11:00 AM, 7:00 PM – 2:00 AM",
+    "difficulty": 50,
+    "sellPrice": 80,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Halibut.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Clam",
+          "minPopulation": 5
+        },
+        {
+          "product": "Coral",
+          "minPopulation": 5
+        },
+        {
+          "product": "Aquamarine",
+          "minPopulation": 7
+        },
+        {
+          "product": "Mussel",
+          "minPopulation": 7
+        },
+        {
+          "product": "Sea Urchin",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "715",
+    "name": "Lobster",
+    "description": "A large ocean-dwelling crustacean with a strong tail.",
+    "catchType": "crab-pot",
+    "category": "crab-pot",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Ocean (crab pot)",
+    "sellPrice": 120,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Lobster Bisque", "Maki Roll", "Quality Fertilizer", "Sashimi", "Crab Pot Bundle"],
+    "maxQuality": "silver",
+    "image": "images/fish/Lobster.png",
+    "canSmoke": false,
+    "roe": null,
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Seaweed",
+          "minPopulation": 1
+        },
+        {
+          "product": "Trash",
+          "minPopulation": 1
+        },
+        {
+          "product": "Driftwood",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken Glasses",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken CD",
+          "minPopulation": 1
+        },
+        {
+          "product": "Soggy Newspaper",
+          "minPopulation": 1
+        },
+        {
+          "product": "Coral",
+          "minPopulation": 5
+        },
+        {
+          "product": "Sea Urchin",
+          "minPopulation": 5
+        },
+        {
+          "product": "Warp Totem: Beach",
+          "minPopulation": 9
+        },
+        {
+          "product": "Nautilus Shell",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "716",
+    "name": "Crayfish",
+    "description": "A small freshwater relative of the lobster.",
+    "catchType": "crab-pot",
+    "category": "crab-pot",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Freshwater (crab pot)",
+    "sellPrice": 75,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Fish Stew", "Maki Roll", "Quality Fertilizer", "Sashimi", "Crab Pot Bundle"],
+    "maxQuality": "silver",
+    "image": "images/fish/Crayfish.png",
+    "canSmoke": false,
+    "roe": null,
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Trash",
+          "minPopulation": 1
+        },
+        {
+          "product": "Green Algae",
+          "minPopulation": 1
+        },
+        {
+          "product": "Driftwood",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken Glasses",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken CD",
+          "minPopulation": 1
+        },
+        {
+          "product": "Soggy Newspaper",
+          "minPopulation": 1
+        },
+        {
+          "product": "Mixed Seeds",
+          "minPopulation": 5
+        },
+        {
+          "product": "Warp Totem: Mountains",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "717",
+    "name": "Crab",
+    "description": "A marine crustacean with two powerful pincers.",
+    "catchType": "crab-pot",
+    "category": "crab-pot",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Ocean (crab pot)",
+    "sellPrice": 100,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Crab Cakes", "Maki Roll", "Quality Fertilizer", "Sashimi", "Crab Pot Bundle"],
+    "maxQuality": "gold",
+    "image": "images/fish/Crab.png",
+    "canSmoke": false,
+    "roe": null,
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Seaweed",
+          "minPopulation": 1
+        },
+        {
+          "product": "Trash",
+          "minPopulation": 1
+        },
+        {
+          "product": "Driftwood",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken Glasses",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken CD",
+          "minPopulation": 1
+        },
+        {
+          "product": "Soggy Newspaper",
+          "minPopulation": 1
+        },
+        {
+          "product": "Coral",
+          "minPopulation": 5
+        },
+        {
+          "product": "Sea Urchin",
+          "minPopulation": 5
+        },
+        {
+          "product": "Warp Totem: Beach",
+          "minPopulation": 9
+        },
+        {
+          "product": "Nautilus Shell",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "718",
+    "name": "Cockle",
+    "description": "A common saltwater clam.",
+    "catchType": "crab-pot",
+    "category": "crab-pot",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Ocean (crab pot)",
+    "sellPrice": 50,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "Crab Pot Bundle"],
+    "maxQuality": "iridium",
+    "image": "images/fish/Cockle.png",
+    "canSmoke": false,
+    "roe": null,
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Seaweed",
+          "minPopulation": 1
+        },
+        {
+          "product": "Trash",
+          "minPopulation": 1
+        },
+        {
+          "product": "Driftwood",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken Glasses",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken CD",
+          "minPopulation": 1
+        },
+        {
+          "product": "Soggy Newspaper",
+          "minPopulation": 1
+        },
+        {
+          "product": "Coral",
+          "minPopulation": 5
+        },
+        {
+          "product": "Sea Urchin",
+          "minPopulation": 5
+        },
+        {
+          "product": "Warp Totem: Beach",
+          "minPopulation": 9
+        },
+        {
+          "product": "Nautilus Shell",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "719",
+    "name": "Mussel",
+    "description": "A common bivalve that often lives in clusters.",
+    "catchType": "crab-pot",
+    "category": "crab-pot",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Ocean (crab pot)",
+    "sellPrice": 30,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Fish Stew", "Maki Roll", "Quality Fertilizer", "Sashimi", "Crab Pot Bundle"],
+    "maxQuality": "iridium",
+    "image": "images/fish/Mussel.png",
+    "canSmoke": false,
+    "roe": null,
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Seaweed",
+          "minPopulation": 1
+        },
+        {
+          "product": "Trash",
+          "minPopulation": 1
+        },
+        {
+          "product": "Driftwood",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken Glasses",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken CD",
+          "minPopulation": 1
+        },
+        {
+          "product": "Soggy Newspaper",
+          "minPopulation": 1
+        },
+        {
+          "product": "Coral",
+          "minPopulation": 5
+        },
+        {
+          "product": "Sea Urchin",
+          "minPopulation": 5
+        },
+        {
+          "product": "Warp Totem: Beach",
+          "minPopulation": 9
+        },
+        {
+          "product": "Nautilus Shell",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "720",
+    "name": "Shrimp",
+    "description": "A scavenger that feeds off the ocean floor. Widely prized for its meat.",
+    "catchType": "crab-pot",
+    "category": "crab-pot",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Ocean (crab pot)",
+    "sellPrice": 60,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": [
+      "Maki Roll",
+      "Quality Fertilizer",
+      "Sashimi",
+      "Shrimp Cocktail",
+      "Tom Kha Soup",
+      "Crab Pot Bundle"
+    ],
+    "maxQuality": "silver",
+    "image": "images/fish/Shrimp.png",
+    "canSmoke": false,
+    "roe": null,
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Seaweed",
+          "minPopulation": 1
+        },
+        {
+          "product": "Trash",
+          "minPopulation": 1
+        },
+        {
+          "product": "Driftwood",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken Glasses",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken CD",
+          "minPopulation": 1
+        },
+        {
+          "product": "Soggy Newspaper",
+          "minPopulation": 1
+        },
+        {
+          "product": "Coral",
+          "minPopulation": 5
+        },
+        {
+          "product": "Sea Urchin",
+          "minPopulation": 5
+        },
+        {
+          "product": "Warp Totem: Beach",
+          "minPopulation": 9
+        },
+        {
+          "product": "Nautilus Shell",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "721",
+    "name": "Snail",
+    "description": "A wide-ranging mollusc that lives in a spiral shell.",
+    "catchType": "crab-pot",
+    "category": "crab-pot",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Freshwater (crab pot)",
+    "sellPrice": 65,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "Crab Pot Bundle"],
+    "maxQuality": "gold",
+    "image": "images/fish/Snail.png",
+    "canSmoke": false,
+    "roe": null,
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Trash",
+          "minPopulation": 1
+        },
+        {
+          "product": "Green Algae",
+          "minPopulation": 1
+        },
+        {
+          "product": "Driftwood",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken Glasses",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken CD",
+          "minPopulation": 1
+        },
+        {
+          "product": "Soggy Newspaper",
+          "minPopulation": 1
+        },
+        {
+          "product": "Mixed Seeds",
+          "minPopulation": 5
+        },
+        {
+          "product": "Warp Totem: Mountains",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "722",
+    "name": "Periwinkle",
+    "description": "A tiny freshwater snail that lives in a blue shell.",
+    "catchType": "crab-pot",
+    "category": "crab-pot",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Freshwater (crab pot)",
+    "sellPrice": 20,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": [
+      "Fish Stew",
+      "Maki Roll",
+      "Quality Fertilizer",
+      "Sashimi",
+      "Strange Bun",
+      "Crab Pot Bundle"
+    ],
+    "maxQuality": "silver",
+    "image": "images/fish/Periwinkle.png",
+    "canSmoke": false,
+    "roe": null,
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Trash",
+          "minPopulation": 1
+        },
+        {
+          "product": "Green Algae",
+          "minPopulation": 1
+        },
+        {
+          "product": "Driftwood",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken Glasses",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken CD",
+          "minPopulation": 1
+        },
+        {
+          "product": "Soggy Newspaper",
+          "minPopulation": 1
+        },
+        {
+          "product": "Mixed Seeds",
+          "minPopulation": 5
+        },
+        {
+          "product": "Warp Totem: Mountains",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "723",
+    "name": "Oyster",
+    "description": "Constantly filters water to find food. In the process, it removes dangerous toxins from the environment.",
+    "catchType": "crab-pot",
+    "category": "crab-pot",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Ocean (crab pot)",
+    "sellPrice": 40,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "Crab Pot Bundle"],
+    "maxQuality": "iridium",
+    "image": "images/fish/Oyster.png",
+    "canSmoke": false,
+    "roe": null,
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Seaweed",
+          "minPopulation": 1
+        },
+        {
+          "product": "Trash",
+          "minPopulation": 1
+        },
+        {
+          "product": "Driftwood",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken Glasses",
+          "minPopulation": 1
+        },
+        {
+          "product": "Broken CD",
+          "minPopulation": 1
+        },
+        {
+          "product": "Soggy Newspaper",
+          "minPopulation": 1
+        },
+        {
+          "product": "Coral",
+          "minPopulation": 5
+        },
+        {
+          "product": "Sea Urchin",
+          "minPopulation": 5
+        },
+        {
+          "product": "Warp Totem: Beach",
+          "minPopulation": 9
+        },
+        {
+          "product": "Nautilus Shell",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "734",
+    "name": "Woodskip",
+    "description": "A very sensitive fish that can only live in pools deep in the forest.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Secret Woods",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 50,
+    "sellPrice": 75,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": [
+      "Maki Roll",
+      "Quality Fertilizer",
+      "Sashimi",
+      "Lake Fish Bundle",
+      "Specialty Fish Bundle"
+    ],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Woodskip.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Wood",
+          "minPopulation": 1
+        },
+        {
+          "product": "Hardwood",
+          "minPopulation": 6
+        },
+        {
+          "product": "Acorn",
+          "minPopulation": 9
+        },
+        {
+          "product": "Maple Seed",
+          "minPopulation": 9
+        },
+        {
+          "product": "Pine Cone",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "775",
+    "name": "Glacierfish",
+    "description": "Builds a nest on the underside of glaciers.",
+    "catchType": "rod",
+    "category": "legendary",
+    "seasons": ["winter"],
+    "location": "Forest (Arrowhead Island)",
+    "weather": "sunny",
+    "time": "6:00 AM – 8:00 PM",
+    "difficulty": 100,
+    "sellPrice": 1000,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Glacierfish.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "795",
+    "name": "Void Salmon",
+    "description": "A salmon, twisted by void energy. The fresh meat is jet black, but rapidly turns pink when exposed to air.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Witch's Swamp",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 80,
+    "sellPrice": 150,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "The Missing Bundle"],
+    "energyHealth": {
+      "energy": 63,
+      "health": 28
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Void Salmon.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Void Essence",
+          "minPopulation": 8
+        },
+        {
+          "product": "Void Egg",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "796",
+    "name": "Slimejack",
+    "description": "He's coated in a very thick layer of slime. He keeps slipping out of your hands!",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Mutant Bug Lair",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 55,
+    "sellPrice": 100,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 38,
+      "health": 17
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Slimejack.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Green Algae",
+          "minPopulation": 3
+        },
+        {
+          "product": "Slime",
+          "minPopulation": 9
+        },
+        {
+          "product": "Green Slime Egg",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "798",
+    "name": "Midnight Squid",
+    "description": "A strange and mysterious denizen of the ocean's twilight depths.",
+    "catchType": "rod",
+    "category": "night-market",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Night Market submarine",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 55,
+    "sellPrice": 100,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 38,
+      "health": 17
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Midnight Squid.png",
+    "canSmoke": true,
+    "roe": null,
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Squid Ink",
+          "minPopulation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "799",
+    "name": "Spook Fish",
+    "description": "The huge eyes can detect the faint silhouettes of prey.",
+    "catchType": "rod",
+    "category": "night-market",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Night Market submarine",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 60,
+    "sellPrice": 220,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 38,
+      "health": 17
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Spook Fish.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Treasure Chest",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "800",
+    "name": "Blobfish",
+    "description": "This odd creature floats above the ocean floor, consuming any edible material in its path.",
+    "catchType": "rod",
+    "category": "night-market",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Night Market submarine",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 75,
+    "sellPrice": 500,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi", "Master Fisher's Bundle"],
+    "energyHealth": {
+      "energy": 38,
+      "health": 17
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Blobfish.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Pearl",
+          "minPopulation": 9
+        },
+        {
+          "product": "Warp Totem: Farm",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "836",
+    "name": "Stingray",
+    "description": "Despite having a toxic stinger, these fish are shy and prefer to avoid humans.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Ginger Island (Pirate Cove)",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 80,
+    "sellPrice": 180,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 38,
+      "health": 17
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Stingray.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Magma Cap",
+          "minPopulation": 4
+        },
+        {
+          "product": "Cinder Shard",
+          "minPopulation": 7
+        },
+        {
+          "product": "Dragon Tooth",
+          "minPopulation": 9
+        },
+        {
+          "product": "Battery Pack",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "837",
+    "name": "Lionfish",
+    "description": "An aggressive, predatory fish with venomous spines.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Ginger Island",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 50,
+    "sellPrice": 100,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 38,
+      "health": 17
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Lionfish.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Taro Tuber",
+          "minPopulation": 4
+        },
+        {
+          "product": "Tiger Slime Egg",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "838",
+    "name": "Blue Discus",
+    "description": "A brightly colored tropical fish that is popular in aquariums.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Ginger Island (freshwater)",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 60,
+    "sellPrice": 120,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 38,
+      "health": 17
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Blue Discus.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Banana",
+          "minPopulation": 4
+        },
+        {
+          "product": "Golden Coconut",
+          "minPopulation": 9
+        }
+      ]
+    }
+  },
+  {
+    "id": "898",
+    "name": "Son of Crimsonfish",
+    "description": "He hatched in the warm summer water, and followed in the footsteps of his father.",
+    "catchType": "rod",
+    "category": "legendary-2",
+    "seasons": ["winter"],
+    "location": "Ocean",
+    "weather": "both",
+    "time": "6:00 AM – 8:00 PM",
+    "difficulty": 95,
+    "sellPrice": 1500,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 38,
+      "health": 17
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Son of Crimsonfish.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "899",
+    "name": "Ms. Angler",
+    "description": "Uses a bioluminescent dangler to attract prey.",
+    "catchType": "rod",
+    "category": "legendary-2",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "River",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 85,
+    "sellPrice": 900,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Ms. Angler.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "900",
+    "name": "Legend II",
+    "description": "The successor to the original Legend.",
+    "catchType": "rod",
+    "category": "legendary-2",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Mountain Lake",
+    "weather": "rainy",
+    "time": "6:00 AM – 8:00 PM",
+    "difficulty": 110,
+    "sellPrice": 5000,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 500,
+      "health": 225
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Legend II.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "901",
+    "name": "Radioactive Carp",
+    "description": "A carp that spent one too many years in toxic sludge.",
+    "catchType": "rod",
+    "category": "legendary-2",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Sewers",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "difficulty": 80,
+    "sellPrice": 1000,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Radioactive Carp.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "902",
+    "name": "Glacierfish Jr.",
+    "description": "The original Glacierfish had a son...",
+    "catchType": "rod",
+    "category": "legendary-2",
+    "seasons": ["winter"],
+    "location": "Forest (Arrowhead Island)",
+    "weather": "sunny",
+    "time": "6:00 AM – 8:00 PM",
+    "difficulty": 100,
+    "sellPrice": 1000,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": 25,
+      "health": 11
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Glacierfish Jr.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "Goby",
+    "name": "Goby",
+    "description": "Some types of Gobies can climb up waterfalls.",
+    "catchType": "rod",
+    "category": "regular",
+    "seasons": ["spring", "summer", "fall"],
+    "location": "Forest (waterfalls)",
+    "weather": "both",
+    "time": "8:00 AM – 6:00 PM",
+    "difficulty": 55,
+    "sellPrice": 150,
+    "profession": ["fisher", "angler"],
+    "fishTank": true,
+    "usedIn": ["Maki Roll", "Quality Fertilizer", "Sashimi"],
+    "energyHealth": {
+      "energy": -62,
+      "health": 0,
+      "poison": true
+    },
+    "maxQuality": "iridium",
+    "image": "images/fish/Goby.png",
+    "canSmoke": true,
+    "roe": "roe",
+    "fishPond": {
+      "produce": [
+        {
+          "product": "Roe",
+          "minPopulation": 1
+        },
+        {
+          "product": "Gold Ore",
+          "minPopulation": 5
+        },
+        {
+          "product": "Maple Syrup",
+          "minPopulation": 5
+        },
+        {
+          "product": "Mixed Seeds",
+          "minPopulation": 5
+        },
+        {
+          "product": "Crayfish",
+          "minPopulation": 7
+        },
+        {
+          "product": "Honey",
+          "minPopulation": 7
+        },
+        {
+          "product": "Jade",
+          "minPopulation": 7
+        },
+        {
+          "product": "Periwinkle",
+          "minPopulation": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "SeaJelly",
+    "name": "Sea Jelly",
+    "description": "A rare jelly found in the ocean.",
+    "catchType": "rod",
+    "category": "other",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Saltwater locations",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "sellPrice": 200,
+    "profession": [],
+    "fishTank": false,
+    "usedIn": [],
+    "energyHealth": {
+      "energy": 88,
+      "health": 39
+    },
+    "maxQuality": "base",
+    "image": "images/fish/jelly/Sea Jelly.png",
+    "canSmoke": true,
+    "roe": null,
+    "fishPond": null
+  },
+  {
+    "id": "RiverJelly",
+    "name": "River Jelly",
+    "description": "A rare jelly found in freshwater.",
+    "catchType": "rod",
+    "category": "other",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Freshwater locations",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "sellPrice": 125,
+    "profession": [],
+    "fishTank": false,
+    "usedIn": [],
+    "energyHealth": {
+      "energy": 75,
+      "health": 33
+    },
+    "maxQuality": "base",
+    "image": "images/fish/jelly/River Jelly.png",
+    "canSmoke": true,
+    "roe": null,
+    "fishPond": null
+  },
+  {
+    "id": "CaveJelly",
+    "name": "Cave Jelly",
+    "description": "A rare jelly found in underground lakes.",
+    "catchType": "rod",
+    "category": "other",
+    "seasons": ["spring", "summer", "fall", "winter"],
+    "location": "Mines (levels 20, 60, and 100)",
+    "weather": "both",
+    "time": "6:00 AM – 2:00 AM",
+    "sellPrice": 180,
+    "profession": [],
+    "fishTank": false,
+    "usedIn": [],
+    "energyHealth": {
+      "energy": 75,
+      "health": 33
+    },
+    "maxQuality": "base",
+    "image": "images/fish/jelly/Cave Jelly.png",
+    "canSmoke": true,
+    "roe": null,
+    "fishPond": null
+  }
+]

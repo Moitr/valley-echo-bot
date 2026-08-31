@@ -1,0 +1,2308 @@
+[
+  {
+    "id": "80",
+    "name": "Quartz",
+    "kind": "mineral",
+    "description": "A clear crystal commonly found in caves and mines.",
+    "sellPrice": 25,
+    "profession": ["gemologist"],
+    "gemologistPrice": 32,
+    "locations": ["The Mines (Floors 1-120)", "Garbage Can", "Stone Golem (10%)"],
+    "image": "images/minerals/foraged-minerals/Quartz.png"
+  },
+  {
+    "id": "86",
+    "name": "Earth Crystal",
+    "kind": "mineral",
+    "description": "A resinous substance found near the surface.",
+    "sellPrice": 50,
+    "profession": ["gemologist"],
+    "gemologistPrice": 65,
+    "locations": ["The Mines (Floors 1-39)", "Duggy (10%)", "Geode", "Omni Geode", "Panning"],
+    "image": "images/minerals/foraged-minerals/Earth Crystal.png"
+  },
+  {
+    "id": "84",
+    "name": "Frozen Tear",
+    "kind": "mineral",
+    "description": "A crystal fabled to be the frozen tears of a yeti.",
+    "sellPrice": 75,
+    "profession": ["gemologist"],
+    "gemologistPrice": 97,
+    "locations": ["The Mines (Floors 40-79)", "Frozen Geode", "Omni Geode", "Panning"],
+    "image": "images/minerals/foraged-minerals/Frozen Tear.png"
+  },
+  {
+    "id": "82",
+    "name": "Fire Quartz",
+    "kind": "mineral",
+    "description": "A glowing red crystal commonly found near hot lava.",
+    "sellPrice": 100,
+    "profession": ["gemologist"],
+    "gemologistPrice": 130,
+    "locations": ["The Mines (Floors 80-120)", "Magma Geode", "Omni Geode", "Panning"],
+    "image": "images/minerals/foraged-minerals/Fire Quartz.png"
+  },
+  {
+    "id": "60",
+    "name": "Emerald",
+    "kind": "mineral",
+    "description": "A precious stone with a brilliant green color.",
+    "sellPrice": 250,
+    "profession": ["gemologist"],
+    "gemologistPrice": 325,
+    "locations": [
+      "Emerald Node",
+      "Gem Node",
+      "Dwarvish Sentry",
+      "Panning",
+      "Fishing Treasure Chest"
+    ],
+    "image": "images/minerals/gems/Emerald.png"
+  },
+  {
+    "id": "62",
+    "name": "Aquamarine",
+    "kind": "mineral",
+    "description": "A shimmery blue-green gem.",
+    "sellPrice": 180,
+    "profession": ["gemologist"],
+    "gemologistPrice": 234,
+    "locations": [
+      "Aquamarine Node",
+      "Gem Node",
+      "Dwarvish Sentry",
+      "Panning",
+      "Fishing Treasure Chest"
+    ],
+    "image": "images/minerals/gems/Aquamarine.png"
+  },
+  {
+    "id": "64",
+    "name": "Ruby",
+    "kind": "mineral",
+    "description": "A precious stone sought after for its rich color and beautiful luster.",
+    "sellPrice": 250,
+    "profession": ["gemologist"],
+    "gemologistPrice": 325,
+    "locations": ["Ruby Node", "Gem Node", "Dwarvish Sentry", "Panning", "Fishing Treasure Chest"],
+    "image": "images/minerals/gems/Ruby.png"
+  },
+  {
+    "id": "66",
+    "name": "Amethyst",
+    "kind": "mineral",
+    "description": "A purple variant of quartz.",
+    "sellPrice": 100,
+    "profession": ["gemologist"],
+    "gemologistPrice": 130,
+    "locations": ["Amethyst Node", "Gem Node", "Green Slimes", "Dwarvish Sentry", "Panning"],
+    "image": "images/minerals/gems/Amethyst.png"
+  },
+  {
+    "id": "68",
+    "name": "Topaz",
+    "kind": "mineral",
+    "description": "Fairly common but still prized for its beauty.",
+    "sellPrice": 80,
+    "profession": ["gemologist"],
+    "gemologistPrice": 104,
+    "locations": ["Topaz Node", "Gem Node", "Dwarvish Sentry", "Panning", "Fishing Treasure Chest"],
+    "image": "images/minerals/gems/Topaz.png"
+  },
+  {
+    "id": "70",
+    "name": "Jade",
+    "kind": "mineral",
+    "description": "A pale green ornamental stone.",
+    "sellPrice": 200,
+    "profession": ["gemologist"],
+    "gemologistPrice": 260,
+    "locations": [
+      "Jade Node",
+      "Gem Node",
+      "Blue Slimes",
+      "Dwarvish Sentry",
+      "Fishing Treasure Chest"
+    ],
+    "image": "images/minerals/gems/Jade.png"
+  },
+  {
+    "id": "72",
+    "name": "Diamond",
+    "kind": "mineral",
+    "description": "A rare and valuable gem.",
+    "sellPrice": 750,
+    "profession": ["gemologist"],
+    "gemologistPrice": 974,
+    "locations": [
+      "Diamond Node",
+      "Gem Node",
+      "Dwarvish Sentry",
+      "Panning",
+      "Monster drops (0.05%)"
+    ],
+    "image": "images/minerals/gems/Diamond.png"
+  },
+  {
+    "id": "74",
+    "name": "Prismatic Shard",
+    "kind": "mineral",
+    "description": "A very rare and powerful substance with unknown origins.",
+    "sellPrice": 2000,
+    "profession": ["gemologist"],
+    "gemologistPrice": 2600,
+    "locations": [
+      "Iridium Node (4%)",
+      "Mystic Stone (25%)",
+      "Omni Geode (0.4%)",
+      "Shadow creatures",
+      "Fishing Treasure Chest"
+    ],
+    "image": "images/minerals/gems/Prismatic Shard.png"
+  },
+  {
+    "id": "562",
+    "name": "Tigerseye",
+    "kind": "mineral",
+    "description": "A stripe of shimmering gold gives this gem a warm luster.",
+    "sellPrice": 275,
+    "profession": ["gemologist"],
+    "gemologistPrice": 357,
+    "locations": ["Magma Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Tigerseye.png"
+  },
+  {
+    "id": "564",
+    "name": "Opal",
+    "kind": "mineral",
+    "description": "Its internal structure causes it to reflect a rainbow of light.",
+    "sellPrice": 150,
+    "profession": ["gemologist"],
+    "gemologistPrice": 195,
+    "locations": ["Frozen Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Opal.png"
+  },
+  {
+    "id": "565",
+    "name": "Fire Opal",
+    "kind": "mineral",
+    "description": "A rare variety of opal, named for its red spots.",
+    "sellPrice": 350,
+    "profession": ["gemologist"],
+    "gemologistPrice": 455,
+    "locations": ["Magma Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Fire Opal.png"
+  },
+  {
+    "id": "538",
+    "name": "Alamite",
+    "kind": "mineral",
+    "description": "Its distinctive fluorescence makes it a favorite among rock collectors.",
+    "sellPrice": 150,
+    "profession": ["gemologist"],
+    "gemologistPrice": 195,
+    "locations": ["Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Alamite.png"
+  },
+  {
+    "id": "539",
+    "name": "Bixite",
+    "kind": "mineral",
+    "description": "A dark metallic Mineral sought after for its cubic structure.",
+    "sellPrice": 300,
+    "profession": ["gemologist"],
+    "gemologistPrice": 390,
+    "locations": ["Magma Geode", "Omni Geode", "Black Slime"],
+    "image": "images/minerals/geode-minerals/Bixite.png"
+  },
+  {
+    "id": "540",
+    "name": "Baryte",
+    "kind": "mineral",
+    "description": "The best specimens resemble a desert rose.",
+    "sellPrice": 50,
+    "profession": ["gemologist"],
+    "gemologistPrice": 65,
+    "locations": ["Magma Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Baryte.png"
+  },
+  {
+    "id": "541",
+    "name": "Aerinite",
+    "kind": "mineral",
+    "description": "These crystals are curiously light.",
+    "sellPrice": 125,
+    "profession": ["gemologist"],
+    "gemologistPrice": 162,
+    "locations": ["Frozen Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Aerinite.png"
+  },
+  {
+    "id": "542",
+    "name": "Calcite",
+    "kind": "mineral",
+    "description": "This yellow crystal is speckled with shimmering nodules.",
+    "sellPrice": 75,
+    "profession": ["gemologist"],
+    "gemologistPrice": 97,
+    "locations": ["Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Calcite.png"
+  },
+  {
+    "id": "543",
+    "name": "Dolomite",
+    "kind": "mineral",
+    "description": "It can occur in coral reefs, often near an underwater volcano.",
+    "sellPrice": 300,
+    "profession": ["gemologist"],
+    "gemologistPrice": 390,
+    "locations": ["Magma Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Dolomite.png"
+  },
+  {
+    "id": "544",
+    "name": "Esperite",
+    "kind": "mineral",
+    "description": "The crystals glow bright green when stimulated.",
+    "sellPrice": 100,
+    "profession": ["gemologist"],
+    "gemologistPrice": 130,
+    "locations": ["Frozen Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Esperite.png"
+  },
+  {
+    "id": "545",
+    "name": "Fluorapatite",
+    "kind": "mineral",
+    "description": "Small amounts are found in human teeth.",
+    "sellPrice": 200,
+    "profession": ["gemologist"],
+    "gemologistPrice": 260,
+    "locations": ["Frozen Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Fluorapatite.png"
+  },
+  {
+    "id": "546",
+    "name": "Geminite",
+    "kind": "mineral",
+    "description": "Occurs in brilliant clusters.",
+    "sellPrice": 150,
+    "profession": ["gemologist"],
+    "gemologistPrice": 195,
+    "locations": ["Frozen Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Geminite.png"
+  },
+  {
+    "id": "547",
+    "name": "Helvite",
+    "kind": "mineral",
+    "description": "It grows in a triangular column.",
+    "sellPrice": 450,
+    "profession": ["gemologist"],
+    "gemologistPrice": 585,
+    "locations": ["Magma Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Helvite.png"
+  },
+  {
+    "id": "548",
+    "name": "Jamborite",
+    "kind": "mineral",
+    "description": "The crystals are so tightly packed it almost looks fuzzy.",
+    "sellPrice": 150,
+    "profession": ["gemologist"],
+    "gemologistPrice": 195,
+    "locations": ["Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Jamborite.png"
+  },
+  {
+    "id": "549",
+    "name": "Jagoite",
+    "kind": "mineral",
+    "description": "A high volume of tiny crystals makes it very glittery.",
+    "sellPrice": 115,
+    "profession": ["gemologist"],
+    "gemologistPrice": 149,
+    "locations": ["Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Jagoite.png"
+  },
+  {
+    "id": "550",
+    "name": "Kyanite",
+    "kind": "mineral",
+    "description": "The geometric faces are as smooth as glass.",
+    "sellPrice": 250,
+    "profession": ["gemologist"],
+    "gemologistPrice": 325,
+    "locations": ["Frozen Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Kyanite.png"
+  },
+  {
+    "id": "551",
+    "name": "Lunarite",
+    "kind": "mineral",
+    "description": "The cratered white orbs form a tight cluster.",
+    "sellPrice": 200,
+    "profession": ["gemologist"],
+    "gemologistPrice": 260,
+    "locations": ["Frozen Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Lunarite.png"
+  },
+  {
+    "id": "552",
+    "name": "Malachite",
+    "kind": "mineral",
+    "description": "A popular ornamental stone, used in sculpture and to make green paint.",
+    "sellPrice": 100,
+    "profession": ["gemologist"],
+    "gemologistPrice": 130,
+    "locations": ["Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Malachite.png"
+  },
+  {
+    "id": "553",
+    "name": "Neptunite",
+    "kind": "mineral",
+    "description": "A jet-black crystal that is unusually reflective.",
+    "sellPrice": 400,
+    "profession": ["gemologist"],
+    "gemologistPrice": 520,
+    "locations": ["Magma Geode", "Omni Geode", "Black Slime"],
+    "image": "images/minerals/geode-minerals/Neptunite.png"
+  },
+  {
+    "id": "554",
+    "name": "Lemon Stone",
+    "kind": "mineral",
+    "description": "Some claim the powdered crystal is a dwarvish delicacy.",
+    "sellPrice": 200,
+    "profession": ["gemologist"],
+    "gemologistPrice": 260,
+    "locations": ["Magma Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Lemon Stone.png"
+  },
+  {
+    "id": "555",
+    "name": "Nekoite",
+    "kind": "mineral",
+    "description": "The delicate shards form a tiny pink meadow.",
+    "sellPrice": 80,
+    "profession": ["gemologist"],
+    "gemologistPrice": 104,
+    "locations": ["Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Nekoite.png"
+  },
+  {
+    "id": "556",
+    "name": "Orpiment",
+    "kind": "mineral",
+    "description": "Despite its high toxicity, used widely in manufacturing and folk medicine.",
+    "sellPrice": 80,
+    "profession": ["gemologist"],
+    "gemologistPrice": 104,
+    "locations": ["Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Orpiment.png"
+  },
+  {
+    "id": "557",
+    "name": "Petrified Slime",
+    "kind": "mineral",
+    "description": "This little guy may be 100,000 years old.",
+    "sellPrice": 120,
+    "profession": ["gemologist"],
+    "gemologistPrice": 156,
+    "locations": ["Geode", "Omni Geode", "Slime Ball"],
+    "image": "images/minerals/geode-minerals/Petrified Slime.png"
+  },
+  {
+    "id": "558",
+    "name": "Thunder Egg",
+    "kind": "mineral",
+    "description": "According to legend, angry thunder spirits would throw these stones.",
+    "sellPrice": 100,
+    "profession": ["gemologist"],
+    "gemologistPrice": 130,
+    "locations": ["Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Thunder Egg.png"
+  },
+  {
+    "id": "559",
+    "name": "Pyrite",
+    "kind": "mineral",
+    "description": "Commonly known as \"Fool's Gold\".",
+    "sellPrice": 120,
+    "profession": ["gemologist"],
+    "gemologistPrice": 156,
+    "locations": ["Frozen Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Pyrite.png"
+  },
+  {
+    "id": "560",
+    "name": "Ocean Stone",
+    "kind": "mineral",
+    "description": "An old legend claims these stones are the mosaics of ancient mermaids.",
+    "sellPrice": 220,
+    "profession": ["gemologist"],
+    "gemologistPrice": 286,
+    "locations": ["Frozen Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Ocean Stone.png"
+  },
+  {
+    "id": "561",
+    "name": "Ghost Crystal",
+    "kind": "mineral",
+    "description": "There is an aura of coldness around this crystal.",
+    "sellPrice": 200,
+    "profession": ["gemologist"],
+    "gemologistPrice": 260,
+    "locations": ["Frozen Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Ghost Crystal.png"
+  },
+  {
+    "id": "563",
+    "name": "Jasper",
+    "kind": "mineral",
+    "description": "When polished, becomes attractively luminous. Prized by ancient peoples.",
+    "sellPrice": 150,
+    "profession": ["gemologist"],
+    "gemologistPrice": 195,
+    "locations": ["Magma Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Jasper.png"
+  },
+  {
+    "id": "566",
+    "name": "Celestine",
+    "kind": "mineral",
+    "description": "Some early life forms had bones made from this.",
+    "sellPrice": 125,
+    "profession": ["gemologist"],
+    "gemologistPrice": 162,
+    "locations": ["Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Celestine.png"
+  },
+  {
+    "id": "567",
+    "name": "Marble",
+    "kind": "mineral",
+    "description": "A very popular material for sculptures and construction.",
+    "sellPrice": 110,
+    "profession": ["gemologist"],
+    "gemologistPrice": 143,
+    "locations": ["Frozen Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Marble.png"
+  },
+  {
+    "id": "568",
+    "name": "Sandstone",
+    "kind": "mineral",
+    "description": "A common type of stone with red and brown striations.",
+    "sellPrice": 60,
+    "profession": ["gemologist"],
+    "gemologistPrice": 78,
+    "locations": ["Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Sandstone.png"
+  },
+  {
+    "id": "569",
+    "name": "Granite",
+    "kind": "mineral",
+    "description": "A speckled Mineral that is commonly used in construction.",
+    "sellPrice": 75,
+    "profession": ["gemologist"],
+    "gemologistPrice": 97,
+    "locations": ["Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Granite.png"
+  },
+  {
+    "id": "570",
+    "name": "Basalt",
+    "kind": "mineral",
+    "description": "Forms near searing hot magma.",
+    "sellPrice": 175,
+    "profession": ["gemologist"],
+    "gemologistPrice": 227,
+    "locations": ["Magma Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Basalt.png"
+  },
+  {
+    "id": "571",
+    "name": "Limestone",
+    "kind": "mineral",
+    "description": "A very common type of stone. It's not worth very much.",
+    "sellPrice": 15,
+    "profession": ["gemologist"],
+    "gemologistPrice": 19,
+    "locations": ["Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Limestone.png"
+  },
+  {
+    "id": "572",
+    "name": "Soapstone",
+    "kind": "mineral",
+    "description": "Because of its soft consistency, very popular for carving.",
+    "sellPrice": 120,
+    "profession": ["gemologist"],
+    "gemologistPrice": 156,
+    "locations": ["Frozen Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Soapstone.png"
+  },
+  {
+    "id": "573",
+    "name": "Hematite",
+    "kind": "mineral",
+    "description": "An iron-based Mineral with interesting magnetic properties.",
+    "sellPrice": 150,
+    "profession": ["gemologist"],
+    "gemologistPrice": 195,
+    "locations": ["Frozen Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Hematite.png"
+  },
+  {
+    "id": "574",
+    "name": "Mudstone",
+    "kind": "mineral",
+    "description": "A fine-grained rock made from ancient clay or mud.",
+    "sellPrice": 25,
+    "profession": ["gemologist"],
+    "gemologistPrice": 32,
+    "locations": ["Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Mudstone.png"
+  },
+  {
+    "id": "575",
+    "name": "Obsidian",
+    "kind": "mineral",
+    "description": "A volcanic glass that forms when lava cools rapidly.",
+    "sellPrice": 200,
+    "profession": ["gemologist"],
+    "gemologistPrice": 260,
+    "locations": ["Magma Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Obsidian.png"
+  },
+  {
+    "id": "576",
+    "name": "Slate",
+    "kind": "mineral",
+    "description": "It's extremely resistant to water, making it a good roofing material.",
+    "sellPrice": 85,
+    "profession": ["gemologist"],
+    "gemologistPrice": 110,
+    "locations": ["Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Slate.png"
+  },
+  {
+    "id": "577",
+    "name": "Fairy Stone",
+    "kind": "mineral",
+    "description": "An old miner's song suggests these are made from ancient fairy bones.",
+    "sellPrice": 250,
+    "profession": ["gemologist"],
+    "gemologistPrice": 325,
+    "locations": ["Frozen Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Fairy Stone.png"
+  },
+  {
+    "id": "578",
+    "name": "Star Shards",
+    "kind": "mineral",
+    "description": "No one knows how these form. Microscopic structure displays unnatural regularity.",
+    "sellPrice": 500,
+    "profession": ["gemologist"],
+    "gemologistPrice": 650,
+    "locations": ["Magma Geode", "Omni Geode"],
+    "image": "images/minerals/geode-minerals/Star Shards.png"
+  },
+  {
+    "id": "535",
+    "name": "Geode",
+    "kind": "geode",
+    "description": "A blacksmith can break this open for you.",
+    "sellPrice": 50,
+    "profession": [],
+    "locations": ["The Mines (Floors 1-39)", "Duggy (25%)", "Tilling", "Fishing Treasure Chest"],
+    "image": "images/minerals/geodes/Geode.png"
+  },
+  {
+    "id": "536",
+    "name": "Frozen Geode",
+    "kind": "geode",
+    "description": "A blacksmith can break this open for you.",
+    "sellPrice": 100,
+    "profession": [],
+    "locations": ["The Mines (Floors 41-79)", "Fishing Treasure Chest", "Winter Tilling"],
+    "image": "images/minerals/geodes/Frozen Geode.png"
+  },
+  {
+    "id": "537",
+    "name": "Magma Geode",
+    "kind": "geode",
+    "description": "A blacksmith can break this open for you.",
+    "sellPrice": 150,
+    "profession": [],
+    "locations": ["The Mines (Floors 81-120)", "Skull Cavern", "Fishing Treasure Chest"],
+    "image": "images/minerals/geodes/Magma Geode.png"
+  },
+  {
+    "id": "749",
+    "name": "Omni Geode",
+    "kind": "geode",
+    "description": "A blacksmith can break this open for you. Contains a wide variety of minerals.",
+    "sellPrice": 0,
+    "profession": [],
+    "locations": ["The Mines", "Skull Cavern", "Carbon Ghost", "Panning", "Oasis", "Krobus"],
+    "image": "images/minerals/geodes/Omni Geode.png"
+  },
+  {
+    "id": "378",
+    "name": "Copper Ore",
+    "kind": "ore",
+    "description": "A common ore that can be smelted into bars.",
+    "sellPrice": 5,
+    "profession": [],
+    "locations": ["The Mines (Floors 2-39)", "Quarry", "Skull Cavern", "Volcano Dungeon"],
+    "image": "images/minerals/ore/Copper Ore.png"
+  },
+  {
+    "id": "380",
+    "name": "Iron Ore",
+    "kind": "ore",
+    "description": "A fairly common ore that can be smelted into bars.",
+    "sellPrice": 10,
+    "profession": [],
+    "locations": ["The Mines (Floors 41-79)", "Quarry", "Skull Cavern", "Volcano Dungeon"],
+    "image": "images/minerals/ore/Iron Ore.png"
+  },
+  {
+    "id": "384",
+    "name": "Gold Ore",
+    "kind": "ore",
+    "description": "A precious ore that can be smelted into bars.",
+    "sellPrice": 25,
+    "profession": [],
+    "locations": ["The Mines (Floors 80+)", "Skull Cavern", "Quarry", "Volcano Dungeon"],
+    "image": "images/minerals/ore/Gold Ore.png"
+  },
+  {
+    "id": "386",
+    "name": "Iridium Ore",
+    "kind": "ore",
+    "description": "An exotic ore with many curious properties. Can be smelted into bars.",
+    "sellPrice": 100,
+    "profession": [],
+    "locations": ["Skull Cavern", "Quarry", "Volcano Dungeon", "Mystic Stone (Mines Floor 100+)"],
+    "image": "images/minerals/ore/Iridium Ore.png"
+  },
+  {
+    "id": "909",
+    "name": "Radioactive Ore",
+    "kind": "ore",
+    "description": "It's glowing with dangerous energy... Can be smelted into bars.",
+    "sellPrice": 300,
+    "profession": [],
+    "locations": ["Dangerous Mines", "Dangerous Skull Cavern"],
+    "image": "images/minerals/ore/Radioactive Ore.png"
+  },
+  {
+    "id": "334",
+    "name": "Copper Bar",
+    "kind": "bar",
+    "description": "A bar of pure copper.",
+    "sellPrice": 60,
+    "profession": ["blacksmith"],
+    "smeltRecipes": [
+      {
+        "ore": "378",
+        "oreQty": 5,
+        "coalQty": 1,
+        "timeMinutes": 30
+      }
+    ],
+    "image": "images/minerals/bars/Copper Bar.png"
+  },
+  {
+    "id": "335",
+    "name": "Iron Bar",
+    "kind": "bar",
+    "description": "A bar of pure iron.",
+    "sellPrice": 120,
+    "profession": ["blacksmith"],
+    "smeltRecipes": [
+      {
+        "ore": "380",
+        "oreQty": 5,
+        "coalQty": 1,
+        "timeMinutes": 120
+      }
+    ],
+    "image": "images/minerals/bars/Iron Bar.png"
+  },
+  {
+    "id": "336",
+    "name": "Gold Bar",
+    "kind": "bar",
+    "description": "A bar of pure gold.",
+    "sellPrice": 250,
+    "profession": ["blacksmith"],
+    "smeltRecipes": [
+      {
+        "ore": "384",
+        "oreQty": 5,
+        "coalQty": 1,
+        "timeMinutes": 300
+      }
+    ],
+    "image": "images/minerals/bars/Gold Bar.png"
+  },
+  {
+    "id": "337",
+    "name": "Iridium Bar",
+    "kind": "bar",
+    "description": "A bar of pure iridium.",
+    "sellPrice": 1000,
+    "profession": ["blacksmith"],
+    "smeltRecipes": [
+      {
+        "ore": "386",
+        "oreQty": 5,
+        "coalQty": 1,
+        "timeMinutes": 480
+      }
+    ],
+    "image": "images/minerals/bars/Iridium Bar.png"
+  },
+  {
+    "id": "910",
+    "name": "Radioactive Bar",
+    "kind": "bar",
+    "description": "Known by the Zuzu City Safety Commission to cause irreversible bodily harm.",
+    "sellPrice": 3000,
+    "profession": ["blacksmith"],
+    "smeltRecipes": [
+      {
+        "ore": "909",
+        "oreQty": 5,
+        "coalQty": 1,
+        "timeMinutes": 560
+      }
+    ],
+    "image": "images/minerals/bars/Radioactive Bar.png"
+  },
+  {
+    "id": "338",
+    "name": "Refined Quartz",
+    "kind": "bar",
+    "description": "A more pure form of quartz.",
+    "sellPrice": 50,
+    "profession": [],
+    "smeltRecipes": [
+      {
+        "ore": "80",
+        "oreQty": 1,
+        "coalQty": 1,
+        "timeMinutes": 90
+      },
+      {
+        "ore": "82",
+        "oreQty": 1,
+        "coalQty": 1,
+        "timeMinutes": 90,
+        "outputQty": 3
+      }
+    ],
+    "image": "images/minerals/bars/Refined Quartz.png"
+  },
+  {
+    "id": "382",
+    "name": "Coal",
+    "kind": "resource",
+    "description": "A combustible rock that is useful for crafting and smelting.",
+    "sellPrice": 15,
+    "profession": [],
+    "locations": [
+      "Breaking rocks in The Mines",
+      "Dust Sprites (50% drop, Floors 41-79)",
+      "Coal Nodes (Quarry, Quarry Mine, Volcano Dungeon)",
+      "Charcoal Kiln (10 Wood → 1 Coal)",
+      "Recycling Machine (Trash or Driftwood)",
+      "Crates and barrels in Mines/Skull Cavern/Volcano Dungeon",
+      "Geodes (all types)",
+      "Fishing Treasure Chests",
+      "Panning",
+      "Blacksmith shop"
+    ],
+    "image": "images/minerals/ore/Coal.png"
+  },
+  {
+    "id": "copper-node",
+    "name": "Copper Node",
+    "kind": "node",
+    "description": "Ore-bearing stone containing copper.",
+    "drops": [
+      {
+        "item": "Copper Ore",
+        "quantity": "1-3"
+      }
+    ],
+    "miningXP": 5,
+    "locations": [
+      "The Mines (any floor)",
+      "Skull Cavern",
+      "Quarry",
+      "Quarry Mine",
+      "Hill-top / Four Corners farm",
+      "Volcano Dungeon"
+    ],
+    "image": "images/minerals/nodes/Copper Node.png"
+  },
+  {
+    "id": "iron-node",
+    "name": "Iron Node",
+    "kind": "node",
+    "description": "Ore-bearing stone containing iron.",
+    "drops": [
+      {
+        "item": "Iron Ore",
+        "quantity": "1-3"
+      }
+    ],
+    "miningXP": 12,
+    "locations": [
+      "The Mines (Floors 40-79)",
+      "Quarry",
+      "Skull Cavern",
+      "Quarry Mine",
+      "Hill-top / Four Corners farm (Mining Level 4+)",
+      "Volcano Dungeon"
+    ],
+    "image": "images/minerals/nodes/Iron Node.png"
+  },
+  {
+    "id": "gold-node",
+    "name": "Gold Node",
+    "kind": "node",
+    "description": "Ore-bearing stone containing gold.",
+    "drops": [
+      {
+        "item": "Gold Ore",
+        "quantity": "1-3"
+      }
+    ],
+    "miningXP": 18,
+    "locations": [
+      "The Mines (Floor 80+)",
+      "Skull Cavern",
+      "Quarry",
+      "Hill-top / Four Corners farm (Mining Level 7+)",
+      "Volcano Dungeon"
+    ],
+    "image": "images/minerals/nodes/Gold Node.png"
+  },
+  {
+    "id": "iridium-node",
+    "name": "Iridium Node",
+    "kind": "node",
+    "description": "A rare ore deposit containing iridium.",
+    "drops": [
+      {
+        "item": "Iridium Ore",
+        "quantity": "1-3"
+      },
+      {
+        "item": "Prismatic Shard",
+        "quantity": "1",
+        "chance": "3.5%"
+      }
+    ],
+    "miningXP": 50,
+    "locations": [
+      "Skull Cavern",
+      "Quarry",
+      "Hill-top / Four Corners farm (Mining Level 10)",
+      "Volcano Dungeon"
+    ],
+    "image": "images/minerals/nodes/Iridium Node.png"
+  },
+  {
+    "id": "radioactive-node",
+    "name": "Radioactive Node",
+    "kind": "node",
+    "description": "A glowing, dangerous ore deposit.",
+    "drops": [
+      {
+        "item": "Radioactive Ore",
+        "quantity": "1+"
+      }
+    ],
+    "miningXP": 18,
+    "locations": ["Dangerous Mines", "Dangerous Skull Cavern"],
+    "image": "images/minerals/nodes/Radioactive Node.png"
+  },
+  {
+    "id": "amethyst-node",
+    "name": "Amethyst Node",
+    "kind": "node",
+    "description": null,
+    "drops": [
+      {
+        "item": "Amethyst",
+        "quantity": "1"
+      }
+    ],
+    "miningXP": 16,
+    "locations": ["The Mines (any floor)", "Skull Cavern", "Quarry"],
+    "image": "images/minerals/nodes/Amethyst Node.png"
+  },
+  {
+    "id": "aquamarine-node",
+    "name": "Aquamarine Node",
+    "kind": "node",
+    "description": null,
+    "drops": [
+      {
+        "item": "Aquamarine",
+        "quantity": "1"
+      }
+    ],
+    "miningXP": 40,
+    "locations": ["The Mines (Floor 40+)", "Skull Cavern", "Quarry"],
+    "image": "images/minerals/nodes/Aquamarine Node.png"
+  },
+  {
+    "id": "topaz-node",
+    "name": "Topaz Node",
+    "kind": "node",
+    "description": null,
+    "drops": [
+      {
+        "item": "Topaz",
+        "quantity": "1"
+      }
+    ],
+    "miningXP": 16,
+    "locations": ["The Mines (any floor)", "Skull Cavern", "Quarry"],
+    "image": "images/minerals/nodes/Topaz Node.png"
+  },
+  {
+    "id": "jade-node",
+    "name": "Jade Node",
+    "kind": "node",
+    "description": null,
+    "drops": [
+      {
+        "item": "Jade",
+        "quantity": "1"
+      }
+    ],
+    "miningXP": 40,
+    "locations": ["The Mines (Floor 40+)", "Skull Cavern", "Quarry"],
+    "image": "images/minerals/nodes/Jade Node.png"
+  },
+  {
+    "id": "emerald-node",
+    "name": "Emerald Node",
+    "kind": "node",
+    "description": null,
+    "drops": [
+      {
+        "item": "Emerald",
+        "quantity": "1"
+      }
+    ],
+    "miningXP": 80,
+    "locations": ["The Mines (Floor 80+)", "Skull Cavern", "Quarry"],
+    "image": "images/minerals/nodes/Emerald Node.png"
+  },
+  {
+    "id": "ruby-node",
+    "name": "Ruby Node",
+    "kind": "node",
+    "description": null,
+    "drops": [
+      {
+        "item": "Ruby",
+        "quantity": "1"
+      }
+    ],
+    "miningXP": 80,
+    "locations": ["The Mines (Floor 80+)", "Skull Cavern", "Quarry", "Volcano Dungeon"],
+    "image": "images/minerals/nodes/Ruby Node.png"
+  },
+  {
+    "id": "diamond-node",
+    "name": "Diamond Node",
+    "kind": "node",
+    "description": null,
+    "drops": [
+      {
+        "item": "Diamond",
+        "quantity": "1"
+      }
+    ],
+    "miningXP": 150,
+    "locations": ["The Mines (Floor 50+)", "Skull Cavern", "Quarry", "Volcano Dungeon"],
+    "image": "images/minerals/nodes/Diamond Node.png"
+  },
+  {
+    "id": "gem-node",
+    "name": "Gem Node",
+    "kind": "node",
+    "description": "Contains a random gem.",
+    "drops": [
+      {
+        "item": "Random gem (Amethyst, Aquamarine, Diamond, Emerald, Jade, Ruby, or Topaz)",
+        "quantity": "1"
+      }
+    ],
+    "miningXP": 0,
+    "locations": ["The Mines (any floor)", "Skull Cavern", "Quarry", "Volcano Dungeon"],
+    "image": "images/minerals/nodes/Gem Node.png"
+  },
+  {
+    "id": "mystic-stone",
+    "name": "Mystic Stone",
+    "kind": "node",
+    "description": "A rare and valuable deposit.",
+    "drops": [
+      {
+        "item": "Iridium Ore",
+        "quantity": "1-3"
+      },
+      {
+        "item": "Gold Ore",
+        "quantity": "1-4"
+      },
+      {
+        "item": "Prismatic Shard",
+        "quantity": "1",
+        "chance": "25%"
+      }
+    ],
+    "miningXP": 150,
+    "locations": ["The Mines (Floor 100+)", "Skull Cavern", "Quarry", "Volcano Dungeon"],
+    "image": "images/minerals/nodes/Mystic Stone.png"
+  },
+  {
+    "id": "geode-node",
+    "name": "Geode Node",
+    "kind": "node",
+    "description": null,
+    "drops": [
+      {
+        "item": "Geode",
+        "quantity": "1"
+      }
+    ],
+    "miningXP": 8,
+    "locations": ["Hill-top / Four Corners farm"],
+    "image": "images/minerals/nodes/Geode Node.png"
+  },
+  {
+    "id": "frozen-geode-node",
+    "name": "Frozen Geode Node",
+    "kind": "node",
+    "description": null,
+    "drops": [
+      {
+        "item": "Frozen Geode",
+        "quantity": "1"
+      }
+    ],
+    "miningXP": 16,
+    "locations": ["Hill-top / Four Corners farm (Mining Level 5+)"],
+    "image": "images/minerals/nodes/Frozen Geode Node.png"
+  },
+  {
+    "id": "magma-geode-node",
+    "name": "Magma Geode Node",
+    "kind": "node",
+    "description": null,
+    "drops": [
+      {
+        "item": "Magma Geode",
+        "quantity": "1"
+      }
+    ],
+    "miningXP": 32,
+    "locations": ["Hill-top / Four Corners farm (Mining Level 8+)"],
+    "image": "images/minerals/nodes/Magma Geode Node.png"
+  },
+  {
+    "id": "omni-geode-node",
+    "name": "Omni Geode Node",
+    "kind": "node",
+    "description": null,
+    "drops": [
+      {
+        "item": "Omni Geode",
+        "quantity": "1"
+      }
+    ],
+    "miningXP": 64,
+    "locations": ["Volcano Dungeon"],
+    "image": "images/minerals/nodes/Omni Geode Node.png"
+  },
+  {
+    "id": "coal-node",
+    "name": "Coal Node",
+    "kind": "node",
+    "description": "A deposit of coal fuel.",
+    "drops": [
+      {
+        "item": "Coal",
+        "quantity": "1+"
+      }
+    ],
+    "miningXP": 10,
+    "locations": ["Quarry", "Quarry Mine", "Volcano Dungeon"],
+    "image": "images/minerals/nodes/Coal Node 1.png"
+  },
+  {
+    "id": "cinder-shard-node",
+    "name": "Cinder Shard Node",
+    "kind": "node",
+    "description": null,
+    "drops": [
+      {
+        "item": "Cinder Shard",
+        "quantity": "1+"
+      }
+    ],
+    "miningXP": 12,
+    "locations": ["Volcano Dungeon"],
+    "image": "images/minerals/nodes/Cinder Shard Node 1.png"
+  },
+  {
+    "id": "clay-node",
+    "name": "Clay Node",
+    "kind": "node",
+    "description": null,
+    "drops": [
+      {
+        "item": "Clay",
+        "quantity": "1"
+      }
+    ],
+    "miningXP": 6,
+    "locations": ["Ginger Island Dig Site"],
+    "image": "images/minerals/nodes/Clay Node.png"
+  },
+  {
+    "id": "bone-node",
+    "name": "Bone Node",
+    "kind": "node",
+    "description": "Contains bone fragments and fossil artifacts.",
+    "drops": [
+      {
+        "item": "Bone Fragment",
+        "quantity": "1+"
+      },
+      {
+        "item": "Fossil artifact",
+        "quantity": "1",
+        "chance": "varies"
+      }
+    ],
+    "miningXP": 6,
+    "locations": ["Ginger Island Dig Site"],
+    "image": "images/minerals/nodes/Bone Node 1.png"
+  },
+  {
+    "id": "mussel-node",
+    "name": "Mussel Node",
+    "kind": "node",
+    "description": null,
+    "drops": [
+      {
+        "item": "Mussel",
+        "quantity": "1+"
+      }
+    ],
+    "miningXP": 5,
+    "locations": ["Ginger Island West (beach)"],
+    "image": "images/minerals/nodes/Mussel Node.png"
+  },
+  {
+    "id": "calico-egg-node",
+    "name": "Calico Egg Node",
+    "kind": "node",
+    "description": null,
+    "drops": [
+      {
+        "item": "Calico Egg",
+        "quantity": "1+"
+      }
+    ],
+    "miningXP": 50,
+    "locations": ["Skull Cavern (Desert Festival only)"],
+    "image": "images/minerals/nodes/Calico Egg Node 1.png"
+  },
+  {
+    "id": "rock",
+    "name": "Rock",
+    "kind": "node",
+    "description": "A standard breakable rock found outdoors.",
+    "drops": [
+      {
+        "item": "Stone",
+        "quantity": "1+"
+      },
+      {
+        "item": "Coal",
+        "quantity": "1",
+        "chance": "~5%"
+      }
+    ],
+    "miningXP": 1,
+    "locations": ["The Farm", "Various outdoor areas"],
+    "image": "images/minerals/nodes/Rock 1.png"
+  },
+  {
+    "id": "stone-node",
+    "name": "Stone Node",
+    "kind": "node",
+    "description": "A standard breakable rock inside the mines.",
+    "drops": [
+      {
+        "item": "Stone",
+        "quantity": "1+"
+      },
+      {
+        "item": "Coal",
+        "quantity": "1",
+        "chance": "small"
+      }
+    ],
+    "miningXP": 0,
+    "locations": ["The Mines (any floor)", "Volcano Dungeon"],
+    "image": "images/minerals/nodes/Stone 1.png"
+  },
+  {
+    "id": "848",
+    "name": "Cinder Shard",
+    "kind": "resource",
+    "description": "You can feel a warm glow from within this stone.",
+    "sellPrice": 50,
+    "profession": [],
+    "locations": [
+      "Volcano Dungeon (Cinder Shard Nodes)",
+      "Magma Sprite, Magma Sparker, Magma Duggy, False Magma Cap drops",
+      "Stingray Fish Pond (population 7+)",
+      "Skull Cavern treasure rooms"
+    ],
+    "image": "images/minerals/foraged-minerals/Cinder Shard.png"
+  },
+  {
+    "id": "881",
+    "name": "Bone Fragment",
+    "kind": "resource",
+    "description": "A small piece of bone.",
+    "sellPrice": 12,
+    "profession": [],
+    "locations": [
+      "Skeleton and Lava Lurk drops",
+      "Bone Nodes on Ginger Island",
+      "Skull Cavern (crates and barrels)",
+      "Panning",
+      "Artifact Spots"
+    ],
+    "image": "images/minerals/resources/Bone Fragment.png"
+  },
+  {
+    "id": "275",
+    "name": "Artifact Trove",
+    "kind": "geode",
+    "description": "A blacksmith can break this open for you. Contains a random artifact.",
+    "sellPrice": 0,
+    "profession": [],
+    "locations": ["Desert Trader (3 Omni Geodes)", "Skeleton Drops", "Fishing Treasure Chest"],
+    "image": "images/minerals/geodes/Artifact Trove.png",
+    "contents": [
+      {
+        "name": "Anchor",
+        "image": "images/artifacts/Anchor.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Ancient Doll",
+        "image": "images/artifacts/Ancient Doll.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Ancient Drum",
+        "image": "images/artifacts/Ancient Drum.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Ancient Seed",
+        "image": "images/artifacts/Ancient Seed.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Ancient Sword",
+        "image": "images/artifacts/Ancient Sword.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Arrowhead",
+        "image": "images/artifacts/Arrowhead.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Bone Flute",
+        "image": "images/artifacts/Bone Flute.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Chewing Stick",
+        "image": "images/artifacts/Chewing Stick.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Chicken Statue",
+        "image": "images/artifacts/Chicken Statue.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Chipped Amphora",
+        "image": "images/artifacts/Chipped Amphora.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Dried Starfish",
+        "image": "images/artifacts/Dried Starfish.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Dwarf Gadget",
+        "image": "images/artifacts/Dwarf Gadget.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Dwarvish Helm",
+        "image": "images/artifacts/Dwarvish Helm.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Elvish Jewelry",
+        "image": "images/artifacts/Elvish Jewelry.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Glass Shards",
+        "image": "images/artifacts/Glass Shards.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Golden Mask",
+        "image": "images/artifacts/Golden Mask.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Golden Pumpkin",
+        "chance": "~3.6%",
+        "image": "images/misc/Golden Pumpkin.png"
+      },
+      {
+        "name": "Golden Relic",
+        "image": "images/artifacts/Golden Relic.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Ornamental Fan",
+        "image": "images/artifacts/Ornamental Fan.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Pearl",
+        "image": "images/minerals/Pearl.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Prehistoric Handaxe",
+        "image": "images/artifacts/Prehistoric Handaxe.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Prehistoric Tool",
+        "image": "images/artifacts/Prehistoric Tool.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Rare Disc",
+        "image": "images/artifacts/Rare Disc.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Rusty Cog",
+        "image": "images/artifacts/Rusty Cog.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Rusty Spoon",
+        "image": "images/artifacts/Rusty Spoon.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Rusty Spur",
+        "image": "images/artifacts/Rusty Spur.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Treasure Appraisal Guide",
+        "image": "images/special-items/Treasure Appraisal Guide.png",
+        "chance": "~3.6%"
+      },
+      {
+        "name": "Treasure Chest",
+        "chance": "~3.6%",
+        "image": "images/misc/Treasure Chest.png"
+      }
+    ]
+  },
+  {
+    "id": "791",
+    "name": "Golden Coconut",
+    "kind": "geode",
+    "description": "A blacksmith can crack this open. The first one always yields a Golden Walnut.",
+    "sellPrice": 0,
+    "profession": [],
+    "locations": ["Ginger Island (dropped by enemies)", "Ginger Island (foraged)"],
+    "image": "images/minerals/geodes/Golden Coconut.png",
+    "contents": [
+      {
+        "name": "Golden Walnut",
+        "image": "images/misc/Golden Walnut.png",
+        "quantity": "1",
+        "chance": "100% (first only)"
+      },
+      {
+        "name": "Banana Sapling",
+        "image": "images/trees/banana/seed.png",
+        "quantity": "1"
+      },
+      {
+        "name": "Mango Sapling",
+        "image": "images/trees/mango/seed.png",
+        "quantity": "1"
+      },
+      {
+        "name": "Pineapple Seeds",
+        "image": "images/crops/pineapple/seed.png",
+        "quantity": "5"
+      },
+      {
+        "name": "Taro Tuber",
+        "image": "images/crops/taro-root/seed.png",
+        "quantity": "5"
+      },
+      {
+        "name": "Mahogany Seed",
+        "image": "images/trees/mahogany/seed.png",
+        "quantity": "1"
+      },
+      {
+        "name": "Fossilized Skull",
+        "image": "images/artifacts/field-office/Fossilized Skull.png",
+        "quantity": "1"
+      },
+      {
+        "name": "Iridium Ore",
+        "image": "images/minerals/ore/Iridium Ore.png",
+        "quantity": "5"
+      },
+      {
+        "name": "Golden Helmet",
+        "image": "images/hats/Golden Helmet.png",
+        "quantity": "1"
+      }
+    ]
+  },
+  {
+    "id": "MysteryBox",
+    "name": "Mystery Box",
+    "kind": "geode",
+    "description": "Open to reveal a random item. Rare drops unlock after opening 10 or more boxes.",
+    "sellPrice": 0,
+    "profession": [],
+    "locations": ["Fishing", "Monster Drops", "Various Events"],
+    "image": "images/minerals/geodes/Mystery Box.png",
+    "contents": [
+      {
+        "name": "Magic Rock Candy",
+        "image": "images/shop/Magic Rock Candy.png",
+        "quantity": "1",
+        "chance": "0.2%"
+      },
+      {
+        "name": "Prismatic Shard",
+        "image": "images/minerals/gems/Prismatic Shard.png",
+        "quantity": "1",
+        "chance": "0.4%"
+      },
+      {
+        "name": "Treasure Chest",
+        "quantity": "1",
+        "chance": "0.8%",
+        "image": "images/misc/Treasure Chest.png"
+      },
+      {
+        "name": "Book of Stars",
+        "image": "images/special-items/Book Of Stars.png",
+        "quantity": "1",
+        "chance": "0.49%"
+      },
+      {
+        "name": "Book of Mysteries",
+        "image": "images/special-items/Book of Mysteries.png",
+        "quantity": "1",
+        "chance": "0.49%"
+      },
+      {
+        "name": "Pearl",
+        "image": "images/minerals/Pearl.png",
+        "quantity": "1",
+        "chance": "0.49%"
+      },
+      {
+        "name": "Golden Pumpkin",
+        "quantity": "1",
+        "chance": "0.49%",
+        "image": "images/misc/Golden Pumpkin.png"
+      },
+      {
+        "name": "Mystery Hat",
+        "image": "images/hats/Mystery Hat.png",
+        "quantity": "1",
+        "chance": "0.97%"
+      },
+      {
+        "name": "Mystery Shirt",
+        "quantity": "1",
+        "chance": "0.96%"
+      },
+      {
+        "name": "Wallpaper",
+        "quantity": "1",
+        "chance": "0.95%"
+      },
+      {
+        "name": "Mega Bomb",
+        "image": "images/craftable/bombs/Mega Bomb.png",
+        "quantity": "5",
+        "chance": "0.63%"
+      },
+      {
+        "name": "Triple Shot Espresso",
+        "image": "images/cooking/Triple Shot Espresso.png",
+        "quantity": "3",
+        "chance": "0.63%"
+      },
+      {
+        "name": "Dressed Spinner",
+        "image": "images/fish/tackle/Dressed Spinner.png",
+        "quantity": "1",
+        "chance": "0-0.16%"
+      },
+      {
+        "name": "Cork Bobber",
+        "image": "images/fish/tackle/Cork Bobber.png",
+        "quantity": "1",
+        "chance": "0-0.16%"
+      },
+      {
+        "name": "Dish O' The Sea",
+        "image": "images/cooking/Dish O' The Sea.png",
+        "quantity": "2",
+        "chance": "0.31-0.63%"
+      },
+      {
+        "name": "Lucky Lunch",
+        "image": "images/cooking/Lucky Lunch.png",
+        "quantity": "1-2",
+        "chance": "0.13-0.63%"
+      },
+      {
+        "name": "Quality Fertilizer",
+        "image": "images/craftable/fertilizer/Quality Fertilizer.png",
+        "quantity": "10-20",
+        "chance": "0.63-6.03%"
+      },
+      {
+        "name": "Deluxe Speed-Gro",
+        "image": "images/craftable/fertilizer/Deluxe Speed-Gro.png",
+        "quantity": "10-20",
+        "chance": "0.63-6.03%"
+      },
+      {
+        "name": "Life Elixir",
+        "image": "images/craftable/edible-items/Life Elixir.png",
+        "quantity": "2",
+        "chance": "0.63%"
+      },
+      {
+        "name": "Warp Totem: Farm",
+        "image": "images/craftable/consumables/Warp Totem Farm.png",
+        "quantity": "1-3",
+        "chance": "0.63-6.03%"
+      },
+      {
+        "name": "Cherry Sapling",
+        "image": "images/trees/cherry/seed.png",
+        "quantity": "1",
+        "chance": "0.1%"
+      },
+      {
+        "name": "Apricot Sapling",
+        "image": "images/trees/apricot/seed.png",
+        "quantity": "1",
+        "chance": "0.1%"
+      },
+      {
+        "name": "Orange Sapling",
+        "image": "images/trees/orange/seed.png",
+        "quantity": "1",
+        "chance": "0.1%"
+      },
+      {
+        "name": "Peach Sapling",
+        "image": "images/trees/peach/seed.png",
+        "quantity": "1",
+        "chance": "0.1%"
+      },
+      {
+        "name": "Pomegranate Sapling",
+        "image": "images/trees/pomegranate/seed.png",
+        "quantity": "1",
+        "chance": "0.1%"
+      },
+      {
+        "name": "Apple Sapling",
+        "image": "images/trees/apple/seed.png",
+        "quantity": "1",
+        "chance": "0.1%"
+      },
+      {
+        "name": "Parsnip Seeds",
+        "image": "images/crops/parsnip/seed.png",
+        "quantity": "8-20",
+        "chance": "0.5-1.51%"
+      },
+      {
+        "name": "Green Bean Seeds",
+        "image": "images/crops/green-bean/seed.png",
+        "quantity": "8-20",
+        "chance": "0.5-1.51%"
+      },
+      {
+        "name": "Cauliflower Seeds",
+        "image": "images/crops/cauliflower/seed.png",
+        "quantity": "8-20",
+        "chance": "0.5-1.51%"
+      },
+      {
+        "name": "Potato Seeds",
+        "image": "images/crops/potato/seed.png",
+        "quantity": "8-20",
+        "chance": "0.5-1.51%"
+      },
+      {
+        "name": "Corn Seeds",
+        "image": "images/crops/corn/seed.png",
+        "quantity": "8-20",
+        "chance": "0.1-1.51%"
+      },
+      {
+        "name": "Wheat Seeds",
+        "image": "images/crops/wheat/seed.png",
+        "quantity": "8-20",
+        "chance": "0.05-1.51%"
+      },
+      {
+        "name": "Hot Pepper Seeds",
+        "image": "images/crops/hot-pepper/seed.png",
+        "quantity": "8-20",
+        "chance": "0.05-1.51%"
+      },
+      {
+        "name": "Radish Seeds",
+        "image": "images/crops/radish/seed.png",
+        "quantity": "8-20",
+        "chance": "0.05-1.51%"
+      },
+      {
+        "name": "Eggplant Seeds",
+        "image": "images/crops/eggplant/seed.png",
+        "quantity": "8-20",
+        "chance": "0.05-1.51%"
+      },
+      {
+        "name": "Artichoke Seeds",
+        "image": "images/crops/artichoke/seed.png",
+        "quantity": "8-20",
+        "chance": "0.05-1.51%"
+      },
+      {
+        "name": "Pumpkin Seeds",
+        "image": "images/crops/pumpkin/seed.png",
+        "quantity": "8-20",
+        "chance": "0.05-1.51%"
+      },
+      {
+        "name": "Carrot Seeds",
+        "image": "images/crops/carrot/seed.png",
+        "quantity": "8",
+        "chance": "0.63%"
+      },
+      {
+        "name": "Summer Squash Seeds",
+        "image": "images/crops/summer-squash/seed.png",
+        "quantity": "8",
+        "chance": "0.63%"
+      },
+      {
+        "name": "Broccoli Seeds",
+        "image": "images/crops/broccoli/seed.png",
+        "quantity": "8",
+        "chance": "0.63%"
+      },
+      {
+        "name": "Powdermelon Seeds",
+        "image": "images/crops/powdermelon/seed.png",
+        "quantity": "8",
+        "chance": "0.63%"
+      },
+      {
+        "name": "Ossified Blade",
+        "image": "images/weapons/swords/Ossified Blade.png",
+        "quantity": "1",
+        "chance": "0.31%"
+      },
+      {
+        "name": "Emerald Ring",
+        "image": "images/rings/Emerald Ring.png",
+        "quantity": "1",
+        "chance": "0.16%"
+      },
+      {
+        "name": "Ruby Ring",
+        "image": "images/rings/Ruby Ring.png",
+        "quantity": "1",
+        "chance": "0.16%"
+      },
+      {
+        "name": "Quality Sprinkler",
+        "image": "images/craftable/sprinklers/Quality Sprinkler.png",
+        "quantity": "1",
+        "chance": "0.63%"
+      },
+      {
+        "name": "Mystery Box",
+        "image": "images/minerals/geodes/Mystery Box.png",
+        "quantity": "2-4",
+        "chance": "0.63-3.62%"
+      },
+      {
+        "name": "Stardew Valley Almanac",
+        "image": "images/special-items/Stardew Valley Almanac.png",
+        "quantity": "1",
+        "chance": "0.13%"
+      },
+      {
+        "name": "Bait And Bobber",
+        "image": "images/special-items/Bait And Bobber.png",
+        "quantity": "1",
+        "chance": "0.13%"
+      },
+      {
+        "name": "Woodcutter's Weekly",
+        "image": "images/special-items/Woodcutter's Weekly.png",
+        "quantity": "1",
+        "chance": "0.13%"
+      },
+      {
+        "name": "Mining Monthly",
+        "image": "images/special-items/Mining Monthly.png",
+        "quantity": "1",
+        "chance": "0.13%"
+      },
+      {
+        "name": "Combat Quarterly",
+        "image": "images/special-items/Combat Quarterly.png",
+        "quantity": "1",
+        "chance": "0.13%"
+      },
+      {
+        "name": "Coffee",
+        "image": "images/artisan-goods/Coffee.png",
+        "quantity": "3",
+        "chance": "6.03%"
+      },
+      {
+        "name": "Bomb",
+        "image": "images/craftable/bombs/Bomb.png",
+        "quantity": "5",
+        "chance": "6.03%"
+      },
+      {
+        "name": "Hardwood",
+        "image": "images/forageables/Hardwood.png",
+        "quantity": "10",
+        "chance": "6.03%"
+      },
+      {
+        "name": "Warp Totem: Mountains",
+        "image": "images/craftable/consumables/Warp Totem Mountains.png",
+        "quantity": "1",
+        "chance": "6.03%"
+      },
+      {
+        "name": "Warp Totem: Beach",
+        "image": "images/craftable/consumables/Warp Totem Beach.png",
+        "quantity": "1",
+        "chance": "6.03%"
+      },
+      {
+        "name": "Mixed Seeds",
+        "image": "images/mixed-seeds/mixed-seeds.png",
+        "quantity": "10",
+        "chance": "6.03%"
+      },
+      {
+        "name": "Mixed Flower Seeds",
+        "image": "images/mixed-seeds/mixed-flower-seeds.png",
+        "quantity": "10",
+        "chance": "6.03%"
+      },
+      {
+        "name": "Sturdy Ring",
+        "image": "images/rings/Sturdy Ring.png",
+        "quantity": "1",
+        "chance": "0.3-0.6%"
+      },
+      {
+        "name": "Amethyst Ring",
+        "image": "images/rings/Amethyst Ring.png",
+        "quantity": "1",
+        "chance": "0.3-0.6%"
+      },
+      {
+        "name": "Glowstone Ring",
+        "image": "images/rings/Glowstone Ring.png",
+        "quantity": "1",
+        "chance": "0.3-0.6%"
+      },
+      {
+        "name": "Aquamarine Ring",
+        "image": "images/rings/Aquamarine Ring.png",
+        "quantity": "1",
+        "chance": "0.3%"
+      },
+      {
+        "name": "Jade Ring",
+        "image": "images/rings/Jade Ring.png",
+        "quantity": "1",
+        "chance": "0.3%"
+      }
+    ]
+  },
+  {
+    "id": "GoldenMysteryBox",
+    "name": "Golden Mystery Box",
+    "kind": "geode",
+    "description": "Open to reveal a random item. Better odds than a Mystery Box, with two exclusive items.",
+    "sellPrice": 0,
+    "profession": [],
+    "locations": ["Various Events", "Special Rewards"],
+    "image": "images/minerals/geodes/Golden Mystery Box.png",
+    "contents": [
+      {
+        "name": "Golden Animal Cracker",
+        "image": "images/misc/Golden Animal Cracker.png",
+        "quantity": "1",
+        "chance": "0.5%"
+      },
+      {
+        "name": "Auto-Petter",
+        "image": "images/tools/Auto-Petter.png",
+        "quantity": "1",
+        "chance": "0.5%"
+      },
+      {
+        "name": "Magic Rock Candy",
+        "image": "images/shop/Magic Rock Candy.png",
+        "quantity": "1",
+        "chance": "0.4%"
+      },
+      {
+        "name": "Prismatic Shard",
+        "image": "images/minerals/gems/Prismatic Shard.png",
+        "quantity": "1",
+        "chance": "0.79%"
+      },
+      {
+        "name": "Treasure Chest",
+        "quantity": "1",
+        "chance": "1.57%",
+        "image": "images/misc/Treasure Chest.png"
+      },
+      {
+        "name": "Book of Stars",
+        "image": "images/special-items/Book Of Stars.png",
+        "quantity": "1",
+        "chance": "0.96%"
+      },
+      {
+        "name": "Book of Mysteries",
+        "image": "images/special-items/Book of Mysteries.png",
+        "quantity": "1",
+        "chance": "0.96%"
+      },
+      {
+        "name": "Pearl",
+        "image": "images/minerals/Pearl.png",
+        "quantity": "1",
+        "chance": "0.94%"
+      },
+      {
+        "name": "Golden Pumpkin",
+        "quantity": "1",
+        "chance": "0.94%",
+        "image": "images/misc/Golden Pumpkin.png"
+      },
+      {
+        "name": "Mystery Hat",
+        "image": "images/hats/Mystery Hat.png",
+        "quantity": "1",
+        "chance": "1.85%"
+      },
+      {
+        "name": "Mystery Shirt",
+        "quantity": "1",
+        "chance": "1.81%"
+      },
+      {
+        "name": "Wallpaper",
+        "quantity": "1",
+        "chance": "1.78%"
+      },
+      {
+        "name": "Mega Bomb",
+        "image": "images/craftable/bombs/Mega Bomb.png",
+        "quantity": "5",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Triple Shot Espresso",
+        "image": "images/cooking/Triple Shot Espresso.png",
+        "quantity": "3",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Dressed Spinner",
+        "image": "images/fish/tackle/Dressed Spinner.png",
+        "quantity": "1",
+        "chance": "0-1.45%"
+      },
+      {
+        "name": "Cork Bobber",
+        "image": "images/fish/tackle/Cork Bobber.png",
+        "quantity": "1",
+        "chance": "0-1.45%"
+      },
+      {
+        "name": "Dish O' The Sea",
+        "image": "images/cooking/Dish O' The Sea.png",
+        "quantity": "2",
+        "chance": "2.9-5.8%"
+      },
+      {
+        "name": "Lucky Lunch",
+        "image": "images/cooking/Lucky Lunch.png",
+        "quantity": "2",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Quality Fertilizer",
+        "image": "images/craftable/fertilizer/Quality Fertilizer.png",
+        "quantity": "20",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Deluxe Speed-Gro",
+        "image": "images/craftable/fertilizer/Deluxe Speed-Gro.png",
+        "quantity": "20",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Life Elixir",
+        "image": "images/craftable/edible-items/Life Elixir.png",
+        "quantity": "2",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Warp Totem: Farm",
+        "image": "images/craftable/consumables/Warp Totem Farm.png",
+        "quantity": "3",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Cherry Sapling",
+        "image": "images/trees/cherry/seed.png",
+        "quantity": "1",
+        "chance": "0.97%"
+      },
+      {
+        "name": "Apricot Sapling",
+        "image": "images/trees/apricot/seed.png",
+        "quantity": "1",
+        "chance": "0.97%"
+      },
+      {
+        "name": "Orange Sapling",
+        "image": "images/trees/orange/seed.png",
+        "quantity": "1",
+        "chance": "0.97%"
+      },
+      {
+        "name": "Peach Sapling",
+        "image": "images/trees/peach/seed.png",
+        "quantity": "1",
+        "chance": "0.97%"
+      },
+      {
+        "name": "Pomegranate Sapling",
+        "image": "images/trees/pomegranate/seed.png",
+        "quantity": "1",
+        "chance": "0.97%"
+      },
+      {
+        "name": "Apple Sapling",
+        "image": "images/trees/apple/seed.png",
+        "quantity": "1",
+        "chance": "0.97%"
+      },
+      {
+        "name": "Parsnip Seeds",
+        "image": "images/crops/parsnip/seed.png",
+        "quantity": "20",
+        "chance": "0.48-1.45%"
+      },
+      {
+        "name": "Green Bean Seeds",
+        "image": "images/crops/green-bean/seed.png",
+        "quantity": "20",
+        "chance": "0.48-1.45%"
+      },
+      {
+        "name": "Cauliflower Seeds",
+        "image": "images/crops/cauliflower/seed.png",
+        "quantity": "20",
+        "chance": "0.48-1.45%"
+      },
+      {
+        "name": "Potato Seeds",
+        "image": "images/crops/potato/seed.png",
+        "quantity": "20",
+        "chance": "0.48-1.45%"
+      },
+      {
+        "name": "Corn Seeds",
+        "image": "images/crops/corn/seed.png",
+        "quantity": "20",
+        "chance": "0.48-1.45%"
+      },
+      {
+        "name": "Wheat Seeds",
+        "image": "images/crops/wheat/seed.png",
+        "quantity": "20",
+        "chance": "0.48-1.45%"
+      },
+      {
+        "name": "Hot Pepper Seeds",
+        "image": "images/crops/hot-pepper/seed.png",
+        "quantity": "20",
+        "chance": "0.48-1.45%"
+      },
+      {
+        "name": "Radish Seeds",
+        "image": "images/crops/radish/seed.png",
+        "quantity": "20",
+        "chance": "0.48-1.45%"
+      },
+      {
+        "name": "Eggplant Seeds",
+        "image": "images/crops/eggplant/seed.png",
+        "quantity": "20",
+        "chance": "0.48-1.45%"
+      },
+      {
+        "name": "Artichoke Seeds",
+        "image": "images/crops/artichoke/seed.png",
+        "quantity": "20",
+        "chance": "0.48-1.45%"
+      },
+      {
+        "name": "Pumpkin Seeds",
+        "image": "images/crops/pumpkin/seed.png",
+        "quantity": "20",
+        "chance": "0.48-1.45%"
+      },
+      {
+        "name": "Carrot Seeds",
+        "image": "images/crops/carrot/seed.png",
+        "quantity": "8",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Summer Squash Seeds",
+        "image": "images/crops/summer-squash/seed.png",
+        "quantity": "8",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Broccoli Seeds",
+        "image": "images/crops/broccoli/seed.png",
+        "quantity": "8",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Powdermelon Seeds",
+        "image": "images/crops/powdermelon/seed.png",
+        "quantity": "8",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Ossified Blade",
+        "image": "images/weapons/swords/Ossified Blade.png",
+        "quantity": "1",
+        "chance": "2.9%"
+      },
+      {
+        "name": "Emerald Ring",
+        "image": "images/rings/Emerald Ring.png",
+        "quantity": "1",
+        "chance": "1.45%"
+      },
+      {
+        "name": "Ruby Ring",
+        "image": "images/rings/Ruby Ring.png",
+        "quantity": "1",
+        "chance": "1.45%"
+      },
+      {
+        "name": "Quality Sprinkler",
+        "image": "images/craftable/sprinklers/Quality Sprinkler.png",
+        "quantity": "1",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Mystery Box",
+        "image": "images/minerals/geodes/Mystery Box.png",
+        "quantity": "3-4",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Stardew Valley Almanac",
+        "image": "images/special-items/Stardew Valley Almanac.png",
+        "quantity": "1",
+        "chance": "1.16%"
+      },
+      {
+        "name": "Bait And Bobber",
+        "image": "images/special-items/Bait And Bobber.png",
+        "quantity": "1",
+        "chance": "1.16%"
+      },
+      {
+        "name": "Woodcutter's Weekly",
+        "image": "images/special-items/Woodcutter's Weekly.png",
+        "quantity": "1",
+        "chance": "1.16%"
+      },
+      {
+        "name": "Mining Monthly",
+        "image": "images/special-items/Mining Monthly.png",
+        "quantity": "1",
+        "chance": "1.16%"
+      },
+      {
+        "name": "Combat Quarterly",
+        "image": "images/special-items/Combat Quarterly.png",
+        "quantity": "1",
+        "chance": "1.16%"
+      },
+      {
+        "name": "Coffee",
+        "image": "images/artisan-goods/Coffee.png",
+        "quantity": "3",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Bomb",
+        "image": "images/craftable/bombs/Bomb.png",
+        "quantity": "5",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Hardwood",
+        "image": "images/forageables/Hardwood.png",
+        "quantity": "10",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Warp Totem: Mountains",
+        "image": "images/craftable/consumables/Warp Totem Mountains.png",
+        "quantity": "1",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Warp Totem: Beach",
+        "image": "images/craftable/consumables/Warp Totem Beach.png",
+        "quantity": "1",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Mixed Seeds",
+        "image": "images/mixed-seeds/mixed-seeds.png",
+        "quantity": "10",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Mixed Flower Seeds",
+        "image": "images/mixed-seeds/mixed-flower-seeds.png",
+        "quantity": "10",
+        "chance": "5.8%"
+      },
+      {
+        "name": "Sturdy Ring",
+        "image": "images/rings/Sturdy Ring.png",
+        "quantity": "1",
+        "chance": "2.9%"
+      },
+      {
+        "name": "Amethyst Ring",
+        "image": "images/rings/Amethyst Ring.png",
+        "quantity": "1",
+        "chance": "2.9%"
+      },
+      {
+        "name": "Glowstone Ring",
+        "image": "images/rings/Glowstone Ring.png",
+        "quantity": "1",
+        "chance": "2.9%"
+      },
+      {
+        "name": "Aquamarine Ring",
+        "image": "images/rings/Aquamarine Ring.png",
+        "quantity": "1",
+        "chance": "2.9%"
+      },
+      {
+        "name": "Jade Ring",
+        "image": "images/rings/Jade Ring.png",
+        "quantity": "1",
+        "chance": "2.9%"
+      }
+    ]
+  }
+]

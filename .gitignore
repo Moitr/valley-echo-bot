@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+venv/
+.env
+/config.py
+
+# Runtime state and downloaded/generated images
+data/affections.json
+data/ai_histories.json
+data/shared_memories.json
+data/wiki_images/
+data/sve_wiki_images/

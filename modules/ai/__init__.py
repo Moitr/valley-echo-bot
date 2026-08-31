@@ -1,0 +1,1 @@
+"""AI 对话核心：DeepSeek 客户端 + System Prompt + 好感度管理"""

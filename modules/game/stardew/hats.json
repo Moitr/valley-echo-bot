@@ -1,0 +1,900 @@
+[
+  {
+    "id": "AbigailsBow",
+    "name": "Abigail's Bow",
+    "description": "It's just like Abby's.",
+    "obtain": "Purchase for 60 Calico Eggs from Abigail's shop at Desert Festival",
+    "image": "images/hats/Abigail's Bow.png"
+  },
+  {
+    "id": "60",
+    "name": "Arcane Hat",
+    "description": "The type of cowboy hat worn by a wizard.",
+    "obtain": "Defeat 100 Mummies (Monster Eradication Goal)",
+    "image": "images/hats/Arcane Hat.png"
+  },
+  {
+    "id": "35",
+    "name": "Archer's Cap",
+    "description": "Fashionable whether you're an archer or not.",
+    "obtain": "Cook every recipe (Gourmet Chef achievement)",
+    "image": "images/hats/Archer's Cap.png",
+    "price": 4000
+  },
+  {
+    "id": "53",
+    "name": "Beanie",
+    "description": "A warm hat with a pretty tight fit.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Beanie.png"
+  },
+  {
+    "id": "56",
+    "name": "Blobfish Mask",
+    "description": "Just as spongy as the real thing!",
+    "obtain": "Tailoring",
+    "image": "images/hats/Blobfish Mask.png"
+  },
+  {
+    "id": "6",
+    "name": "Blue Bonnet",
+    "description": "Harken back to simpler times with this prairie bonnet.",
+    "obtain": "Donate 40 items to Museum (Treasure Trove achievement)",
+    "image": "images/hats/Blue Bonnet.png",
+    "price": 1000
+  },
+  {
+    "id": "BlueBow",
+    "name": "Blue Bow",
+    "description": "This huge bow makes quite a statement!",
+    "obtain": "Purchase for 50 Calico Eggs from Calico Egg Merchant at Desert Festival",
+    "image": "images/hats/Blue Bow.png"
+  },
+  {
+    "id": "37",
+    "name": "Blue Cowboy Hat",
+    "description": "A denim cowboy hat in cool blue.",
+    "obtain": "Skull Cavern treasure chests",
+    "image": "images/hats/Blue Cowboy Hat.png"
+  },
+  {
+    "id": "BlueRibbon",
+    "name": "Blue Ribbon",
+    "description": "A lovely ribbon that sits behind the head.",
+    "obtain": "Get 1st place at Stardew Valley Fair competition",
+    "image": "images/hats/Blue Ribbon.png",
+    "price": 1000
+  },
+  {
+    "id": "80",
+    "name": "Bluebird Mask",
+    "description": "Wear this to look just like your favorite island trader.",
+    "obtain": "Island Trader on Wednesdays for 30 Taro Roots",
+    "image": "images/hats/Bluebird Mask.png"
+  },
+  {
+    "id": "1",
+    "name": "Bowler Hat",
+    "description": "Made from smooth felt.",
+    "obtain": "Earn 1,000,000g (Millionaire achievement)",
+    "image": "images/hats/Bowler Hat.png",
+    "price": 10000
+  },
+  {
+    "id": "69",
+    "name": "Bridal Veil",
+    "description": "The traditional headwear for a bride.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Bridal Veil.png"
+  },
+  {
+    "id": "BucketHat",
+    "name": "Bucket Hat",
+    "description": "A simple hat with a short brim.",
+    "obtain": "Reward from Trout Derby",
+    "image": "images/hats/Bucket Hat.png"
+  },
+  {
+    "id": "14",
+    "name": "Butterfly Bow",
+    "description": "This one is very soft.",
+    "obtain": "Reach 5-heart friendship level with someone (A New Friend achievement)",
+    "image": "images/hats/Butterfly Bow.png",
+    "price": 1000
+  },
+  {
+    "id": "32",
+    "name": "Cat Ears",
+    "description": "Whiskers included.",
+    "obtain": "Reach 10-heart friendship with 8 people (The Beloved Farmer achievement)",
+    "image": "images/hats/Cat Ears.png",
+    "price": 5000
+  },
+  {
+    "id": "61",
+    "name": "Chef Hat",
+    "description": "The traditional hat worn by a head chef.",
+    "obtain": "Cook every recipe (Gourmet Chef achievement)",
+    "image": "images/hats/Chef Hat.png",
+    "price": 10000
+  },
+  {
+    "id": "10",
+    "name": "Chicken Mask",
+    "description": "You'll be sure to get them grinning with this one.",
+    "obtain": "Complete 40 Help Wanted requests (A Big Help achievement)",
+    "image": "images/hats/Chicken Mask.png",
+    "price": 2000
+  },
+  {
+    "id": "concerned-ape-hat",
+    "name": "ConcernedApe Hat",
+    "description": "A hat that depicts ConcernedApe's profile picture.",
+    "obtain": "Interact with monkey in Volcano Caldera after 100% Perfection",
+    "image": "images/hats/ConcernedApe Hat.png"
+  },
+  {
+    "id": "39",
+    "name": "Cone Hat",
+    "description": "A curiosity from a distant land.",
+    "obtain": "Purchase from Magic Shop Boat at Night Market",
+    "image": "images/hats/Cone Hat.png"
+  },
+  {
+    "id": "20",
+    "name": "Cool Cap",
+    "description": "It looks really faded, but it used to be a vibrant blue.",
+    "obtain": "Earn 250,000g (Homesteader achievement)",
+    "image": "images/hats/Cool Cap.png",
+    "price": 5000
+  },
+  {
+    "id": "copper-pan-hat",
+    "name": "Copper Pan (hat)",
+    "description": "You place the copper pan on your head...",
+    "obtain": "Place Copper Pan in hat slot in inventory",
+    "image": "images/hats/Copper Pan (hat).png"
+  },
+  {
+    "id": "0",
+    "name": "Cowboy Hat",
+    "description": "The leather is old and cracked, but surprisingly supple. It smells musty.",
+    "obtain": "Complete museum collection (A Complete Collection achievement)",
+    "image": "images/hats/Cowboy Hat.png",
+    "price": 10000
+  },
+  {
+    "id": "33",
+    "name": "Cowgal Hat",
+    "description": "The band is studded with fake diamonds.",
+    "obtain": "Ship 300 of one crop (Monoculture achievement)",
+    "image": "images/hats/Cowgal Hat.png",
+    "price": 5000
+  },
+  {
+    "id": "34",
+    "name": "Cowpoke Hat",
+    "description": "For dairy experts.",
+    "obtain": "Ship 15 of each crop (Polyculture achievement)",
+    "image": "images/hats/Cowpoke Hat.png",
+    "price": 5000
+  },
+  {
+    "id": "29",
+    "name": "Daisy",
+    "description": "A fresh spring daisy to put in your hair.",
+    "obtain": "Craft 15 different items (D.I.Y. achievement)",
+    "image": "images/hats/Daisy.png",
+    "price": 1000
+  },
+  {
+    "id": "DarkBallcap",
+    "name": "Dark Ballcap",
+    "description": "It fits perfectly on your head.",
+    "obtain": "Random from Emily's outfit services at Desert Festival",
+    "image": "images/hats/Dark Ballcap.png"
+  },
+  {
+    "id": "83",
+    "name": "Dark Cowboy Hat",
+    "description": "A cowboy hat in fashionable black.",
+    "obtain": "Skull Cavern treasure chests",
+    "image": "images/hats/Dark Cowboy Hat.png"
+  },
+  {
+    "id": "DarkVelvetBow",
+    "name": "Dark Velvet Bow",
+    "description": "A big, floppy bow made of dark velvet.",
+    "obtain": "Purchase for 75 Calico Eggs from Calico Egg Merchant at Desert Festival",
+    "image": "images/hats/Dark Velvet Bow.png"
+  },
+  {
+    "id": "12",
+    "name": "Delicate Bow",
+    "description": "Little pink jewels glisten as you examine it.",
+    "obtain": "Cook 10 different recipes (Cook achievement)",
+    "image": "images/hats/Delicate Bow.png",
+    "price": 1000
+  },
+  {
+    "id": "81",
+    "name": "Deluxe Cowboy Hat",
+    "description": "A cowboy hat with a more extreme shape.",
+    "obtain": "Island Trader on Fridays for 30 Taro Roots",
+    "image": "images/hats/Deluxe Cowboy Hat.png"
+  },
+  {
+    "id": "76",
+    "name": "Deluxe Pirate Hat",
+    "description": "Only the most infamous pirate could pull off this look.",
+    "obtain": "Volcano Dungeon rare chests",
+    "image": "images/hats/Deluxe Pirate Hat.png"
+  },
+  {
+    "id": "43",
+    "name": "Dinosaur Hat",
+    "description": "A hat fashioned to look like a small dinosaur.",
+    "obtain": "Tailoring",
+    "image": "images/hats/Dinosaur Hat.png"
+  },
+  {
+    "id": "11",
+    "name": "Earmuffs",
+    "description": "Keep your ears toasty. Lined with artisanal velvet from Castle Village.",
+    "obtain": "Reach 5-heart friendship with 20 people (Popular achievement)",
+    "image": "images/hats/Earmuffs.png",
+    "price": 4000
+  },
+  {
+    "id": "64",
+    "name": "Elegant Turban",
+    "description": "A fine black silk turban with gold trim.",
+    "obtain": "Earn all other achievements",
+    "image": "images/hats/Elegant Turban.png",
+    "price": 50000
+  },
+  {
+    "id": "41",
+    "name": "Emily's Magic Hat",
+    "description": "Made with love by Emily. It's 100% organic!",
+    "obtain": "Obtained in Emily's 14-heart cutscene",
+    "image": "images/hats/Emily's Magic Hat.png"
+  },
+  {
+    "id": "24",
+    "name": "Eye Patch",
+    "description": "You can't tell if it's real or just from a costume shop.",
+    "obtain": "Catch every fish (Master Angler achievement)",
+    "image": "images/hats/Eye Patch.png",
+    "price": 5000
+  },
+  {
+    "id": "47",
+    "name": "Fashion Hat",
+    "description": "A fashionable hat with a feather in the brim.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Fashion Hat.png"
+  },
+  {
+    "id": "19",
+    "name": "Fedora",
+    "description": "A city-slicker's standard.",
+    "obtain": "Purchase for 500 tokens at Stardew Valley Fair",
+    "image": "images/hats/Fedora.png"
+  },
+  {
+    "id": "55",
+    "name": "Fishing Hat",
+    "description": "The wide brim keeps you shaded when fishing on the riverbank.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Fishing Hat.png"
+  },
+  {
+    "id": "63",
+    "name": "Flat Topped Hat",
+    "description": "An old style of hat once considered very fashionable.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Flat Topped Hat.png"
+  },
+  {
+    "id": "54",
+    "name": "Floppy Beanie",
+    "description": "A warm hat with a looser fit.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Floppy Beanie.png"
+  },
+  {
+    "id": "90",
+    "name": "Forager's Hat",
+    "description": "It's a forager's delight.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Forager's Hat.png"
+  },
+  {
+    "id": "78",
+    "name": "Frog Hat",
+    "description": "A slimy friend that lives on your dome.",
+    "obtain": "Fish in Gourmand Frog's cave on Ginger Island",
+    "image": "images/hats/Frog Hat.png"
+  },
+  {
+    "id": "66",
+    "name": "Garbage Hat",
+    "description": "It's a garbage can lid 'upcycled' into a hat...",
+    "obtain": "0.2% chance from garbage cans after checking 20 cans",
+    "image": "images/hats/Garbage Hat.png"
+  },
+  {
+    "id": "GilsHat",
+    "name": "Gil's Hat",
+    "description": "It's the same hat that Gil wears.",
+    "obtain": "Reward for egg rating of 25-54 to Gil at Desert Festival",
+    "image": "images/hats/Gil's Hat.png"
+  },
+  {
+    "id": "23",
+    "name": "Gnome's Cap",
+    "description": "This gnome had a very large head.",
+    "obtain": "Craft every item (Craft Master achievement)",
+    "image": "images/hats/Gnome's Cap.png",
+    "price": 5000
+  },
+  {
+    "id": "9",
+    "name": "Goblin Mask",
+    "description": "Freak out the neighborhood with this creepy mask. Rubber ear joints for effect.",
+    "obtain": "Ship every item (Full Shipment achievement)",
+    "image": "images/hats/Goblin Mask.png",
+    "price": 10000
+  },
+  {
+    "id": "89",
+    "name": "Goggles",
+    "description": "These will make you look very safe.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Goggles.png"
+  },
+  {
+    "id": "gold-pan-hat",
+    "name": "Gold Pan (hat)",
+    "description": "You place the gold pan on your head...",
+    "obtain": "Place Gold Pan in hat slot in inventory",
+    "image": "images/hats/Gold Pan (hat).png"
+  },
+  {
+    "id": "75",
+    "name": "Golden Helmet",
+    "description": "It's half of a golden coconut.",
+    "obtain": "5% chance from opening Golden Coconuts",
+    "image": "images/hats/Golden Helmet.png"
+  },
+  {
+    "id": "67",
+    "name": "Golden Mask",
+    "description": "A faithful recreation of the Calico Desert relic!",
+    "obtain": "Tailoring",
+    "image": "images/hats/Golden Mask (hat).png"
+  },
+  {
+    "id": "18",
+    "name": "Good Ol' Cap",
+    "description": "A floppy old topper with a creased bill. Looks like it's been through a lot.",
+    "obtain": "Earn 15,000g (Greenhorn achievement)",
+    "image": "images/hats/Good Ol' Cap.png",
+    "price": 1000
+  },
+  {
+    "id": "GovernorsHat",
+    "name": "Governor's Hat",
+    "description": "A replica of the Governor's iconic hat.",
+    "obtain": "Delight the Governor at Luau (An Unforgettable Soup achievement)",
+    "image": "images/hats/Governor's Hat.png",
+    "price": 5000
+  },
+  {
+    "id": "72",
+    "name": "Green Turban",
+    "description": "A green silk turban with a gold ornament on the front.",
+    "obtain": "Desert Trader for 50 Omni Geodes",
+    "image": "images/hats/Green Turban.png"
+  },
+  {
+    "id": "49",
+    "name": "Hair Bone",
+    "description": "A prehistoric version of the hair bow.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Hair Bone.png"
+  },
+  {
+    "id": "27",
+    "name": "Hard Hat",
+    "description": "Keep your dome in one piece.",
+    "obtain": "Defeat 30 Duggies (Monster Eradication Goal)",
+    "image": "images/hats/Hard Hat.png"
+  },
+  {
+    "id": "15",
+    "name": "Hunter's Cap",
+    "description": "The wool lining should stay warm deep into the forest.",
+    "obtain": "Upgrade house to maximum size (Living Large achievement)",
+    "image": "images/hats/Hunter's Cap.png",
+    "price": 5000
+  },
+  {
+    "id": "InfinityCrown",
+    "name": "Infinity Crown",
+    "description": "It's made from an exotic metal you've never seen before.",
+    "obtain": "Obtain most powerful weapon (Infinite Power achievement)",
+    "image": "images/hats/Infinity Crown.png",
+    "price": 20000
+  },
+  {
+    "id": "iridium-pan-hat",
+    "name": "Iridium Pan (hat)",
+    "description": "You place the iridium pan on your head...",
+    "obtain": "Place Iridium Pan in hat slot in inventory",
+    "image": "images/hats/Iridium Pan (hat).png"
+  },
+  {
+    "id": "JesterHat",
+    "name": "Jester Hat",
+    "description": "Put your inner clown on display.",
+    "obtain": "See a movie (Two Thumbs Up achievement)",
+    "image": "images/hats/Jester Hat.png",
+    "price": 25000
+  },
+  {
+    "id": "JojaCap",
+    "name": "Joja Cap",
+    "description": "An official Joja Cap. Made from 100% polyester.",
+    "obtain": "Random from Emily's outfit services at Desert Festival",
+    "image": "images/hats/Joja Cap.png"
+  },
+  {
+    "id": "JunimoHat",
+    "name": "Junimo Hat",
+    "description": "To honor our little buddies...",
+    "obtain": "Reach Perfection and visit the Summit",
+    "image": "images/hats/Junimo Hat.png",
+    "price": 25000
+  },
+  {
+    "id": "50",
+    "name": "Knight's Helmet",
+    "description": "It looks just like the real thing!",
+    "obtain": "Defeat 50 Pepper Rex (Monster Eradication Goal)",
+    "image": "images/hats/Knight's Helmet.png"
+  },
+  {
+    "id": "LaurelWreathCrown",
+    "name": "Laurel Wreath Crown",
+    "description": "A garland of leaves shaped into a lovely crown.",
+    "obtain": "Random from Emily's outfit services at Desert Festival",
+    "image": "images/hats/Laurel Wreath Crown.png"
+  },
+  {
+    "id": "LeprechuanHat",
+    "name": "Leprechaun Hat",
+    "description": "The previous owner must've had a big head for a Leprechaun.",
+    "obtain": "Pot of gold by rainbow next to Abandoned House on Spring 17th",
+    "image": "images/hats/Leprechaun Hat.png"
+  },
+  {
+    "id": "40",
+    "name": "Living Hat",
+    "description": "It absorbs moisture from your scalp. No watering needed!",
+    "obtain": "0.001% chance finding while cutting weeds; 0.01% chance from Wilderness Golems",
+    "image": "images/hats/Living Hat.png"
+  },
+  {
+    "id": "45",
+    "name": "Logo Cap",
+    "description": "A pink cap with a sleek profile.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Logo Cap.png"
+  },
+  {
+    "id": "21",
+    "name": "Lucky Bow",
+    "description": "The middle is made of solid gold.",
+    "obtain": "Earn 50,000g (Cowpoke achievement)",
+    "image": "images/hats/Lucky Bow.png",
+    "price": 2000
+  },
+  {
+    "id": "73",
+    "name": "Magic Cowboy Hat",
+    "description": "It's shimmering with prismatic energy.",
+    "obtain": "Desert Trader for 333 Omni Geodes on odd days",
+    "image": "images/hats/Magic Cowboy Hat.png"
+  },
+  {
+    "id": "74",
+    "name": "Magic Turban",
+    "description": "It's shimmering with prismatic energy.",
+    "obtain": "Desert Trader for 333 Omni Geodes on even days",
+    "image": "images/hats/Magic Turban.png"
+  },
+  {
+    "id": "31",
+    "name": "Mouse Ears",
+    "description": "Made from synthetic fibers.",
+    "obtain": "Reach 10-heart friendship with someone (Best Friends achievement)",
+    "image": "images/hats/Mouse Ears.png",
+    "price": 2000
+  },
+  {
+    "id": "82",
+    "name": "Mr. Qi's Hat",
+    "description": "A replica of Mr. Qi's iconic hat.",
+    "obtain": "Purchase for 5 Qi Gems in Qi's Walnut Room",
+    "image": "images/hats/Mr. Qi's Hat.png"
+  },
+  {
+    "id": "MummyMask",
+    "name": "Mummy Mask",
+    "description": "A large mummy mask... frightening!",
+    "obtain": "Purchase for 120 Calico Eggs from Calico Egg Merchant at Desert Festival",
+    "image": "images/hats/Mummy Mask.png"
+  },
+  {
+    "id": "42",
+    "name": "Mushroom Cap",
+    "description": "It smells earthy.",
+    "obtain": "1% chance when chopping down Mushroom Tree",
+    "image": "images/hats/Mushroom Cap.png"
+  },
+  {
+    "id": "MysteryHat",
+    "name": "Mystery Hat",
+    "description": "Made from the leftovers of a Mystery Box.",
+    "obtain": "From Mystery Boxes or Golden Mystery Boxes",
+    "image": "images/hats/Mystery Hat.png"
+  },
+  {
+    "id": "5",
+    "name": "Official Cap",
+    "description": "Looks like it belonged to a postman or policeman. Either way, it's still very soft and smells okay.",
+    "obtain": "Catch 24 different fish (Ol' Mariner achievement)",
+    "image": "images/hats/Official Cap.png",
+    "price": 2000
+  },
+  {
+    "id": "PageboyCap",
+    "name": "Pageboy Cap",
+    "description": "For some reason, it makes you want to sell newspapers.",
+    "obtain": "Read every book (Well-Read achievement)",
+    "image": "images/hats/Pageboy Cap.png",
+    "price": 5000
+  },
+  {
+    "id": "36",
+    "name": "Panda Hat",
+    "description": "A lovely panda hat.",
+    "obtain": "WeGame exclusive content; unobtainable otherwise",
+    "image": "images/hats/Panda Hat.png"
+  },
+  {
+    "id": "PaperHat",
+    "name": "Paper Hat",
+    "description": "It's made out of special paper that won't disintegrate in the rain.",
+    "obtain": "Reach Ginger Island (A Distant Shore achievement)",
+    "image": "images/hats/Paper Hat.png",
+    "price": 10000
+  },
+  {
+    "id": "party-hat-blue",
+    "name": "Party Hat (blue)",
+    "description": "A goofy blue hat that makes any celebration more fun.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Party Hat (blue).png"
+  },
+  {
+    "id": "party-hat-green",
+    "name": "Party Hat (green)",
+    "description": "A goofy green hat that makes any celebration more fun.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Party Hat (green).png"
+  },
+  {
+    "id": "party-hat-red",
+    "name": "Party Hat (red)",
+    "description": "A goofy red hat that makes any celebration more fun.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Party Hat (red).png"
+  },
+  {
+    "id": "77",
+    "name": "Pink Bow",
+    "description": "This huge bow makes quite a statement!",
+    "obtain": "Purchase for 10,000g from Dwarf Shop in Volcano Dungeon (25% chance)",
+    "image": "images/hats/Pink Bow.png"
+  },
+  {
+    "id": "62",
+    "name": "Pirate Hat",
+    "description": "A captain's hat with a horrible skull on the front.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Pirate Hat.png"
+  },
+  {
+    "id": "7",
+    "name": "Plum Chapeau",
+    "description": "Looks alright.",
+    "obtain": "Cook 25 different recipes (Sous Chef achievement)",
+    "image": "images/hats/Plum Chapeau.png",
+    "price": 2000
+  },
+  {
+    "id": "22",
+    "name": "Polka Bow",
+    "description": "This one's sure to turn heads.",
+    "obtain": "Complete 10 Help Wanted requests (Gofer achievement)",
+    "image": "images/hats/Polka Bow.png",
+    "price": 1000
+  },
+  {
+    "id": "68",
+    "name": "Propeller Hat",
+    "description": "A goofy hat with a propeller on top.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Propeller Hat.png"
+  },
+  {
+    "id": "48",
+    "name": "Pumpkin Mask",
+    "description": "This must have been a pretty big pumpkin once...",
+    "obtain": "Tailoring",
+    "image": "images/hats/Pumpkin Mask.png"
+  },
+  {
+    "id": "86",
+    "name": "Qi Mask",
+    "description": "???",
+    "obtain": "Tailoring",
+    "image": "images/hats/Qi Mask.png"
+  },
+  {
+    "id": "RaccoonHat",
+    "name": "Raccoon Hat",
+    "description": "A classic hat from the old frontier days.",
+    "obtain": "Fulfill third request from Raccoon at Giant Stump",
+    "image": "images/hats/Raccoon Hat.png"
+  },
+  {
+    "id": "84",
+    "name": "Radioactive Goggles",
+    "description": "Doesn't actually provide any protection from radiation.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Radioactive Goggles.png"
+  },
+  {
+    "id": "38",
+    "name": "Red Cowboy Hat",
+    "description": "An eye-catching cowboy hat in red suede.",
+    "obtain": "Skull Cavern treasure chests",
+    "image": "images/hats/Red Cowboy Hat.png"
+  },
+  {
+    "id": "RedFez",
+    "name": "Red Fez",
+    "description": "A unique hat made popular by the famous merchant pig.",
+    "obtain": "Purchase for 8,000g from Traveling Cart (10% chance)",
+    "image": "images/hats/Red Fez.png"
+  },
+  {
+    "id": "17",
+    "name": "Sailor's Cap",
+    "description": "It's fresh and starchy.",
+    "obtain": "Win fishing competition at Festival of Ice",
+    "image": "images/hats/Sailor's Cap.png",
+    "price": 1000
+  },
+  {
+    "id": "25",
+    "name": "Santa Hat",
+    "description": "Celebrate the magical season.",
+    "obtain": "Reach 5-heart friendship with 10 people (Networking achievement)",
+    "image": "images/hats/Santa Hat.png",
+    "price": 2000
+  },
+  {
+    "id": "8",
+    "name": "Skeleton Mask",
+    "description": "The red eyes are glowing mysteriously.",
+    "obtain": "Defeat 50 Skeletons (Monster Eradication Goal)",
+    "image": "images/hats/Skeleton Mask.png"
+  },
+  {
+    "id": "79",
+    "name": "Small Cap",
+    "description": "It's a more aerodynamic style of cap.",
+    "obtain": "Island Trader on Mondays for 30 Taro Roots",
+    "image": "images/hats/Small Cap.png"
+  },
+  {
+    "id": "3",
+    "name": "Sombrero",
+    "description": "A festively decorated hat made from woven straw.",
+    "obtain": "Earn 10,000,000g (Legend achievement)",
+    "image": "images/hats/Sombrero.png",
+    "price": 25000
+  },
+  {
+    "id": "28",
+    "name": "Sou'wester",
+    "description": "The shape helps to keep sailors dry during storms.",
+    "obtain": "Catch 10 different fish (Fisherman achievement)",
+    "image": "images/hats/Sou'wester.png",
+    "price": 1000
+  },
+  {
+    "id": "SpaceHelmet",
+    "name": "Space Helmet",
+    "description": "Warning: This helmet has not actually been tested in outer space.",
+    "obtain": "Reach bottom of dangerous mines (Danger In The Deep achievement)",
+    "image": "images/hats/Space Helmet.png",
+    "price": 20000
+  },
+  {
+    "id": "SportsCap",
+    "name": "Sports Cap",
+    "description": "The cap has a vintage team logo on it.",
+    "obtain": "Prize Machine at Mayor's Manor",
+    "image": "images/hats/Sports Cap.png",
+    "price": 1000
+  },
+  {
+    "id": "52",
+    "name": "Spotted Headscarf",
+    "description": "A red polka-dot scarf tied around the head.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Spotted Headscarf.png"
+  },
+  {
+    "id": "SquidHat",
+    "name": "Squid Hat",
+    "description": "It's your chance to wear a squid on the head.",
+    "obtain": "Reward from SquidFest",
+    "image": "images/hats/Squid Hat.png"
+  },
+  {
+    "id": "51",
+    "name": "Squire's Helmet",
+    "description": "The face is exposed to increase air flow.",
+    "obtain": "Monster drop from Metal Heads",
+    "image": "images/hats/Squire's Helmet.png"
+  },
+  {
+    "id": "87",
+    "name": "Star Helmet",
+    "description": "A red hat with stars on it.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Star Helmet.png"
+  },
+  {
+    "id": "steel-pan-hat",
+    "name": "Steel Pan (hat)",
+    "description": "You place the steel pan on your head...",
+    "obtain": "Place Steel Pan in hat slot in inventory",
+    "image": "images/hats/Steel Pan (hat).png"
+  },
+  {
+    "id": "4",
+    "name": "Straw Hat",
+    "description": "Light and cool, it's a farmer's delight.",
+    "obtain": "Win egg hunt at Egg Festival",
+    "image": "images/hats/Straw Hat.png",
+    "price": 1000
+  },
+  {
+    "id": "88",
+    "name": "Sunglasses",
+    "description": "These give you a relaxed look.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Sunglasses.png"
+  },
+  {
+    "id": "85",
+    "name": "Swashbuckler Hat",
+    "description": "The classic swashbuckler look.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Swashbuckler Hat.png"
+  },
+  {
+    "id": "26",
+    "name": "Tiara",
+    "description": "This one has a big amethyst encircled by gold.",
+    "obtain": "Reach 5-heart friendship with 4 people (Cliques achievement)",
+    "image": "images/hats/Tiara.png",
+    "price": 2000
+  },
+  {
+    "id": "91",
+    "name": "Tiger Hat",
+    "description": "Makes you look like a beautiful tiger.",
+    "obtain": "0.1% chance from Tiger Slimes",
+    "image": "images/hats/Tiger Hat.png"
+  },
+  {
+    "id": "2",
+    "name": "Top Hat",
+    "description": "A gentleman's classic.",
+    "obtain": "Purchase for 8,000 Qi Coins at Casino",
+    "image": "images/hats/Top Hat.png"
+  },
+  {
+    "id": "44",
+    "name": "Totem Mask",
+    "description": "Don't worry, it won't warp your face...",
+    "obtain": "Tailoring",
+    "image": "images/hats/Totem Mask.png"
+  },
+  {
+    "id": "TricornHat",
+    "name": "Tricorn Hat",
+    "description": "It's a traditional hat for naval officers.",
+    "obtain": "Purchase for 100 Calico Eggs from Elliott's shop at Desert Festival",
+    "image": "images/hats/Tricorn Hat.png"
+  },
+  {
+    "id": "13",
+    "name": "Tropiclip",
+    "description": "It's shaped like a little palm tree.",
+    "obtain": "Upgrade your house (Moving Up achievement)",
+    "image": "images/hats/Tropiclip.png",
+    "price": 1000
+  },
+  {
+    "id": "16",
+    "name": "Trucker Hat",
+    "description": "Mesh in the back to keep your head cool.",
+    "obtain": "Craft 30 different items (Artisan achievement)",
+    "image": "images/hats/Trucker Hat.png",
+    "price": 2000
+  },
+  {
+    "id": "93",
+    "name": "Warrior Helmet",
+    "description": "An Ostrich eggshell repurposed into a helmet.",
+    "obtain": "Tailoring",
+    "image": "images/hats/Warrior Helmet.png"
+  },
+  {
+    "id": "30",
+    "name": "Watermelon Band",
+    "description": "The color scheme was inspired by the beloved summer melon.",
+    "obtain": "Catch 100 fish (Mother Catch achievement)",
+    "image": "images/hats/Watermelon Band.png",
+    "price": 1000
+  },
+  {
+    "id": "46",
+    "name": "Wearable Dwarf Helm",
+    "description": "A slightly larger, human sized version of helmets worn by dwarves.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Wearable Dwarf Helm.png"
+  },
+  {
+    "id": "WhiteBow",
+    "name": "White Bow",
+    "description": "A bow as white as snow.",
+    "obtain": "Help forest neighbors grow family (Good Neighbors achievement)",
+    "image": "images/hats/White Bow.png",
+    "price": 5000
+  },
+  {
+    "id": "65",
+    "name": "White Turban",
+    "description": "A fine white silk turban with blue trim.",
+    "obtain": "Tailoring; Skull Cavern treasure chests",
+    "image": "images/hats/White Turban.png"
+  },
+  {
+    "id": "70",
+    "name": "Witch Hat",
+    "description": "A pointy hat popular with witches.",
+    "obtain": "Tailoring; random drop during various player actions",
+    "image": "images/hats/Witch Hat.png"
+  }
+]

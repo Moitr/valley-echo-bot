@@ -1,0 +1,128 @@
+{
+  "mod_tutorial": {
+    "app": "com.tencent.feed.lua",
+    "prompt": "[分享帖子] 星露谷加模组教程（手机版和电脑版）",
+    "bizsrc": "pindao.picforum",
+    "meta": {
+      "feed": {
+        "isVideo": true,
+        "cover": "https://channel.qpic.cn/psc?/channel/NaDwC23LjvXqrn3RH.9z8Q0nbULevHwumxUmeRKRC*LBJQC4ZmLORy5B21AQGD*lfFu4y9Nb8Y5Ky1kIjNygDiz1OWd3DiqEFZ1YahFO2wI!/b=&bo=gAc4BIAHOAQWADA!&ek=1&tl=1",
+        "title": "星露谷加模组教程（手机版和电脑版）",
+        "tagIcon": "http://downv6.qq.com/innovate/guild/tail_guild_logo.png",
+        "tagName": "腾讯频道",
+        "picNum": 1,
+        "imageInfo": {
+          "width": 1920,
+          "height": 1080
+        },
+        "busiData": "{\"share_biz_data\":{\"feed_id\":\"B_4017496a20bf0d001441152186774576920X60\",\"creat_time\":1783174976,\"poster_tiny_id\":144115218677457692}}",
+        "jumpUrl": "https://pd.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&appChannel=share&inviteCode=2uubEy2U2PH&attaContentID=4c6952413eff4655bc76bde6aa96b65a&contentID=1XnfP77&businessType=2&jumpInfo=ClDoQmUWn9AJpYb8SRed469Ota1F3H5r6eLZFA2qy%2Be8TkTuYJvkPrLPXkmrYsBVwa0xknnVoeUYMj322ImBuIdp32ssics699jBOyUK7Yyp8RIDdnAx",
+        "ark_reserved1": "640536694066023587",
+        "ark_reserved2": "720017175",
+        "ark_reserved3": "B_4017496a20bf0d001441152186774576920X60"
+      }
+    },
+    "config": {
+      "autosize": 0,
+      "collect": 1,
+      "ctime": 1783238374,
+      "forward": 1,
+      "reply": 1,
+      "round": 1,
+      "token": "688942f318e9816e1f4fa8355f39ec4c",
+      "type": "normal"
+    },
+    "view": "feed",
+    "ver": "0.0.0.1"
+  },
+  "mine_distribution": {
+    "app": "com.tencent.feed.lua",
+    "desc": "",
+    "view": "feed",
+    "bizsrc": "pindao.picforum",
+    "ver": "0.0.0.1",
+    "prompt": "[分享帖子] 矿洞分布",
+    "appID": "",
+    "sourceName": "",
+    "actionData": "",
+    "actionData_A": "",
+    "sourceUrl": "",
+    "meta": {
+      "feed": {
+        "cover": "https://channel.qpic.cn/psc?/channel/NaDwC23LjvXqrn3RH.9z8UWjlu1v6l5Al0QF1xjEmBCy7.io5L*PE7goZBRQLtLqNXkrKkZo4vJv6y7hh0D066xJFeBCX8fp*9RPjLPoFEQ!/c=&bo=oAXHBqAFxwYWADA!&ek=1&tl=1",
+        "title": "矿洞分布",
+        "tagIcon": "http://downv6.qq.com/innovate/guild/tail_guild_logo.png",
+        "tagName": "腾讯频道",
+        "picNum": 1,
+        "imageInfo": {
+          "width": 400,
+          "height": 481
+        },
+        "busiData": "{\"share_biz_data\":{\"feed_id\":\"B_d1525e6a3a5603001441152186774576920X60\",\"creat_time\":1784566481,\"poster_tiny_id\":144115218677457692}}",
+        "jumpUrl": "https://pd.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&appChannel=share&inviteCode=2uuaFOumOMn&attaContentID=b5751cea22de4018ac35357b53b36e9f&contentID=1Y0IFQU&businessType=2&jumpInfo=ClDH%2Bh414Gw1ApgleqZzxdTH9nh0B1IdV6gHfOA6U1HTP2AcGV5VXAFhUavBlJBEvg%2FPgjNm6fkBKy%2FszJJeWMfOhg7AXQ6W1W6xL7JoAsyl6xIDdnAx",
+        "ark_reserved1": "640536694066023587",
+        "ark_reserved2": "720004310",
+        "ark_reserved3": "B_d1525e6a3a5603001441152186774576920X60"
+      }
+    },
+    "config": {
+      "autosize": 0,
+      "collect": 1,
+      "ctime": 1784638375,
+      "forward": 1,
+      "reply": 1,
+      "round": 1,
+      "token": "b493e0eb4cccbf8ab754ee7f65bb74f6",
+      "type": "normal"
+    },
+    "text": "",
+    "extraApps": [],
+    "sourceAd": "",
+    "extra": ""
+  },
+  "calendar": {
+    "app": "com.tencent.feed.lua",
+    "desc": "",
+    "view": "feed",
+    "bizsrc": "pindao.picforum",
+    "ver": "0.0.0.1",
+    "prompt": "[分享帖子] 节日&事件&生日日历",
+    "appID": "",
+    "sourceName": "",
+    "actionData": "",
+    "actionData_A": "",
+    "sourceUrl": "",
+    "meta": {
+      "feed": {
+        "cover": "https://channel.qpic.cn/psc?/channel/NaDwC23LjvXqrn3RH.9z8VTWhkXPrP58w7mAIykQkEiYCu2bJVCMKE0mAR.p5JmqGyDcgzX0QsGYVNlKrKLw8OMG1ZHIRP5eaKFSxno0mbw!/c=&bo=QAYkD3AIcBQWAEE!&ek=1&tl=1",
+        "title": "节日&事件&生日日历",
+        "tagIcon": "http://downv6.qq.com/innovate/guild/tail_guild_logo.png",
+        "tagName": "腾讯频道",
+        "picNum": 1,
+        "imageInfo": {
+          "width": 400,
+          "height": 969
+        },
+        "busiData": "{\"share_biz_data\":{\"feed_id\":\"B_676e5f6a5abd0d001441152186774576920X60\",\"creat_time\":1784639079,\"poster_tiny_id\":144115218677457692}}",
+        "jumpUrl": "https://pd.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&appChannel=share&inviteCode=2uuaFOumOMn&attaContentID=2cc736901b534aaabeb75821a4ac5840&contentID=1Y2AR9V&businessType=2&jumpInfo=ClDH%2Bh414Gw1ApgleqZzxdTHFUZR4V5V6QLaCtONaC2lhL3P08RGhG%2Frp%2BhHQnPT47vaQuvJYLlRcJ6Tf06oOjZi0v3KOKAE48XqVCO2WwFi0xIDdnAx",
+        "ark_reserved1": "640536694066023587",
+        "ark_reserved2": "720004310",
+        "ark_reserved3": "B_676e5f6a5abd0d001441152186774576920X60"
+      }
+    },
+    "config": {
+      "autosize": 0,
+      "collect": 1,
+      "ctime": 1784639082,
+      "forward": 1,
+      "reply": 1,
+      "round": 1,
+      "token": "68b02a82b452060d8ac5d4a357aa7a52",
+      "type": "normal"
+    },
+    "text": "",
+    "extraApps": [],
+    "sourceAd": "",
+    "extra": ""
+  }
+}
