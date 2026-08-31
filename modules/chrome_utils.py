@@ -9,8 +9,10 @@ per screenshot, avoiding process startup cost for every image.
 
 import atexit
 import base64
+from concurrent.futures import Future, TimeoutError as FutureTimeoutError
 import logging
 import os
+import queue
 import shutil
 import threading
 import time
@@ -35,9 +37,8 @@ if BROWSER_NAME not in _VALID_BROWSERS:
 
 _browser_cache_lock = threading.RLock()
 _browser_choice_cache: tuple[str, str | None] | None = None
-_thread_session = threading.local()
-_sessions: set["_BrowserSession"] = set()
-_sessions_lock = threading.RLock()
+_browser_worker: "_BrowserWorker | None" = None
+_browser_worker_lock = threading.RLock()
 
 
 def _which_candidates(*names: str) -> list[str]:
@@ -169,9 +170,13 @@ def get_browser_path() -> str | None:
 
 
 def reset_browser_path_cache():
-    """Reset browser discovery and close this thread's cached browser."""
-    global _browser_choice_cache
-    _close_thread_session()
+    """Reset discovery and stop the persistent browser worker."""
+    global _browser_choice_cache, _browser_worker
+    with _browser_worker_lock:
+        worker = _browser_worker
+        _browser_worker = None
+    if worker is not None:
+        worker.stop()
     with _browser_cache_lock:
         _browser_choice_cache = None
 
@@ -211,71 +216,98 @@ class _BrowserSession:
             pass
 
 
-def _get_session() -> _BrowserSession:
-    session = getattr(_thread_session, "session", None)
-    if session is not None:
+class _BrowserWorker:
+    """Own Playwright and one browser on a dedicated thread.
+
+    Playwright's sync API is thread-affine, so a single worker gives us one
+    long-lived browser without unsafe cross-thread calls.
+    """
+
+    def __init__(self):
+        self._tasks: queue.Queue[tuple[object, Future] | None] = queue.Queue()
+        self._ready = threading.Event()
+        self._startup_error: Exception | None = None
+        self._thread = threading.Thread(
+            target=self._run, name="browser-worker", daemon=True
+        )
+        self._thread.start()
+        self._ready.wait(timeout=PAGE_LOAD_TIMEOUT_SECONDS)
+
+    def _run(self):
+        session = None
         try:
-            if session.browser.is_connected():
-                return session
-        except Exception:
-            pass
-        _close_thread_session()
-
-    choice = _browser_choice()
-    if not choice:
-        raise RuntimeError("没有检测到可用的浏览器")
-    family, executable = choice
-    try:
-        session = _BrowserSession(family, executable)
-    except Exception as error:
-        # System Firefox/Chromium builds can be incompatible with Playwright's
-        # protocol. In auto mode, try the managed Chromium fallback before
-        # reporting a deployment error.
-        if BROWSER_NAME == "auto" and executable:
+            choice = _browser_choice()
+            if not choice:
+                raise RuntimeError("没有检测到可用的浏览器")
+            family, executable = choice
             try:
-                session = _BrowserSession("chromium", None)
-                logger.info("系统 %s 不兼容，已切换到 Playwright 管理的 Chromium", family)
-            except Exception:
-                raise RuntimeError(
-                    f"无法启动 {family} ({executable})。请安装 Playwright 浏览器运行时："
-                    "`python -m playwright install chromium`"
-                ) from error
-        elif executable:
-            raise RuntimeError(
-                f"无法启动 {family} ({executable})。请确认浏览器版本兼容，"
-                "或运行 `python -m playwright install chromium firefox webkit`。"
-            ) from error
-        else:
-            raise RuntimeError(
-                f"无法启动 Playwright {family}，请运行 `python -m playwright install {family}`"
-            ) from error
-    _thread_session.session = session
-    with _sessions_lock:
-        _sessions.add(session)
-    return session
+                session = _BrowserSession(family, executable)
+            except Exception as error:
+                if BROWSER_NAME == "auto" and executable:
+                    session = _BrowserSession("chromium", None)
+                    logger.info("系统 %s 不兼容，已切换到 Playwright 管理的 Chromium", family)
+                else:
+                    raise error
+            logger.info("持久浏览器已启动，后续截图复用同一进程")
+        except Exception as error:
+            self._startup_error = error
+        finally:
+            self._ready.set()
+
+        while True:
+            item = self._tasks.get()
+            if item is None:
+                break
+            task, future = item
+            if future.cancelled():
+                continue
+            if self._startup_error is not None:
+                future.set_exception(self._startup_error)
+                continue
+            try:
+                future.set_result(task(session))
+            except Exception as error:
+                future.set_exception(error)
+
+        if session is not None:
+            session.close()
+            logger.info("持久浏览器已关闭")
+
+    def submit(self, task, timeout: float):
+        if not self._ready.wait(timeout=timeout):
+            raise TimeoutError("浏览器工作线程启动超时")
+        future: Future = Future()
+        self._tasks.put((task, future))
+        try:
+            return future.result(timeout=timeout)
+        except FutureTimeoutError as error:
+            future.cancel()
+            raise TimeoutError("浏览器截图任务超时") from error
+
+    def stop(self):
+        if self._thread.is_alive():
+            self._tasks.put(None)
+            self._thread.join(timeout=5)
 
 
-def _close_thread_session():
-    session = getattr(_thread_session, "session", None)
-    if session is None:
-        return
-    try:
-        session.close()
-    finally:
-        with _sessions_lock:
-            _sessions.discard(session)
-        _thread_session.session = None
+def _get_worker() -> _BrowserWorker:
+    global _browser_worker
+    with _browser_worker_lock:
+        if _browser_worker is None or not _browser_worker._thread.is_alive():
+            _browser_worker = _BrowserWorker()
+        return _browser_worker
 
 
-def _close_all_sessions():
-    with _sessions_lock:
-        sessions = list(_sessions)
-        _sessions.clear()
-    for session in sessions:
-        session.close()
+def _close_browser_worker():
+    global _browser_worker
+    with _browser_worker_lock:
+        worker = _browser_worker
+        _browser_worker = None
+    if worker is not None:
+        worker.stop()
 
 
-atexit.register(_close_all_sessions)
+atexit.register(_close_browser_worker)
 
 
 def _new_context(session: _BrowserSession, width: int, height: int):
@@ -310,7 +342,24 @@ def screenshot_element(
     """Navigate to ``url`` and save a CSS element screenshot as a PNG path."""
     try:
         width, height = (int(value) for value in window_size.split(",", 1))
-        session = _get_session()
+        return _get_worker().submit(
+            lambda session: _capture_element(session, url, selector, output_dir, width, height),
+            timeout=PAGE_LOAD_TIMEOUT_SECONDS + ELEMENT_TIMEOUT_SECONDS + 5,
+        )
+    except Exception as error:
+        _screenshot_error(f"元素截图 ({url})", error)
+        return None
+
+
+def _capture_element(
+    session: _BrowserSession,
+    url: str,
+    selector: str,
+    output_dir: str,
+    width: int,
+    height: int,
+) -> str | None:
+    try:
         context = _new_context(session, width, height)
         page = context.new_page()
         page.set_default_timeout(ELEMENT_TIMEOUT_SECONDS * 1000)
@@ -346,9 +395,25 @@ def screenshot_full_page(
     max_height: int = 0,
 ) -> str | None:
     """Render HTML and return a OneBot-compatible ``base64://`` PNG string."""
+    try:
+        return _get_worker().submit(
+            lambda session: _capture_full_page(session, html_content, width, height, max_height),
+            timeout=PAGE_LOAD_TIMEOUT_SECONDS + 5,
+        )
+    except Exception as error:
+        _screenshot_error("全页截图", error)
+        return None
+
+
+def _capture_full_page(
+    session: _BrowserSession,
+    html_content: str,
+    width: int,
+    height: int,
+    max_height: int,
+) -> str | None:
     context = None
     try:
-        session = _get_session()
         context = _new_context(session, width, height)
         page = context.new_page()
         page.set_default_timeout(PAGE_LOAD_TIMEOUT_SECONDS * 1000)
