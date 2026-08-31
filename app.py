@@ -2,9 +2,9 @@
 import json
 import logging
 import os
+import signal
 import sys
 import threading
-import time
 from concurrent.futures import ThreadPoolExecutor
 
 from websocket import WebSocketApp
@@ -34,6 +34,47 @@ _event_executor = ThreadPoolExecutor(
     max_workers=int(_websocket_config["event_workers"]),
     thread_name_prefix="group-event",
 )
+_shutdown_event = threading.Event()
+_active_ws = None
+_active_ws_lock = threading.RLock()
+
+
+def _request_shutdown(signum=None, _frame=None):
+    """Stop reconnecting and wake the WebSocket loop on Ctrl+C/SIGTERM."""
+    if _shutdown_event.is_set():
+        return
+    _shutdown_event.set()
+    try:
+        signal_name = signal.Signals(signum).name if signum else "KeyboardInterrupt"
+    except (ValueError, TypeError):
+        signal_name = str(signum or "KeyboardInterrupt")
+    logging.getLogger("basic-bot").info(
+        "[退出] 收到 %s，正在关闭 WebSocket 和后台任务...",
+        signal_name,
+    )
+    with _active_ws_lock:
+        ws = _active_ws
+    if ws is not None:
+        try:
+            ws.close()
+        except Exception:
+            pass
+
+
+def _shutdown_runtime():
+    """Release runtime resources after the main reconnect loop exits."""
+    global _active_ws
+    with _active_ws_lock:
+        _active_ws = None
+    try:
+        _event_executor.shutdown(wait=False, cancel_futures=True)
+    except Exception:
+        pass
+    try:
+        from modules.chrome_utils import reset_browser_path_cache
+        reset_browser_path_cache()
+    except Exception:
+        logging.getLogger("basic-bot").exception("[退出] 关闭浏览器失败")
 
 
 def _authorization_header(token: str) -> list[str]:
@@ -66,8 +107,9 @@ def _start_autoreload():
     logger = logging.getLogger("basic-bot")
     logger.info("[重载] 文件监控已启动，修改 .py 文件自动重启")
 
-    while True:
-        time.sleep(AUTORELOAD_POLL_SECONDS)
+    while not _shutdown_event.is_set():
+        if _shutdown_event.wait(AUTORELOAD_POLL_SECONDS):
+            break
         try:
             for path, old_mtime in list(mtimes.items()):
                 try:
@@ -178,6 +220,7 @@ def on_close(_ws, code, msg):
 
 
 def run():
+    global _active_ws
     logger = logging.getLogger("basic-bot")
     logger.info(f"[配置] 当前配置文件: {CONFIG_PATH}")
     logger.info(f"[配置] WebSocket Token: {'已设置' if ACCESS_TOKEN else '未设置'}（长度={len(ACCESS_TOKEN)}）")
@@ -195,28 +238,48 @@ def run():
         threading.Thread(target=_start_autoreload, daemon=True, name="autoreload").start()
     else:
         logger.info("[重载] 已关闭源码自动重载（服务器部署模式）")
-    while True:
-        try:
-            ws = WebSocketApp(
-                WS_URL,
-                header=_authorization_header(ACCESS_TOKEN),
-                on_open=on_open,
-                on_message=on_message,
-                on_error=on_error,
-                on_close=on_close,
-            )
-            set_ws(ws)
-            run_options = {}
-            if PING_INTERVAL_SECONDS > 0:
-                run_options = {
-                    "ping_interval": PING_INTERVAL_SECONDS,
-                    "ping_timeout": PING_TIMEOUT_SECONDS,
-                }
-            ws.run_forever(**run_options)
-        except Exception as e:
-            logger.error(f"[WS] 异常: {e}")
-        logger.info("[WS] 5 秒后重连…")
-        time.sleep(RECONNECT_SECONDS)
+    signal.signal(signal.SIGINT, _request_shutdown)
+    if hasattr(signal, "SIGTERM"):
+        signal.signal(signal.SIGTERM, _request_shutdown)
+
+    try:
+        while not _shutdown_event.is_set():
+            ws = None
+            try:
+                ws = WebSocketApp(
+                    WS_URL,
+                    header=_authorization_header(ACCESS_TOKEN),
+                    on_open=on_open,
+                    on_message=on_message,
+                    on_error=on_error,
+                    on_close=on_close,
+                )
+                set_ws(ws)
+                with _active_ws_lock:
+                    _active_ws = ws
+                run_options = {}
+                if PING_INTERVAL_SECONDS > 0:
+                    run_options = {
+                        "ping_interval": PING_INTERVAL_SECONDS,
+                        "ping_timeout": PING_TIMEOUT_SECONDS,
+                    }
+                ws.run_forever(**run_options)
+            except KeyboardInterrupt:
+                _request_shutdown()
+            except Exception as e:
+                logger.error(f"[WS] 异常: {e}")
+            finally:
+                with _active_ws_lock:
+                    if _active_ws is ws:
+                        _active_ws = None
+                set_ws(None)
+            if not _shutdown_event.is_set():
+                logger.info(f"[WS] {RECONNECT_SECONDS:g} 秒后重连…")
+                _shutdown_event.wait(RECONNECT_SECONDS)
+    finally:
+        _request_shutdown()
+        _shutdown_runtime()
+        logger.info("[退出] basic-bot 已停止")
 
 
 if __name__ == "__main__":
