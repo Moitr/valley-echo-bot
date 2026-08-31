@@ -1,314 +1,305 @@
-"""共享的 headless Chrome/Edge 截图工具。
+"""Cross-platform browser screenshots backed by Playwright.
 
-从 stardew.py、sve.py、report.py 中提取，统一维护。
-支持两种截图模式：
-  - URL 导航 + 元素截图（Wiki 信息框）
-  - 本地 HTML 文件 + 全页截图（群分析报告）
+The public functions keep their historical names because the Wiki modules use
+them, but the implementation is no longer tied to Chrome or the CDP protocol.
+Playwright can drive Chromium, Firefox, and WebKit on Linux, macOS, and
+Windows. A browser is kept per worker thread and pages/contexts are isolated
+per screenshot, avoiding process startup cost for every image.
 """
 
-import json
+import atexit
+import base64
 import logging
 import os
 import shutil
-import socket
-import subprocess
-import tempfile
+import threading
 import time
 import uuid
-from urllib.request import urlopen
-
-import websocket
 
 from bot.config import section
 
-logger = logging.getLogger("basic-bot.chrome_utils")
+logger = logging.getLogger("basic-bot.browser")
 
 _browser_config = section("browser")
-BROWSER_PATH = str(_browser_config["path"]).strip()
-DEVTOOLS_TIMEOUT_SECONDS = float(_browser_config["devtools_timeout_seconds"])
+BROWSER_NAME = str(_browser_config.get("browser", "auto")).strip().lower() or "auto"
+BROWSER_PATH = str(_browser_config.get("path", "")).strip()
+HEADLESS = bool(_browser_config.get("headless", True))
 PAGE_LOAD_TIMEOUT_SECONDS = float(_browser_config["page_load_timeout_seconds"])
 ELEMENT_TIMEOUT_SECONDS = float(_browser_config["element_timeout_seconds"])
-CDP_TIMEOUT_SECONDS = float(_browser_config["cdp_timeout_seconds"])
 
-# ═══════════════════════════════════════════════════════════════════
-# 浏览器发现（延迟解析，支持运行时重试）
-# ═══════════════════════════════════════════════════════════════════
+_VALID_BROWSERS = {"auto", "chromium", "firefox", "webkit"}
+if BROWSER_NAME not in _VALID_BROWSERS:
+    raise ValueError(
+        f"browser.browser must be one of {sorted(_VALID_BROWSERS)}, got {BROWSER_NAME!r}"
+    )
 
-_BROWSER_PATH_CACHE: str | None = None
-_BROWSER_PATH_TRIED: bool = False
+_browser_cache_lock = threading.RLock()
+_browser_choice_cache: tuple[str, str | None] | None = None
+_thread_session = threading.local()
+_sessions: set["_BrowserSession"] = set()
+_sessions_lock = threading.RLock()
 
 
-def _find_browser_path() -> str | None:
-    """扫描系统查找 Chrome/Edge/Chromium，返回第一个存在的路径。
+def _which_candidates(*names: str) -> list[str]:
+    return [path for name in names if (path := shutil.which(name))]
 
-    按操作系统分别搜索常见安装位置，同时支持 config.py 的 BROWSER['path'] 覆盖。
-    """
-    if BROWSER_PATH and os.path.exists(BROWSER_PATH):
-        return BROWSER_PATH
 
+def _is_macos() -> bool:
+    return os.name == "posix" and os.uname().sysname == "Darwin"
+
+
+def _system_browser_candidates(browser_name: str) -> list[str]:
+    """Return executable candidates in priority order for one browser family."""
+    if browser_name == "firefox":
+        candidates = _which_candidates("firefox", "firefox-esr")
+        if os.name == "nt":
+            candidates.extend(
+                os.path.expandvars(path)
+                for path in (
+                    r"%ProgramFiles%\Mozilla Firefox\firefox.exe",
+                    r"%ProgramFiles(x86)%\Mozilla Firefox\firefox.exe",
+                    r"%LOCALAPPDATA%\Mozilla Firefox\firefox.exe",
+                )
+            )
+        elif _is_macos():
+            candidates.append("/Applications/Firefox.app/Contents/MacOS/firefox")
+        else:
+            candidates.extend(("/usr/bin/firefox", "/usr/bin/firefox-esr"))
+        return candidates
+
+    if browser_name == "webkit":
+        # WebKit is normally supplied by Playwright rather than the OS.
+        return []
+
+    candidates = _which_candidates(
+        "google-chrome-stable",
+        "google-chrome",
+        "chromium",
+        "chromium-browser",
+        "chrome",
+        "microsoft-edge-stable",
+        "microsoft-edge",
+        "msedge",
+    )
     if os.name == "nt":
-        # ── Windows ──
-        candidates = [
-            shutil.which("chrome"),
-            shutil.which("chrome.exe"),
-            shutil.which("msedge"),
-            shutil.which("msedge.exe"),
-            os.path.expandvars(r"%ProgramFiles%\Google\Chrome\Application\chrome.exe"),
-            os.path.expandvars(r"%ProgramFiles(x86)%\Google\Chrome\Application\chrome.exe"),
-            os.path.expandvars(r"%ProgramFiles%\Microsoft\Edge\Application\msedge.exe"),
-            os.path.expandvars(r"%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe"),
-            os.path.expandvars(r"%LOCALAPPDATA%\Google\Chrome\Application\chrome.exe"),
-            os.path.expandvars(r"%LOCALAPPDATA%\Microsoft\Edge\Application\msedge.exe"),
-            os.path.expandvars(
-                r"%LOCALAPPDATA%\Microsoft\WinGet\Packages\Google.Chrome*\chrome.exe"
-            ),
-        ]
+        candidates.extend(
+            os.path.expandvars(path)
+            for path in (
+                r"%ProgramFiles%\Google\Chrome\Application\chrome.exe",
+                r"%ProgramFiles(x86)%\Google\Chrome\Application\chrome.exe",
+                r"%ProgramFiles%\Microsoft\Edge\Application\msedge.exe",
+                r"%LOCALAPPDATA%\Google\Chrome\Application\chrome.exe",
+            )
+        )
+    elif _is_macos():
+        candidates.extend(
+            (
+                "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+                "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
+                "/Applications/Chromium.app/Contents/MacOS/Chromium",
+            )
+        )
     else:
-        # ── Linux / macOS ──
-        candidates = [
-            shutil.which("google-chrome-stable"),
-            shutil.which("google-chrome"),
-            shutil.which("chromium-browser"),
-            shutil.which("chromium"),
-            shutil.which("chrome"),
-            shutil.which("microsoft-edge-stable"),
-            shutil.which("microsoft-edge"),
-            shutil.which("msedge"),
-            # Snap 安装路径
-            "/snap/bin/chromium",
-            "/snap/bin/google-chrome-stable",
-        ]
+        candidates.extend(
+            (
+                "/usr/bin/google-chrome-stable",
+                "/usr/bin/google-chrome",
+                "/usr/bin/chromium",
+                "/usr/bin/chromium-browser",
+                "/snap/bin/chromium",
+            )
+        )
+    return candidates
 
-    for path in candidates:
-        if path and os.path.exists(path):
-            return path
-    return None
+
+def _existing_path(path: str) -> str | None:
+    if not path or not os.path.isfile(path):
+        return None
+    if os.name != "nt" and not os.access(path, os.X_OK):
+        return None
+    return os.path.abspath(path)
+
+
+def _detect_browser() -> tuple[str, str | None] | None:
+    """Choose a Playwright browser and optional system executable."""
+    if BROWSER_PATH:
+        executable = _existing_path(BROWSER_PATH)
+        if not executable:
+            logger.warning("配置的浏览器路径不存在或不可执行: %s", BROWSER_PATH)
+        else:
+            if BROWSER_NAME != "auto":
+                return BROWSER_NAME, executable
+            inferred = "firefox" if "firefox" in executable.lower() else "chromium"
+            return inferred, executable
+
+    families = [BROWSER_NAME] if BROWSER_NAME != "auto" else ["chromium", "firefox", "webkit"]
+    for family in families:
+        for candidate in _system_browser_candidates(family):
+            executable = _existing_path(candidate)
+            if executable:
+                return family, executable
+
+    # Let Playwright look for its own managed browser installation.
+    if BROWSER_NAME != "auto":
+        return BROWSER_NAME, None
+    return "chromium", None
+
+
+def _browser_choice() -> tuple[str, str | None] | None:
+    global _browser_choice_cache
+    with _browser_cache_lock:
+        if _browser_choice_cache is None:
+            _browser_choice_cache = _detect_browser()
+            if _browser_choice_cache:
+                family, executable = _browser_choice_cache
+                logger.info(
+                    "浏览器后端: %s%s",
+                    family,
+                    f" ({executable})" if executable else " (Playwright managed)",
+                )
+            else:
+                logger.error("没有可用的浏览器后端")
+        return _browser_choice_cache
 
 
 def get_browser_path() -> str | None:
-    """返回缓存的浏览器路径。
-
-    首次调用时扫描系统；后续直接返回缓存结果。
-    若之前未找到，可通过 reset_browser_path_cache() 强制重新扫描。
-    """
-    global _BROWSER_PATH_CACHE, _BROWSER_PATH_TRIED
-    if not _BROWSER_PATH_TRIED:
-        _BROWSER_PATH_TRIED = True
-        _BROWSER_PATH_CACHE = _find_browser_path()
-        if _BROWSER_PATH_CACHE:
-            logger.info(f"找到浏览器: {_BROWSER_PATH_CACHE}")
-        else:
-            logger.warning(
-                "未找到 Chrome/Edge，截图功能不可用。"
-                "请安装浏览器或在 config.py 设置 BROWSER['path']。"
-            )
-    return _BROWSER_PATH_CACHE
+    """Return the selected executable, or None for a Playwright-managed one."""
+    choice = _browser_choice()
+    return choice[1] if choice else None
 
 
 def reset_browser_path_cache():
-    """强制重新扫描浏览器路径（例如安装浏览器后调用）。"""
-    global _BROWSER_PATH_CACHE, _BROWSER_PATH_TRIED
-    _BROWSER_PATH_CACHE = None
-    _BROWSER_PATH_TRIED = False
+    """Reset browser discovery and close this thread's cached browser."""
+    global _browser_choice_cache
+    _close_thread_session()
+    with _browser_cache_lock:
+        _browser_choice_cache = None
 
 
-# ═══════════════════════════════════════════════════════════════════
-# 网络工具
-# ═══════════════════════════════════════════════════════════════════
-
-def get_free_port() -> int:
-    """获取一个空闲的 TCP 端口。"""
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        sock.bind(("127.0.0.1", 0))
-        return sock.getsockname()[1]
-
-
-# ═══════════════════════════════════════════════════════════════════
-# CDP 通信
-# ═══════════════════════════════════════════════════════════════════
-
-def devtools_call(ws, method: str, params=None, msg_id=None):
-    """通过 WebSocket 发送 CDP 命令并等待响应。"""
-    if msg_id is None:
-        msg_id = [0]
-    msg_id[0] += 1
-    ws.send(
-        json.dumps({"id": msg_id[0], "method": method, "params": params or {}})
-    )
-    while True:
-        data = json.loads(ws.recv())
-        if data.get("id") == msg_id[0]:
-            return data
-
-
-def wait_for_devtools(port: int, timeout: float = DEVTOOLS_TIMEOUT_SECONDS) -> str | None:
-    """轮询 http://127.0.0.1:<port>/json 直到获取到页面的 WebSocket URL。"""
-    deadline = time.time() + timeout
-    url = f"http://127.0.0.1:{port}/json"
-    while time.time() < deadline:
+class _BrowserSession:
+    def __init__(self, family: str, executable: str | None):
         try:
-            with urlopen(url, timeout=1) as resp:
-                pages = json.loads(resp.read().decode("utf-8"))
-                for page in pages:
-                    if (
-                        page.get("type") == "page"
-                        and page.get("webSocketDebuggerUrl")
-                    ):
-                        return page["webSocketDebuggerUrl"]
+            from playwright.sync_api import sync_playwright
+        except ImportError as error:
+            raise RuntimeError(
+                "缺少 Playwright，请先执行: python -m pip install -r requirements.txt"
+            ) from error
+
+        self.playwright = sync_playwright().start()
+        browser_type = getattr(self.playwright, family)
+        launch_options = {"headless": HEADLESS}
+        if executable:
+            launch_options["executable_path"] = executable
+        if family == "chromium":
+            launch_options["args"] = ["--disable-dev-shm-usage", "--no-sandbox"]
+        try:
+            self.browser = browser_type.launch(**launch_options)
         except Exception:
-            time.sleep(0.2)
-    return None
+            self.playwright.stop()
+            raise
+        self.family = family
+        self.executable = executable
+
+    def close(self):
+        try:
+            self.browser.close()
+        except Exception:
+            pass
+        try:
+            self.playwright.stop()
+        except Exception:
+            pass
 
 
-# ═══════════════════════════════════════════════════════════════════
-# 页面加载等待
-# ═══════════════════════════════════════════════════════════════════
+def _get_session() -> _BrowserSession:
+    session = getattr(_thread_session, "session", None)
+    if session is not None:
+        try:
+            if session.browser.is_connected():
+                return session
+        except Exception:
+            pass
+        _close_thread_session()
 
-def _wait_for_page_load(ws, timeout: float = PAGE_LOAD_TIMEOUT_SECONDS) -> bool:
-    """等待 Page.loadEventFired 或 Page.frameStoppedLoading 事件。
-
-    替代 time.sleep(5) 的硬等待，在页面真的加载完成后立即返回。
-    """
-    deadline = time.time() + timeout
-    old_timeout = ws.gettimeout()
-    ws.settimeout(1.0)
+    choice = _browser_choice()
+    if not choice:
+        raise RuntimeError("没有检测到可用的浏览器")
+    family, executable = choice
     try:
-        while time.time() < deadline:
+        session = _BrowserSession(family, executable)
+    except Exception as error:
+        # System Firefox/Chromium builds can be incompatible with Playwright's
+        # protocol. In auto mode, try the managed Chromium fallback before
+        # reporting a deployment error.
+        if BROWSER_NAME == "auto" and executable:
             try:
-                data = json.loads(ws.recv())
+                session = _BrowserSession("chromium", None)
+                logger.info("系统 %s 不兼容，已切换到 Playwright 管理的 Chromium", family)
             except Exception:
-                continue
-            method = data.get("method", "")
-            if method in ("Page.loadEventFired", "Page.frameStoppedLoading"):
-                return True
-        return False
+                raise RuntimeError(
+                    f"无法启动 {family} ({executable})。请安装 Playwright 浏览器运行时："
+                    "`python -m playwright install chromium`"
+                ) from error
+        elif executable:
+            raise RuntimeError(
+                f"无法启动 {family} ({executable})。请确认浏览器版本兼容，"
+                "或运行 `python -m playwright install chromium firefox webkit`。"
+            ) from error
+        else:
+            raise RuntimeError(
+                f"无法启动 Playwright {family}，请运行 `python -m playwright install {family}`"
+            ) from error
+    _thread_session.session = session
+    with _sessions_lock:
+        _sessions.add(session)
+    return session
+
+
+def _close_thread_session():
+    session = getattr(_thread_session, "session", None)
+    if session is None:
+        return
+    try:
+        session.close()
     finally:
-        ws.settimeout(old_timeout)
+        with _sessions_lock:
+            _sessions.discard(session)
+        _thread_session.session = None
 
 
-def _wait_for_element(ws, selector: str, timeout: float = ELEMENT_TIMEOUT_SECONDS) -> dict | None:
-    """轮询等待 DOM 元素出现，返回其 bounding rect 或 None。"""
-    deadline = time.time() + timeout
-    while time.time() < deadline:
-        result = devtools_call(
-            ws,
-            "Runtime.evaluate",
-            {
-                "expression": f"""
-(() => {{
-  const el = document.querySelector('{selector}');
-  if (!el) return null;
-  const rect = el.getBoundingClientRect();
-  return {{
-    x: rect.x + window.scrollX, y: rect.y + window.scrollY,
-    width: rect.width, height: rect.height, scale: 1
-  }};
-}})()
-""",
-                "returnByValue": True,
-            },
-        )
-        value = result.get("result", {}).get("result", {}).get("value")
-        if value and value.get("width") and value.get("height"):
-            return value
-        time.sleep(0.5)
-    return None
+def _close_all_sessions():
+    with _sessions_lock:
+        sessions = list(_sessions)
+        _sessions.clear()
+    for session in sessions:
+        session.close()
 
 
-# ═══════════════════════════════════════════════════════════════════
-# 浏览器启动与清理
-# ═══════════════════════════════════════════════════════════════════
-
-def launch_browser(
-    url: str,
-    window_size: str = "1280,1600",
-    timeout: float = 30,
-) -> tuple[subprocess.Popen, int, str, str] | None:
-    """启动 headless Chrome 并连接到 DevTools。
-
-    Args:
-        url: 要打开的 URL（支持 http/https/file://）
-        window_size: 窗口尺寸 "WIDTH,HEIGHT"
-        timeout: DevTools 连接超时（秒）
-
-    Returns:
-        (process, port, ws_url, user_data_dir) 或 None（启动失败）
-    """
-    browser_path = get_browser_path()
-    if not browser_path:
-        return None
-
-    port = get_free_port()
-    user_data_dir = tempfile.mkdtemp(prefix="chrome_bot_")
-
-    cmd = [
-        browser_path,
-        "--headless=new",
-        "--disable-gpu",
-        "--hide-scrollbars",
-        "--no-sandbox",
-        f"--remote-debugging-port={port}",
-        "--remote-allow-origins=*",
-        f"--user-data-dir={user_data_dir}",
-        f"--window-size={window_size}",
-        url,
-    ]
-
-    popen_kwargs: dict = {
-        "stdout": subprocess.PIPE,
-        "stderr": subprocess.PIPE,
-    }
-    if os.name == "nt":
-        popen_kwargs["creationflags"] = subprocess.CREATE_NO_WINDOW
-
-    process = subprocess.Popen(cmd, **popen_kwargs)
-
-    ws_url = wait_for_devtools(port, timeout=timeout)
-    if not ws_url:
-        # 收集 stderr 以便排查
-        try:
-            _, stderr = process.communicate(timeout=2)
-            if stderr:
-                logger.error(
-                    f"Chrome stderr (port={port}): "
-                    f"{stderr.decode('utf-8', errors='replace')[:500]}"
-                )
-        except Exception:
-            pass
-        _terminate_process(process)
-        shutil.rmtree(user_data_dir, ignore_errors=True)
-        logger.warning(f"DevTools 连接超时 (port={port})，请确认浏览器能正常启动")
-        return None
-
-    return process, port, ws_url, user_data_dir
+atexit.register(_close_all_sessions)
 
 
-def cleanup_browser(process: subprocess.Popen, user_data_dir: str):
-    """终止浏览器进程并清理临时目录。"""
-    _terminate_process(process)
-    shutil.rmtree(user_data_dir, ignore_errors=True)
+def _new_context(session: _BrowserSession, width: int, height: int):
+    return session.browser.new_context(
+        viewport={"width": max(1, int(width)), "height": max(1, int(height))},
+        device_scale_factor=1,
+    )
 
 
-def _terminate_process(process: subprocess.Popen):
-    """安全终止子进程。"""
+def _wait_for_fonts(page):
+    page.evaluate("document.fonts ? document.fonts.ready : Promise.resolve()")
+
+
+def _wait_for_network_idle(page):
     try:
-        process.terminate()
+        page.wait_for_load_state("networkidle", timeout=PAGE_LOAD_TIMEOUT_SECONDS * 1000)
     except Exception:
-        pass
-    try:
-        process.wait(timeout=5)
-    except subprocess.TimeoutExpired:
-        try:
-            process.kill()
-        except Exception:
-            pass
-    except Exception:
+        # Some Wiki pages keep analytics connections open forever.
         pass
 
 
-# ═══════════════════════════════════════════════════════════════════
-# 高层截图函数
-# ═══════════════════════════════════════════════════════════════════
+def _screenshot_error(action: str, error: Exception):
+    logger.warning("%s失败: %s", action, error)
+
 
 def screenshot_element(
     url: str,
@@ -316,197 +307,86 @@ def screenshot_element(
     output_dir: str,
     window_size: str = "1280,1600",
 ) -> str | None:
-    """导航到 URL，截取指定 CSS 选择器对应的元素。
+    """Navigate to ``url`` and save a CSS element screenshot as a PNG path."""
+    try:
+        width, height = (int(value) for value in window_size.split(",", 1))
+        session = _get_session()
+        context = _new_context(session, width, height)
+        page = context.new_page()
+        page.set_default_timeout(ELEMENT_TIMEOUT_SECONDS * 1000)
+        page.set_default_navigation_timeout(PAGE_LOAD_TIMEOUT_SECONDS * 1000)
+        try:
+            page.goto(url, wait_until="domcontentloaded")
+            _wait_for_network_idle(page)
+            _wait_for_fonts(page)
+            locator = page.locator(selector).first
+            locator.wait_for(state="visible")
+            if not locator.bounding_box():
+                logger.warning("页面元素没有可见尺寸 '%s': %s", selector, url)
+                return None
 
-    Wiki 信息框截图的通用实现。
-
-    Args:
-        url: 页面 URL
-        selector: CSS 选择器（如 ".infoboxborder, .infoboxtable"）
-        output_dir: 图片输出目录
-        window_size: 浏览器窗口尺寸
-
-    Returns:
-        截图 PNG 文件的绝对路径，或 None
-    """
-    launched = launch_browser(url, window_size=window_size)
-    if launched is None:
+            os.makedirs(output_dir, exist_ok=True)
+            image_path = os.path.join(
+                output_dir, f"{int(time.time() * 1000)}_{uuid.uuid4().hex[:12]}.png"
+            )
+            locator.screenshot(path=image_path, type="png", animations="disabled")
+            logger.info("元素截图成功: %s", image_path)
+            return image_path
+        finally:
+            context.close()
+    except Exception as error:
+        _screenshot_error(f"元素截图 ({url})", error)
         return None
 
-    process, port, ws_url, user_data_dir = launched
-    os.makedirs(output_dir, exist_ok=True)
 
-    ts = int(time.time() * 1000)
-    uid = uuid.uuid4().hex[:12]
-    image_path = os.path.join(output_dir, f"{ts}_{uid}.png")
-
-    try:
-        ws = websocket.create_connection(ws_url, timeout=CDP_TIMEOUT_SECONDS)
-        try:
-            devtools_call(ws, "Page.enable")
-            devtools_call(ws, "Runtime.enable")
-
-            # 导航到目标 URL
-            devtools_call(ws, "Page.navigate", {"url": url})
-
-            # 等待页面加载完成（替代 time.sleep(5)）
-            if not _wait_for_page_load(ws, timeout=PAGE_LOAD_TIMEOUT_SECONDS):
-                logger.warning(f"页面加载超时: {url}")
-                return None
-
-            # 等待字体
-            devtools_call(ws, "Runtime.evaluate", {
-                "expression": "document.fonts && document.fonts.ready",
-                "awaitPromise": True,
-            })
-
-            # 轮询等待目标元素出现
-            clip = _wait_for_element(ws, selector, timeout=ELEMENT_TIMEOUT_SECONDS)
-            if not clip:
-                logger.warning(f"页面未找到元素 '{selector}': {url}")
-                return None
-
-            screenshot = devtools_call(ws, "Page.captureScreenshot", {
-                "format": "png",
-                "clip": clip,
-                "captureBeyondViewport": True,
-            })
-            image_data = screenshot.get("result", {}).get("data")
-            if not image_data:
-                logger.warning(f"截图返回空数据: {url}")
-                return None
-
-            with open(image_path, "wb") as f:
-                f.write(base64.b64decode(image_data))
-            logger.info(f"元素截图成功: {image_path}")
-            return image_path
-
-        finally:
-            ws.close()
-    finally:
-        cleanup_browser(process, user_data_dir)
-
-
-# 截图最大高度（像素），超过此高度会被裁剪，防止图片过大导致 QQ 无法加载
-# 设 0 表示不限制，按实际内容高度截图
 def screenshot_full_page(
     html_content: str,
     width: int = 1200,
     height: int = 800,
     max_height: int = 0,
 ) -> str | None:
-    """将 HTML 内容渲染为全页 PNG 图片。
-
-    群分析报告截图的通用实现。
-
-    Args:
-        html_content: 完整的 HTML 文档字符串
-        width: 页面宽度
-        height: 初始高度会被忽略，实际以内容为准
-
-    Returns:
-        base64 图片数据 "base64://..." 或 None
-    """
-    initial_height = max(1, int(height))
-    max_height = max(0, int(max_height))
-    browser_path = get_browser_path()
-    if not browser_path:
-        logger.warning("截图失败：未找到浏览器")
-        return None
-
-    # 写入临时 HTML 文件
-    tmp_dir = tempfile.mkdtemp(prefix="chrome_render_")
-    html_path = os.path.join(tmp_dir, "page.html")
-    with open(html_path, "w", encoding="utf-8") as f:
-        f.write(html_content)
-
-    file_url = f"file:///{html_path.replace(os.sep, '/')}"
-
-    # 先用一个合理的初始视口打开页面
-    INITIAL_HEIGHT = initial_height
-    launched = launch_browser(file_url, window_size=f"{width},{INITIAL_HEIGHT}")
-    if launched is None:
-        shutil.rmtree(tmp_dir, ignore_errors=True)
-        return None
-
-    process, port, ws_url, user_data_dir = launched
-
+    """Render HTML and return a OneBot-compatible ``base64://`` PNG string."""
+    context = None
     try:
-        ws = websocket.create_connection(ws_url, timeout=CDP_TIMEOUT_SECONDS)
-        try:
-            devtools_call(ws, "Page.enable")
+        session = _get_session()
+        context = _new_context(session, width, height)
+        page = context.new_page()
+        page.set_default_timeout(PAGE_LOAD_TIMEOUT_SECONDS * 1000)
+        page.set_content(html_content, wait_until="load")
+        _wait_for_network_idle(page)
+        _wait_for_fonts(page)
 
-            # 用 CDP 覆盖视口尺寸
-            devtools_call(ws, "Emulation.setDeviceMetricsOverride", {
-                "width": width,
-                "height": INITIAL_HEIGHT,
-                "deviceScaleFactor": 1,
-                "mobile": False,
-            })
-
-            # 等待页面渲染和字体加载
-            time.sleep(2)
-            devtools_call(ws, "Runtime.evaluate", {
-                "expression": "document.fonts && document.fonts.ready",
-                "awaitPromise": True,
-            })
-            time.sleep(0.5)
-
-            # 获取页面内容真实底部位置（不受 viewport 高度影响）
-            get_bottom = devtools_call(ws, "Runtime.evaluate", {
-                "expression": (
-                    "Math.max("
-                    "  Array.from(document.body.children).reduce((max, el) => {"
-                    "    var r = el.getBoundingClientRect();"
-                    "    return Math.max(max, r.bottom);"
-                    "  }, 0),"
-                    "  300"
-                    ")"
-                ),
-                "returnByValue": True,
-            })
-            actual_height = int(
-                get_bottom.get("result", {}).get("result", {}).get("value", 800)
-                or 800
+        actual_height = int(
+            page.evaluate(
+                """Math.max(
+                    document.documentElement.scrollHeight || 0,
+                    document.body ? document.body.scrollHeight : 0,
+                    300
+                )"""
             )
-            logger.info(f"页面内容底部: {actual_height}px")
-
-            # 限制最大高度
-            if max_height > 0 and actual_height > max_height:
-                logger.warning(
-                    f"页面高度 {actual_height}px 超过上限 {max_height}px，"
-                    f"将裁剪到 {max_height}px"
-                )
-                actual_height = max_height
-
-            # 把视口精确调到内容高度，确保不出现黑边
-            devtools_call(ws, "Emulation.setDeviceMetricsOverride", {
-                "width": width,
-                "height": actual_height,
-                "deviceScaleFactor": 1,
-                "mobile": False,
-            })
-            time.sleep(0.3)
-
-            # 视口 = 内容高度，直接截视口即可，无需 clip
-            result = devtools_call(ws, "Page.captureScreenshot", {
-                "format": "png",
-                "captureBeyondViewport": False,
-            })
-            image_data = result.get("result", {}).get("data")
-            if not image_data:
-                logger.warning("全页截图失败：返回空数据")
-                return None
-
-            logger.info(f"全页截图成功: {width}x{actual_height}")
-            return f"base64://{image_data}"
-
-        finally:
-            ws.close()
+        )
+        capture_height = min(actual_height, max_height) if max_height > 0 else actual_height
+        if max_height > 0 and actual_height > max_height:
+            logger.warning(
+                "页面高度 %spx 超过上限 %spx，将裁剪到 %spx",
+                actual_height,
+                max_height,
+                max_height,
+            )
+        page.set_viewport_size({"width": max(1, int(width)), "height": max(1, capture_height)})
+        png = page.screenshot(
+            type="png",
+            full_page=max_height <= 0,
+            animations="disabled",
+        )
+        logger.info("全页截图成功: %sx%s", width, capture_height)
+        return "base64://" + base64.b64encode(png).decode("ascii")
+    except Exception as error:
+        _screenshot_error("全页截图", error)
+        return None
     finally:
-        cleanup_browser(process, user_data_dir)
-        shutil.rmtree(tmp_dir, ignore_errors=True)
-
-
-# 为了兼容旧代码，导出 base64
-import base64  # noqa: E402
+        if context is not None:
+            try:
+                context.close()
+            except Exception:
+                pass
