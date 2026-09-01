@@ -226,6 +226,55 @@ def send_group_msg(group_id, message: list) -> dict | None:
     return None
 
 
+def forward_node(content, uin=None, name=None) -> dict:
+    """构造一条群聊合并转发节点。
+
+    ``content`` 可以是 OneBot 消息段列表，也可以是单个消息段或文本字符串。
+    """
+    if isinstance(content, str):
+        # 自定义转发节点直接保留字符串，避免 LLBot 在消息段数组转换时吞掉换行。
+        normalized_content = content
+    elif isinstance(content, dict):
+        normalized_content = [content]
+    elif not isinstance(content, list):
+        raise TypeError("forward node content must be a message segment or list")
+    else:
+        normalized_content = content
+
+    data = {"content": normalized_content}
+    if uin is not None:
+        data["uin"] = uin
+    if name is not None:
+        data["name"] = str(name)
+    return {"type": "node", "data": data}
+
+
+def node(content, uin=None, name=None) -> dict:
+    """Alias for :func:`forward_node`, matching the OneBot segment name."""
+    return forward_node(content, uin=uin, name=name)
+
+
+def send_group_forward_msg(group_id, messages: list[dict]) -> dict | None:
+    """发送群聊合并转发消息，一次提交多条 ``node`` 消息。"""
+    if not isinstance(messages, list) or not messages:
+        raise ValueError("messages must be a non-empty list")
+
+    result = _call_api(
+        "send_group_forward_msg",
+        {"group_id": group_id, "messages": messages},
+        timeout=LONG_TIMEOUT_SECONDS,
+    )
+    if result and result.get("status") == "ok":
+        data = result.get("data") or {}
+        logger.info(f"[群 {group_id}] 发送合并转发消息成功: {len(messages)} 条")
+        msg_id = data.get("message_id")
+        if msg_id:
+            _track_sent_msg(msg_id)
+        return data
+    logger.info(f"[群 {group_id}] 发送合并转发消息失败")
+    return None
+
+
 def send_group_json_card(group_id, card_data) -> dict | None:
     """发送群聊 JSON 卡片消息"""
     if isinstance(card_data, dict):

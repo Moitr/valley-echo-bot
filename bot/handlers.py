@@ -16,11 +16,14 @@ from bot.ai_handler import handle_ai_chat_command, handle_proactive
 from bot.config import CONFIG_PATH, section
 from bot.api import (
     at,
-    face,
+    get_bot_nickname,
+    get_bot_user_id,
     get_group_member_info,
     image,
+    node,
     reply,
     send_group_json_card,
+    send_group_forward_msg,
     send_group_msg,
     send_poke,
     set_group_add_request,
@@ -382,21 +385,75 @@ def _dispatch_event(body):
 PENDING_SEARCHES = {}
 SVE_PENDING_SEARCHES = {}
 _pending_lock = threading.RLock()
-INFO_FACE_IDS = [int(face_id) for face_id in _wiki_config["info_face_ids"]]
 
 
-def wiki_summary_message(message_id, summary):
-    message = [reply(message_id)]
-    lines = summary.split("\n")
-    is_ai = "（以上为AI总结）" in summary
-    for index, line in enumerate(lines):
-        if index:
-            message.append(text("\n"))
-        if index == 0 and not line.startswith("Wiki链接：") and not is_ai:
-            message.append(face(random.choice(INFO_FACE_IDS)))
-            message.append(text(" "))
-        message.append(text(line))
-    return message
+def _wiki_summary_parts(summary: str, fallback_title: str = "", structured=True):
+    """Split a Wiki summary into title, description, fields and link text."""
+    lines = [
+        re.sub(r"\[\s*\d+\s*\]", "", line).strip()
+        for line in str(summary or "").splitlines()
+    ]
+    while lines and not lines[0]:
+        lines.pop(0)
+
+    link_index = next(
+        (index for index, line in enumerate(lines) if line.startswith("Wiki链接：")),
+        len(lines),
+    )
+    body = lines[:link_index]
+    link = lines[link_index] if link_index < len(lines) else ""
+
+    if not structured:
+        return (
+            str(fallback_title or "Wiki查询"),
+            "\n".join(body).strip() or "暂无简介",
+            "暂无条目",
+            link or "Wiki链接：暂无",
+        )
+
+    title = body[0] if body else str(fallback_title or "Wiki查询")
+    rest = body[1:] if body else []
+    try:
+        separator = rest.index("")
+    except ValueError:
+        separator = len(rest)
+
+    description_lines = [line for line in rest[:separator] if line]
+    field_lines = [line for line in rest[separator + 1:] if line]
+    return (
+        title or str(fallback_title or "Wiki查询"),
+        "\n".join(description_lines) or "暂无简介",
+        "\n".join(field_lines) or "暂无条目",
+        link or "Wiki链接：暂无",
+    )
+
+
+def _wiki_forward_nodes(
+    summary,
+    fallback_title="",
+    structured=True,
+):
+    title, description, fields, link = _wiki_summary_parts(
+        summary, fallback_title, structured=structured
+    )
+    node_kwargs = {}
+    bot_id = get_bot_user_id()
+    bot_name = get_bot_nickname()
+    if bot_id:
+        node_kwargs["uin"] = bot_id
+    if bot_name:
+        node_kwargs["name"] = bot_name
+    return [
+        node(title, **node_kwargs),
+        node(description, **node_kwargs),
+        node(fields, **node_kwargs),
+        node(link, **node_kwargs),
+    ]
+
+
+def _wiki_cached_image(item_name, cache_dir):
+    cache_path = _wiki_cache_path(item_name, cache_dir)
+    return cache_path if cache_path and wait_image_ready(cache_path) else None
 
 
 def image_base64(image_path):
@@ -486,8 +543,25 @@ def send_wiki_image(group_id, html, url, item_name):
         logger.error(f"[群 {group_id}] Wiki 信息框截图异常: {err}", exc_info=True)
 
 
-def send_wiki_summary(group_id, message_id, summary):
-    send_group_msg(group_id, wiki_summary_message(message_id, summary))
+def send_wiki_summary(
+    group_id,
+    message_id,
+    summary,
+    item_name=None,
+    cache_dir=None,
+    structured=True,
+):
+    image_path = _wiki_cached_image(item_name, cache_dir) if item_name and cache_dir else None
+    send_group_forward_msg(
+        group_id,
+        _wiki_forward_nodes(
+            summary,
+            item_name or "",
+            structured=structured,
+        ),
+    )
+    if image_path:
+        send_image_with_retry(group_id, image_path)
 
 
 def send_wiki_error(group_id, message_id, err):
@@ -528,8 +602,25 @@ def sve_send_wiki_image(group_id, html, url, item_name):
         logger.error(f"[群 {group_id}] SVE Wiki 信息框截图异常: {err}", exc_info=True)
 
 
-def sve_send_wiki_summary(group_id, message_id, summary):
-    send_group_msg(group_id, wiki_summary_message(message_id, summary))
+def sve_send_wiki_summary(
+    group_id,
+    message_id,
+    summary,
+    item_name=None,
+    cache_dir=None,
+    structured=True,
+):
+    image_path = _wiki_cached_image(item_name, cache_dir) if item_name and cache_dir else None
+    send_group_forward_msg(
+        group_id,
+        _wiki_forward_nodes(
+            summary,
+            item_name or "",
+            structured=structured,
+        ),
+    )
+    if image_path:
+        send_image_with_retry(group_id, image_path)
 
 
 def sve_send_wiki_error(group_id, message_id, err):
@@ -587,8 +678,16 @@ def handle_wiki_command(message, group_id, user_id, message_id, self_id):
                 send_wiki_error(group_id, message_id, err)
                 return True
             summary = _auto_summarize(group_id, message_id, summary, page_url)
-            send_wiki_summary(group_id, message_id, summary)
-            if has_image:
+            item_name = selected.get("title") or pending.get("item_name")
+            send_wiki_summary(
+                group_id,
+                message_id,
+                summary,
+                item_name=item_name,
+                cache_dir=STARDEW_SCREENSHOT_DIR,
+                structured=has_image,
+            )
+            if has_image and not _wiki_cached_image(item_name, STARDEW_SCREENSHOT_DIR):
                 threading.Thread(
                     target=send_wiki_image,
                     args=(group_id, html, page_url, selected.get("title") or pending.get("item_name")),
@@ -614,8 +713,16 @@ def handle_wiki_command(message, group_id, user_id, message_id, self_id):
             except SveWikiRequestError as err:
                 sve_send_wiki_error(group_id, message_id, err)
                 return True
-            sve_send_wiki_summary(group_id, message_id, summary)
-            if has_image:
+            item_name = selected.get("title") or sve_pending.get("item_name")
+            sve_send_wiki_summary(
+                group_id,
+                message_id,
+                summary,
+                item_name=item_name,
+                cache_dir=SVE_SCREENSHOT_DIR,
+                structured=has_image,
+            )
+            if has_image and not _wiki_cached_image(item_name, SVE_SCREENSHOT_DIR):
                 threading.Thread(
                     target=sve_send_wiki_image,
                     args=(group_id, html, page_url, selected.get("title") or sve_pending.get("item_name")),
@@ -639,8 +746,15 @@ def handle_wiki_command(message, group_id, user_id, message_id, self_id):
 
             if direct_summary:
                 direct_summary = _auto_summarize(group_id, message_id, direct_summary, page_url)
-                send_wiki_summary(group_id, message_id, direct_summary)
-                if has_image:
+                send_wiki_summary(
+                    group_id,
+                    message_id,
+                    direct_summary,
+                    item_name=search_text,
+                    cache_dir=STARDEW_SCREENSHOT_DIR,
+                    structured=has_image,
+                )
+                if has_image and not _wiki_cached_image(search_text, STARDEW_SCREENSHOT_DIR):
                     threading.Thread(
                         target=send_wiki_image,
                         args=(group_id, html, page_url, search_text),
@@ -690,8 +804,15 @@ def handle_wiki_command(message, group_id, user_id, message_id, self_id):
                 return True
 
             if direct_summary:
-                sve_send_wiki_summary(group_id, message_id, direct_summary)
-                if has_image:
+                sve_send_wiki_summary(
+                    group_id,
+                    message_id,
+                    direct_summary,
+                    item_name=search_text,
+                    cache_dir=SVE_SCREENSHOT_DIR,
+                    structured=has_image,
+                )
+                if has_image and not _wiki_cached_image(search_text, SVE_SCREENSHOT_DIR):
                     threading.Thread(
                         target=sve_send_wiki_image,
                         args=(group_id, html, page_url, search_text),
