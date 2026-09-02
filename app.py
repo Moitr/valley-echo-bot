@@ -10,8 +10,7 @@ from concurrent.futures import ThreadPoolExecutor
 from websocket import WebSocketApp
 
 from bot.transport import get_login_info, handle_api_response, set_bot_identity, set_ws
-from bot.ai_config import DEEPSEEK_KEY
-from bot.config import CONFIG_PATH, section
+from config import CONFIG_PATH, DEEPSEEK_KEY, section
 from bot.event_router import dispatch_group_event
 
 logging.getLogger("websocket").setLevel(logging.ERROR)
@@ -82,7 +81,7 @@ def _authorization_header(token: str) -> list[str]:
     if not token:
         return []
     value = token if token.lower().startswith("bearer ") else f"Bearer {token}"
-    # websocket-client 官方支持的 header 列表格式，避免不同版本对 dict 的兼容差异。
+    # websocket-client 使用官方支持的 header 列表格式。
     return [f"Authorization: {value}"]
 
 
@@ -171,7 +170,7 @@ def on_message(_ws, raw):
         return
 
     if data.get("status") == "failed" and data.get("retcode") == 1403:
-        from bot.api import handle_auth_failure
+        from bot.transport import handle_auth_failure
         handle_auth_failure(data)
 
     if data.get("post_type") == "meta_event" and data.get("meta_event_type") == "heartbeat":
@@ -207,7 +206,7 @@ def on_error(_ws, err):
 
 def on_close(_ws, code, msg):
     set_ws(None)
-    from bot.api import fail_pending_requests
+    from bot.transport import fail_pending_requests
     fail_pending_requests({
         "status": "failed",
         "retcode": 1000,

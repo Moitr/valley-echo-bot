@@ -6,7 +6,7 @@ import tempfile
 import threading
 import time
 
-from bot.config import section, state_path
+from config import section, state_path
 from logger import logger
 
 _ai_config = section("ai")

@@ -5,8 +5,7 @@ import re
 import requests
 
 from logger import logger
-from bot.ai_config import DEEPSEEK_KEY, DEEPSEEK_SUMMARIZE_MODEL, DEEPSEEK_URL
-from bot.config import section
+from config import DEEPSEEK_KEY, DEEPSEEK_SUMMARIZE_MODEL, DEEPSEEK_URL, section
 from modules.wiki.stardew import WikiRequestError, get_page_full_text
 
 _wiki_config = section("wiki")

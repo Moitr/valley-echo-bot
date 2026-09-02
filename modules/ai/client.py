@@ -8,9 +8,7 @@ from collections import defaultdict
 
 import requests
 
-from bot.ai_config import DEEPSEEK_KEY, DEEPSEEK_MODEL, DEEPSEEK_URL
-from bot.config import section
-from bot.group_config import SHARED_MEMORY_GROUPS
+from config import DEEPSEEK_KEY, DEEPSEEK_MODEL, DEEPSEEK_URL, SHARED_MEMORY_GROUPS, section
 from modules.ai.state import (
     COOLDOWN_SECONDS,
     DEFAULT_AFFECTION,
@@ -160,9 +158,6 @@ def _parse_json_text(text: str | None) -> dict | None:
     return None
 
 
-# 兼容旧的内部导入；新代码应从 modules.ai.streaming 导入。
-_SpeechStreamParser = SpeechStreamParser
-_stream_events = stream_events
 
 
 def _call_api_stream(
@@ -209,20 +204,7 @@ def _call_api_stream(
         if not resp.ok:
             logger.error(f"[AI Chat] 流式 API 错误: status={resp.status_code}, body={resp.text[:300]}")
             return None
-        content_type = str(getattr(resp, "headers", {}).get("content-type", "")).lower()
-        if content_type and "text/event-stream" not in content_type:
-            # 某些兼容网关会忽略 stream=true，返回普通 JSON；兼容它们但不假装是流式。
-            data = resp.json()
-            if isinstance(data, dict):
-                choices = data.get("choices") or []
-                if choices and isinstance(choices[0], dict):
-                    message = choices[0].get("message") or {}
-                    piece = message.get("content") or ""
-                    if on_content is not None and isinstance(piece, str):
-                        on_content(piece)
-                logger.warning("[AI Chat] 网关返回普通 JSON，未实际启用流式")
-                return data
-        for event in _stream_events(resp):
+        for event in stream_events(resp):
             event_count += 1
             if first_event_at is None:
                 first_event_at = time.monotonic()
@@ -388,7 +370,7 @@ def _call_with_tools(messages: list[dict], on_speech=None) -> dict | None:
     for round_num in range(MAX_TOOL_ROUNDS + 1):
         stream_callback = None if suppress_stream_speech else on_speech
         stream_parser = (
-            _SpeechStreamParser(stream_callback)
+            SpeechStreamParser(stream_callback)
             if stream_callback is not None
             else None
         )
@@ -451,7 +433,7 @@ def _call_with_tools(messages: list[dict], on_speech=None) -> dict | None:
     logger.warning("[AI Chat] 所有轮次耗尽，强制无工具修复...")
     stream_callback = None if suppress_stream_speech else on_speech
     stream_parser = (
-        _SpeechStreamParser(stream_callback)
+        SpeechStreamParser(stream_callback)
         if stream_callback is not None
         else None
     )
@@ -653,7 +635,7 @@ def proactive_chat(
         {"role": "user", "content": user_content},
     ]
 
-    stream_parser = _SpeechStreamParser(on_speech) if on_speech is not None else None
+    stream_parser = SpeechStreamParser(on_speech) if on_speech is not None else None
     data = _call_api(
         messages,
         with_tools=False,

@@ -3,7 +3,7 @@
 import json
 import os
 
-from bot.config import section
+from config import section
 from modules.knowledge.stardew.translate import (
     tr_category,
     tr_cooking,

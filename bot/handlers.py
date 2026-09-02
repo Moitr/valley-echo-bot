@@ -13,7 +13,7 @@ from datetime import datetime
 from PIL import Image
 
 from bot.ai_handler import handle_ai_chat_command, handle_proactive
-from bot.config import CONFIG_PATH, section
+from config import PROJECT_ROOT, section
 from bot.transport import (
     at,
     get_bot_nickname,
@@ -30,7 +30,7 @@ from bot.transport import (
     set_group_special_title,
     text,
 )
-from bot.group_config import (
+from config import (
     AI_CHAT_GROUPS,
     LEAVE_GROUPS,
     POKE_GROUPS,
@@ -61,7 +61,7 @@ from modules.knowledge.wiki import (
 _welcome_config = section("welcome")
 _wiki_config = section("wiki")
 _poke_config = section("poke")
-WELCOME_IMAGE = str(CONFIG_PATH.parent / str(_welcome_config["image_path"]))
+WELCOME_IMAGE = str(PROJECT_ROOT / str(_welcome_config["image_path"]))
 MAX_SIZE = int(_welcome_config["max_image_size"])
 SELECTION_TIMEOUT_SECONDS = float(_wiki_config["selection_timeout_seconds"])
 POKE_REPLIES = tuple(
@@ -154,7 +154,7 @@ def has_reply_to_bot(message):
     target_id = _get_reply_target_id(message)
     if not target_id:
         return False
-    from bot.api import is_sent_by_bot
+    from bot.transport import is_sent_by_bot
     return is_sent_by_bot(target_id)
 
 
@@ -211,7 +211,7 @@ def _image_urls(message):
         data = segment.get("data") or {}
         if not isinstance(data, dict):
             continue
-        # llbot/OneBot 通常提供 url；file 兼容已经是 URL 或 Data URL 的实现。
+        # llbot/OneBot 通常提供 url，必要时也接受 Data URL。
         candidate = data.get("url") or data.get("file")
         if not isinstance(candidate, str):
             continue

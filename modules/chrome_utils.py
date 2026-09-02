@@ -18,7 +18,7 @@ import threading
 import time
 import uuid
 
-from bot.config import section
+from config import section
 
 logger = logging.getLogger("basic-bot.browser")
 

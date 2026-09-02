@@ -7,7 +7,7 @@ from urllib.parse import quote, urljoin
 
 import requests
 
-from bot.config import section, state_path
+from config import section, state_path
 from modules.chrome_utils import screenshot_element
 
 logger = logging.getLogger("basic-bot.sve_wiki_search")
