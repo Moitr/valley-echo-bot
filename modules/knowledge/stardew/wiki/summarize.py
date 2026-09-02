@@ -6,7 +6,7 @@ import requests
 
 from logger import logger
 from config import DEEPSEEK_KEY, DEEPSEEK_SUMMARIZE_MODEL, DEEPSEEK_URL, section
-from modules.wiki.stardew import WikiRequestError, get_page_full_text
+from modules.knowledge.stardew.wiki.vanilla import WikiRequestError, get_page_full_text
 
 _wiki_config = section("wiki")
 SUMMARY_REQUEST_TIMEOUT_SECONDS = float(_wiki_config["summary_request_timeout_seconds"])

@@ -39,20 +39,23 @@ from config import (
     WIKI_GROUPS,
 )
 from logger import logger
-from modules.knowledge.wiki import (
-    WikiRequestError,
-    get_direct_page_summary_data,
-    get_page_summary_data,
-    get_search_results,
-    save_infobox_screenshot,
-    STARDEW_SCREENSHOT_DIR,
+from modules.knowledge.stardew.wiki.sve import (
     WikiRequestError as SveWikiRequestError,
     get_direct_page_summary_data as sve_get_direct_page_summary_data,
     get_page_summary_data as sve_get_page_summary_data,
     get_search_results as sve_get_search_results,
     save_infobox_screenshot as sve_save_infobox_screenshot,
-    SVE_SCREENSHOT_DIR,
+    SCREENSHOT_DIR as SVE_SCREENSHOT_DIR,
 )
+from modules.knowledge.stardew.wiki.vanilla import (
+    WikiRequestError,
+    get_direct_page_summary_data,
+    get_page_summary_data,
+    get_search_results,
+    save_infobox_screenshot,
+    SCREENSHOT_DIR as STARDEW_SCREENSHOT_DIR,
+)
+from modules.knowledge.stardew.wiki.summarize import summarize_wiki_page
 
 # ═══════════════════════════════════════════════════════════════════════
 # 欢迎消息

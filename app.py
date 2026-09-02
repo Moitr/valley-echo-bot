@@ -70,7 +70,7 @@ def _shutdown_runtime():
     except Exception:
         pass
     try:
-        from modules.chrome_utils import reset_browser_path_cache
+        from modules.infrastructure.browser import reset_browser_path_cache
         reset_browser_path_cache()
     except Exception:
         logging.getLogger("basic-bot").exception("[退出] 关闭浏览器失败")
