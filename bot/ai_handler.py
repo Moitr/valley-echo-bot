@@ -11,7 +11,7 @@ from collections import defaultdict
 
 from bot.api import image, send_group_json_card, send_group_msg, text
 from bot.config import CONFIG_PATH, section
-from modules.ai.client import (
+from modules.ai.service import (
     chat,
     get_affection,
     is_cooldown,
