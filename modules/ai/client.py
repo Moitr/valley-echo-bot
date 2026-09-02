@@ -22,7 +22,7 @@ from modules.ai.state import (
 from modules.ai.prompt import PROACTIVE_SYSTEM_PROMPT, SYSTEM_PROMPT
 from modules.ai.streaming import SpeechStreamParser, stream_events
 from modules.ai.tools import TOOLS
-from modules.knowledge.stardew import execute_tool
+from modules.knowledge.stardew_valley import execute_tool
 from modules.ai.group_memory import get_context as get_group_memory_context
 from modules.ai.group_memory import record as record_group_memory
 from logger import logger

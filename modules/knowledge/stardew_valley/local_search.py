@@ -4,7 +4,7 @@ import json
 import os
 
 from config import section
-from modules.knowledge.stardew.translate import (
+from modules.knowledge.stardew_valley.translate import (
     tr_category,
     tr_cooking,
     tr_crop,
@@ -540,7 +540,7 @@ def _wiki_search(query: str) -> str:
         return "Wiki 鎼滅储闇€瑕佹彁渚涘叧閿瘝銆?"
 
     try:
-        from modules.knowledge.stardew.wiki.vanilla import (
+        from modules.knowledge.stardew_valley.wiki.vanilla import (
             WikiRequestError,
             get_direct_page_summary,
             get_page_full_text,
@@ -583,7 +583,7 @@ def _wiki_search(query: str) -> str:
 
         # 优先用 AI 摘要（deepseek-v4-flash + 两步法 prompt），失败再回落原始全文
         try:
-            from modules.knowledge.stardew.wiki.summarize import summarize_wiki_page
+            from modules.knowledge.stardew_valley.wiki.summarize import summarize_wiki_page
             ai_summary = summarize_wiki_page(url)
             if ai_summary:
                 return f"{ai_summary}\n\nWiki链接：{url}"
