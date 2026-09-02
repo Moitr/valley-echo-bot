@@ -12,9 +12,9 @@ from datetime import datetime
 
 from PIL import Image
 
-from bot.ai_handler import handle_ai_chat_command, handle_proactive
+from onebot.ai_handler import handle_ai_chat_command, handle_proactive
 from config import PROJECT_ROOT, section
-from bot.transport import (
+from onebot.transport import (
     at,
     get_bot_nickname,
     get_bot_user_id,
@@ -157,7 +157,7 @@ def has_reply_to_bot(message):
     target_id = _get_reply_target_id(message)
     if not target_id:
         return False
-    from bot.transport import is_sent_by_bot
+    from onebot.transport import is_sent_by_bot
     return is_sent_by_bot(target_id)
 
 

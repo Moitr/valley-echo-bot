@@ -9,9 +9,9 @@ from concurrent.futures import ThreadPoolExecutor
 
 from websocket import WebSocketApp
 
-from bot.transport import get_login_info, handle_api_response, set_bot_identity, set_ws
+from onebot.transport import get_login_info, handle_api_response, set_bot_identity, set_ws
 from config import CONFIG_PATH, DEEPSEEK_KEY, section
-from bot.event_router import dispatch_group_event
+from onebot.event_router import dispatch_group_event
 
 logging.getLogger("websocket").setLevel(logging.ERROR)
 
@@ -170,7 +170,7 @@ def on_message(_ws, raw):
         return
 
     if data.get("status") == "failed" and data.get("retcode") == 1403:
-        from bot.transport import handle_auth_failure
+        from onebot.transport import handle_auth_failure
         handle_auth_failure(data)
 
     if data.get("post_type") == "meta_event" and data.get("meta_event_type") == "heartbeat":
@@ -206,7 +206,7 @@ def on_error(_ws, err):
 
 def on_close(_ws, code, msg):
     set_ws(None)
-    from bot.transport import fail_pending_requests
+    from onebot.transport import fail_pending_requests
     fail_pending_requests({
         "status": "failed",
         "retcode": 1000,

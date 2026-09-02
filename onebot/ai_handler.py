@@ -9,7 +9,7 @@ import threading
 import time
 from collections import defaultdict
 
-from bot.transport import image, send_group_json_card, send_group_msg, text
+from onebot.transport import image, send_group_json_card, send_group_msg, text
 from config import section, state_path
 from modules.ai.service import (
     chat,
