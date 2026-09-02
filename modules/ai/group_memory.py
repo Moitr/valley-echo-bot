@@ -6,13 +6,13 @@ import tempfile
 import threading
 import time
 
-from bot.config import CONFIG_PATH, section
+from bot.config import section, state_path
 from logger import logger
 
 _ai_config = section("ai")
 _storage_config = section("storage")
 
-_MEMORY_FILE = str(CONFIG_PATH.parent / str(_storage_config["shared_memories_file"]))
+_MEMORY_FILE = str(state_path(str(_storage_config["shared_memories_file"])))
 MAX_ITEMS_PER_GROUP = int(_ai_config["shared_memory_max_items_per_group"])
 MAX_FACT_CHARACTERS = int(_ai_config["shared_memory_max_fact_characters"])
 MAX_CONTEXT_CHARACTERS = int(_ai_config["shared_memory_context_max_characters"])

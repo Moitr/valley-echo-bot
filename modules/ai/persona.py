@@ -6,7 +6,7 @@ import tempfile
 import threading
 
 from logger import logger
-from bot.config import CONFIG_PATH, section
+from bot.config import section, state_path
 
 # ═══════════════════════════════════════════════════════════════
 # 常量
@@ -21,8 +21,8 @@ AFFECTION_CHANGE_LIMIT = float(_ai_config["affection_change_limit"])
 MAX_HISTORY = int(_ai_config["max_history"])
 MAX_TOOL_ROUNDS = int(_ai_config["max_tool_rounds"])
 
-_DATA_FILE = str(CONFIG_PATH.parent / str(_storage_config["affections_file"]))
-_HISTORY_FILE = str(CONFIG_PATH.parent / str(_storage_config["ai_histories_file"]))
+_DATA_FILE = str(state_path(str(_storage_config["affections_file"])))
+_HISTORY_FILE = str(state_path(str(_storage_config["ai_histories_file"])))
 
 # ═══════════════════════════════════════════════════════════════
 # 好感度 & 对话历史持久化

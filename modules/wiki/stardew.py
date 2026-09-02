@@ -7,7 +7,7 @@ from urllib.parse import quote, urljoin
 
 import requests
 
-from bot.config import CONFIG_PATH, section
+from bot.config import section, state_path
 from modules.chrome_utils import screenshot_element
 
 logger = logging.getLogger("basic-bot.wiki_search")
@@ -19,7 +19,7 @@ SEARCH_URL = str(_site_config["search_url"])
 WIKI_BASE_URL = str(_site_config["base_url"])
 WIKI_PAGE_BASE_URL = str(_site_config["page_base_url"])
 USER_AGENT = str(_wiki_config["user_agent"])
-SCREENSHOT_DIR = str(CONFIG_PATH.parent / str(_site_config["screenshot_dir"]))
+SCREENSHOT_DIR = str(state_path(str(_site_config["screenshot_dir"])))
 REQUEST_TIMEOUT_SECONDS = float(_wiki_config["request_timeout_seconds"])
 HEADERS = {
     "User-Agent": USER_AGENT,
