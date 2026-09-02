@@ -11,7 +11,7 @@ import requests
 from bot.ai_config import DEEPSEEK_KEY, DEEPSEEK_MODEL, DEEPSEEK_URL
 from bot.config import section
 from bot.group_config import SHARED_MEMORY_GROUPS
-from modules.ai.persona import (
+from modules.ai.state import (
     COOLDOWN_SECONDS,
     DEFAULT_AFFECTION,
     AFFECTION_CHANGE_LIMIT,
