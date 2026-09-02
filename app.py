@@ -12,7 +12,7 @@ from websocket import WebSocketApp
 from bot.transport import get_login_info, handle_api_response, set_bot_identity, set_ws
 from bot.ai_config import DEEPSEEK_KEY
 from bot.config import CONFIG_PATH, section
-from bot.handlers import dispatch_group_event
+from bot.event_router import dispatch_group_event
 
 logging.getLogger("websocket").setLevel(logging.ERROR)
 
