@@ -9,7 +9,7 @@ import threading
 import time
 from collections import defaultdict
 
-from bot.api import image, send_group_json_card, send_group_msg, text
+from bot.transport import image, send_group_json_card, send_group_msg, text
 from bot.config import CONFIG_PATH, section
 from modules.ai.service import (
     chat,

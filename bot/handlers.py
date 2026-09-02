@@ -14,7 +14,7 @@ from PIL import Image
 
 from bot.ai_handler import handle_ai_chat_command, handle_proactive
 from bot.config import CONFIG_PATH, section
-from bot.api import (
+from bot.transport import (
     at,
     get_bot_nickname,
     get_bot_user_id,
