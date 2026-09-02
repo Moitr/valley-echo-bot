@@ -4,7 +4,7 @@ import json
 import os
 
 from bot.config import section
-from modules.game.translate import (
+from modules.knowledge.stardew.translate import (
     tr_category,
     tr_cooking,
     tr_crop,
@@ -17,7 +17,7 @@ from modules.game.translate import (
     tr_weather,
 )
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), "stardew")
+DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 
 _cache: dict[str, list[dict]] = {}
 
