@@ -77,9 +77,9 @@ if not POKE_REPLIES:
     raise ValueError("poke.reply_messages must contain at least one non-empty message")
 
 _ai_config = section("ai")
-_RECENT_CONTEXT_MESSAGES = max(1, int(_ai_config.get("proactive_context_messages", 6)))
+_RECENT_CONTEXT_MESSAGES = max(1, int(_ai_config["proactive_context_messages"]))
 _RECENT_CONTEXT_MAX_CHARACTERS = max(
-    200, int(_ai_config.get("proactive_context_max_characters", 1200))
+    200, int(_ai_config["proactive_context_max_characters"])
 )
 _recent_group_messages: defaultdict[str, deque[str]] = defaultdict(
     lambda: deque(maxlen=_RECENT_CONTEXT_MESSAGES)

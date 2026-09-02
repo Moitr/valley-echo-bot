@@ -35,12 +35,12 @@ CHAT_MAX_TOKENS = int(_ai_runtime_config["chat_max_tokens"])
 AI_REQUEST_TIMEOUT_SECONDS = float(_ai_runtime_config["request_timeout_seconds"])
 STREAM_REQUEST_TIMEOUT_SECONDS = max(
     AI_REQUEST_TIMEOUT_SECONDS,
-    float(_ai_runtime_config.get("stream_request_timeout_seconds", 60)),
+    float(_ai_runtime_config["stream_request_timeout_seconds"]),
 )
-STREAMING_ENABLED = str(_ai_runtime_config.get("streaming_enabled", True)).strip().lower() in {
+STREAMING_ENABLED = str(_ai_runtime_config["streaming_enabled"]).strip().lower() in {
     "1", "true", "yes", "on"
 }
-MAX_INPUT_IMAGES = max(1, int(_ai_runtime_config.get("max_input_images", 3)))
+MAX_INPUT_IMAGES = max(1, int(_ai_runtime_config["max_input_images"]))
 SHARED_MEMORY_MODEL = str(_ai_runtime_config["shared_memory_model"]).strip()
 SHARED_MEMORY_EXTRACTION_CONTEXT_MAX_CHARACTERS = int(
     _ai_runtime_config["shared_memory_extraction_context_max_characters"]

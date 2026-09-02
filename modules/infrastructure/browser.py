@@ -23,9 +23,9 @@ from config import section
 logger = logging.getLogger("basic-bot.browser")
 
 _browser_config = section("browser")
-BROWSER_NAME = str(_browser_config.get("browser", "auto")).strip().lower() or "auto"
-BROWSER_PATH = str(_browser_config.get("path", "")).strip()
-HEADLESS = bool(_browser_config.get("headless", True))
+BROWSER_NAME = str(_browser_config["browser"]).strip().lower()
+BROWSER_PATH = str(_browser_config["path"]).strip()
+HEADLESS = bool(_browser_config["headless"])
 PAGE_LOAD_TIMEOUT_SECONDS = float(_browser_config["page_load_timeout_seconds"])
 ELEMENT_TIMEOUT_SECONDS = float(_browser_config["element_timeout_seconds"])
 
