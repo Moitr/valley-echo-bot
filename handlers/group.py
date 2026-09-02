@@ -12,7 +12,7 @@ from datetime import datetime
 
 from PIL import Image
 
-from onebot.ai_handler import handle_ai_chat_command, handle_proactive
+from handlers.ai import handle_ai_chat_command, handle_proactive
 from config import PROJECT_ROOT, section
 from onebot.transport import (
     at,
