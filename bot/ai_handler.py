@@ -122,6 +122,32 @@ def _send_speech(group_id, speech):
             send_group_msg(group_id, [text(_strip_markdown(speech))])
 
 
+def _stream_speech_sender(group_id, sent_messages):
+    """返回流式 speech 回调；每个完整消息只发送一次。"""
+    def _send_piece(piece):
+        piece = str(piece or "").strip()
+        if not piece:
+            return
+        try:
+            _send_speech(group_id, piece)
+        except Exception:
+            logger.exception(f"[群 {group_id}] 流式 speech 发送失败")
+            return
+        sent_messages.append(piece)
+
+    return _send_piece
+
+
+def _send_unsent_speech(group_id, speech, sent_count):
+    """流式解析只发出部分消息时，补发最终 JSON 中剩余的消息。"""
+    if isinstance(speech, list):
+        remaining = speech[sent_count:]
+        if remaining:
+            _send_speech(group_id, remaining)
+    elif not sent_count:
+        _send_speech(group_id, speech)
+
+
 def _run_background(task, group_id):
     try:
         task()
@@ -169,16 +195,22 @@ def handle_ai_chat_command(message, group_id, user_id, msg_text, message_id, sel
     affection = get_affection(group_id, user_id)
 
     def _call_and_reply():
+        streamed_messages = []
+        on_speech = _stream_speech_sender(group_id, streamed_messages)
         if image_urls:
             result = chat(
-                group_id, user_id, text_stripped, affection, image_urls=image_urls
+                group_id, user_id, text_stripped, affection,
+                image_urls=image_urls, on_speech=on_speech,
             )
         else:
-            result = chat(group_id, user_id, text_stripped, affection)
+            result = chat(
+                group_id, user_id, text_stripped, affection,
+                on_speech=on_speech,
+            )
         if result:
             speech, new_affection, send_card, send_mine_card, send_calendar_card, send_fish_img = result
             set_affection(group_id, user_id, new_affection)
-            _send_speech(group_id, speech)
+            _send_unsent_speech(group_id, speech, len(streamed_messages))
             if send_card:
                 cards = _load_cards()
                 if cards and "mod_tutorial" in cards:
@@ -199,7 +231,12 @@ def handle_ai_chat_command(message, group_id, user_id, msg_text, message_id, sel
                     logger.info(f"[群 {group_id}] 钓鱼图已发送")
             remember_group_exchange(group_id, user_id, text_stripped)
         else:
-            send_group_msg(group_id, [text("呜…脑袋卡住了，等会儿再说啦！")])
+            if streamed_messages:
+                logger.warning(
+                    f"[群 {group_id}] AI 流式回复中断，已发送 {len(streamed_messages)} 条"
+                )
+            else:
+                send_group_msg(group_id, [text("呜…脑袋卡住了，等会儿再说啦！")])
 
     threading.Thread(
         target=_run_background,
@@ -260,6 +297,8 @@ def handle_proactive(message, group_id, user_id, msg_text, message_id, self_id,
     )
 
     def _call_and_reply():
+        streamed_messages = []
+        on_speech = _stream_speech_sender(group_id, streamed_messages)
         if image_urls:
             result = proactive_chat(
                 group_id,
@@ -268,22 +307,28 @@ def handle_proactive(message, group_id, user_id, msg_text, message_id, self_id,
                 affection,
                 image_urls=image_urls,
                 recent_context=recent_context,
+                on_speech=on_speech,
             )
         else:
             result = proactive_chat(
                 group_id, user_id, text_stripped, affection,
                 recent_context=recent_context,
+                on_speech=on_speech,
             )
         if result:
             speech, new_affection, send_fish_img = result
             set_affection(group_id, user_id, new_affection)
-            _send_speech(group_id, speech)
+            _send_unsent_speech(group_id, speech, len(streamed_messages))
             if send_fish_img:
                 fish_img = _load_fishing_image()
                 if fish_img:
                     time.sleep(random.uniform(0.3, 0.6))
                     send_group_msg(group_id, [image(fish_img)])
                     logger.info(f"[群 {group_id}] 主动搭话触发钓鱼图")
+        elif streamed_messages:
+            logger.warning(
+                f"[群 {group_id}] 主动搭话流式回复中断，已发送 {len(streamed_messages)} 条"
+            )
 
     threading.Thread(
         target=_run_background,
