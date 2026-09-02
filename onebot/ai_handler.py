@@ -10,7 +10,7 @@ import time
 from collections import defaultdict
 
 from onebot.transport import image, send_group_json_card, send_group_msg, text
-from config import section, state_path
+from config import PROJECT_ROOT, section
 from modules.ai.service import (
     chat,
     get_affection,
@@ -56,11 +56,11 @@ def _count_recent_speakers(group_id) -> int:
     return max(count, 1)  # 至少 1（当前用户）
 
 # 卡片数据（模组教程 + 矿洞分布）
-_CARDS_FILE = str(state_path(str(_storage_config["feed_cards_file"])))
+_CARDS_FILE = str(PROJECT_ROOT / str(_storage_config["feed_cards_file"]))
 _CARDS: dict | None = None
 
 # 星露谷钓鱼图
-_FISHING_IMAGE = str(state_path(str(_storage_config["fishing_image_path"])))
+_FISHING_IMAGE = str(PROJECT_ROOT / str(_storage_config["fishing_image_path"]))
 
 _FISHING_IMAGE_B64: str | None = None
 

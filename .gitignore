@@ -3,5 +3,4 @@ __pycache__/
 venv/
 
 # Runtime state and downloaded/generated images
-data/wiki_images/
-data/sve_wiki_images/
+data/
