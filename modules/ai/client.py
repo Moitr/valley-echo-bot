@@ -18,13 +18,12 @@ from modules.ai.persona import (
     AFFECTION_CHANGE_LIMIT,
     MAX_HISTORY,
     MAX_TOOL_ROUNDS,
-    PROACTIVE_SYSTEM_PROMPT,
-    SYSTEM_PROMPT,
-    TOOLS,
     get_affections,
     get_histories,
     save_all,
 )
+from modules.ai.prompt import PROACTIVE_SYSTEM_PROMPT, SYSTEM_PROMPT
+from modules.ai.tools import TOOLS
 from modules.game.data import execute_tool
 from modules.ai.group_memory import get_context as get_group_memory_context
 from modules.ai.group_memory import record as record_group_memory
