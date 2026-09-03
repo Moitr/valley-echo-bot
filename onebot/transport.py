@@ -22,10 +22,6 @@ MAX_PENDING = int(_api_config["max_pending"])
 _bot_user_id: str = ""
 _bot_nickname: str = ""
 
-# ── 已发送消息追踪（用于判断是否回复了 bot） ──
-_sent_msg_ids: set[str] = set()
-_sent_msg_lock = threading.Lock()
-MAX_TRACKED_IDS = int(_api_config["max_tracked_messages"])
 DEFAULT_TIMEOUT_SECONDS = float(_api_config["default_timeout_seconds"])
 LONG_TIMEOUT_SECONDS = float(_api_config["long_timeout_seconds"])
 
@@ -184,24 +180,6 @@ def fmt_msg(message: list) -> str:
 
 
 # ═══════════════════════════════════════════════════════════════════════
-# 已发送消息追踪
-# ═══════════════════════════════════════════════════════════════════════
-
-def _track_sent_msg(message_id):
-    """记录 bot 发出的消息 ID，用于判断是否有人回复 bot"""
-    with _sent_msg_lock:
-        _sent_msg_ids.add(str(message_id))
-        while len(_sent_msg_ids) > MAX_TRACKED_IDS:
-            _sent_msg_ids.pop()
-
-
-def is_sent_by_bot(message_id) -> bool:
-    """判断某个消息 ID 是否是 bot 发出的"""
-    with _sent_msg_lock:
-        return str(message_id) in _sent_msg_ids
-
-
-# ═══════════════════════════════════════════════════════════════════════
 # 公开 API
 # ═══════════════════════════════════════════════════════════════════════
 
@@ -218,9 +196,6 @@ def send_group_msg(group_id, message: list) -> dict | None:
     result = _call_api("send_group_msg", {"group_id": group_id, "message": message})
     if result and result.get("status") == "ok":
         logger.info(f"[群 {group_id}] 发送消息 成功: {fmt_msg(message)}")
-        msg_id = result.get("data", {}).get("message_id")
-        if msg_id:
-            _track_sent_msg(msg_id)
         return result.get("data")
     logger.info(f"[群 {group_id}] 发送消息 失败")
     return None
@@ -267,9 +242,6 @@ def send_group_forward_msg(group_id, messages: list[dict]) -> dict | None:
     if result and result.get("status") == "ok":
         data = result.get("data") or {}
         logger.info(f"[群 {group_id}] 发送合并转发消息成功: {len(messages)} 条")
-        msg_id = data.get("message_id")
-        if msg_id:
-            _track_sent_msg(msg_id)
         return data
     logger.info(f"[群 {group_id}] 发送合并转发消息失败")
     return None
@@ -286,6 +258,30 @@ def send_group_json_card(group_id, card_data) -> dict | None:
         logger.info(f"[群 {group_id}] 发送卡片消息 成功")
         return result.get("data")
     logger.info(f"[群 {group_id}] 发送卡片消息 失败")
+    return None
+
+
+def get_msg(message_id) -> dict | None:
+    """获取一条消息的完整详情。"""
+    if message_id is None or str(message_id).strip() == "":
+        return None
+    result = _call_api("get_msg", {"message_id": message_id})
+    if result and result.get("status") == "ok":
+        data = result.get("data")
+        return data if isinstance(data, dict) else None
+    logger.warning(f"[API] 获取消息详情失败: message_id={message_id}, response={result}")
+    return None
+
+
+def get_image(file) -> dict | None:
+    """获取消息图片的临时文件信息和 URL。"""
+    if not isinstance(file, str) or not file.strip():
+        return None
+    result = _call_api("get_image", {"file": file})
+    if result and result.get("status") == "ok":
+        data = result.get("data")
+        return data if isinstance(data, dict) else None
+    logger.warning(f"[API] 获取图片详情失败: file={file!r}, response={result}")
     return None
 
 

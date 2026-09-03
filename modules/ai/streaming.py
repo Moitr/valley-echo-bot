@@ -44,7 +44,7 @@ class SpeechStreamParser:
         return None
 
     def feed(self, chunk: str):
-        if not chunk or self._sent >= 2:
+        if not chunk or self._sent >= 3:
             return
         self._buffer += chunk
         if self._speech_value_start is None:
@@ -75,7 +75,7 @@ class SpeechStreamParser:
 
         if self._mode != "array":
             return
-        while self._sent < 2:
+        while self._sent < 3:
             self._cursor = self._skip_space(self._buffer, self._cursor)
             if self._cursor >= len(self._buffer):
                 return

@@ -19,6 +19,8 @@ from onebot.transport import (
     get_bot_nickname,
     get_bot_user_id,
     get_group_member_info,
+    get_image,
+    get_msg,
     image,
     node,
     reply,
@@ -80,6 +82,9 @@ _ai_config = section("ai")
 _RECENT_CONTEXT_MESSAGES = max(1, int(_ai_config["proactive_context_messages"]))
 _RECENT_CONTEXT_MAX_CHARACTERS = max(
     200, int(_ai_config["proactive_context_max_characters"])
+)
+_REPLY_CONTEXT_MAX_CHARACTERS = max(
+    200, int(_ai_config["reply_context_max_characters"])
 )
 _recent_group_messages: defaultdict[str, deque[str]] = defaultdict(
     lambda: deque(maxlen=_RECENT_CONTEXT_MESSAGES)
@@ -147,18 +152,85 @@ def has_reply(message):
 def _get_reply_target_id(message):
     """获取回复目标的消息 ID，没有回复则返回空字符串"""
     for segment in message or []:
+        if not isinstance(segment, dict):
+            continue
         if segment.get("type") == "reply":
-            return str(segment.get("data", {}).get("id", ""))
+            data = segment.get("data") or {}
+            if isinstance(data, dict):
+                return str(data.get("id", ""))
     return ""
 
 
-def has_reply_to_bot(message):
-    """检查消息是否回复了机器人发出的消息"""
+def _resolve_reply_context(message, self_id, group_id=None, user_id=None):
+    """Resolve any reply target and normalize its text and image content."""
     target_id = _get_reply_target_id(message)
     if not target_id:
+        return None
+
+    target = get_msg(target_id)
+    if not target:
+        return {"message_id": target_id, "is_bot": False, "available": False}
+
+    sender = target.get("sender") or {}
+    sender_id = str(sender.get("user_id", target.get("user_id", "")))
+    is_bot = sender_id == str(self_id)
+    target_group_id = target.get("group_id")
+    if group_id is not None and target_group_id is not None:
+        is_bot = is_bot and str(target_group_id) == str(group_id)
+    if is_bot:
+        source = "机器人消息"
+    elif user_id is not None and sender_id == str(user_id):
+        source = "用户自己的消息"
+    else:
+        source = "其他群友消息"
+    context = {
+        "message_id": target_id,
+        "is_bot": is_bot,
+        "sender_id": sender_id,
+        "source": source,
+        "available": True,
+        "text": "",
+        "image_urls": [],
+    }
+
+    text_parts = []
+    for segment in target.get("message") or []:
+        if not isinstance(segment, dict):
+            continue
+        segment_type = segment.get("type")
+        data = segment.get("data") or {}
+        if not isinstance(data, dict):
+            data = {}
+        if segment_type == "text":
+            value = data.get("text", "")
+            if value:
+                text_parts.append(str(value))
+        elif segment_type == "image":
+            text_parts.append("[图片]")
+            file_value = data.get("file")
+            image_data = get_image(file_value) if isinstance(file_value, str) else None
+            image_url = (image_data or {}).get("url") if image_data else None
+            if not image_url:
+                image_url = data.get("url")
+            if isinstance(image_url, str) and image_url.startswith(("http://", "https://")):
+                context["image_urls"].append(image_url)
+        elif segment_type == "at":
+            text_parts.append(f"[@{data.get('qq', '')}]")
+        elif segment_type:
+            text_parts.append(f"[{segment_type}]")
+
+    context["text"] = " ".join(text_parts).strip()[:_REPLY_CONTEXT_MAX_CHARACTERS]
+    return context
+
+
+def has_reply_to_bot(message, self_id=None, reply_context=None, group_id=None):
+    """检查消息是否回复了机器人发出的消息。"""
+    if reply_context is not None:
+        return bool(reply_context.get("is_bot"))
+    if self_id is None:
         return False
-    from onebot.transport import is_sent_by_bot
-    return is_sent_by_bot(target_id)
+    context = _resolve_reply_context(message, self_id, group_id=group_id)
+    return bool(context and context.get("is_bot"))
 
 
 def _msg_text(message):
@@ -214,8 +286,13 @@ def _image_urls(message):
         data = segment.get("data") or {}
         if not isinstance(data, dict):
             continue
-        # llbot/OneBot 通常提供 url，必要时也接受 Data URL。
-        candidate = data.get("url") or data.get("file")
+        candidate = data.get("url")
+        file_value = data.get("file")
+        if isinstance(file_value, str) and file_value.strip():
+            image_data = get_image(file_value)
+            api_url = (image_data or {}).get("url") if image_data else None
+            if isinstance(api_url, str) and api_url.strip():
+                candidate = api_url
         if not isinstance(candidate, str):
             continue
         candidate = candidate.strip()
@@ -854,7 +931,7 @@ def handle_wiki_command(message, group_id, user_id, message_id, self_id):
 # 命令 handler
 # ═══════════════════════════════════════════════════════════════════════
 
-def _handle_title(message, group_id, user_id, msg_text, message_id, self_id):
+def _handle_title(message, group_id, user_id, msg_text, message_id, self_id, reply_context=None):
     """"我要头衔xxx" → 设置群头衔"""
     special_title = msg_text.strip().removeprefix("我要头衔").strip()
     if not special_title:
@@ -869,19 +946,20 @@ def _handle_title(message, group_id, user_id, msg_text, message_id, self_id):
     return True
 
 
-def _handle_wiki(message, group_id, user_id, msg_text, message_id, self_id):
+def _handle_wiki(message, group_id, user_id, msg_text, message_id, self_id, reply_context=None):
     """Wiki 查询 — 代理到 handle_wiki_command"""
     return handle_wiki_command(message, group_id, user_id, message_id, self_id)
 
 
-def _handle_ai_chat(message, group_id, user_id, msg_text, message_id, self_id):
-    """@机器人 + 有内容 → AI 对话"""
+def _handle_ai_chat(message, group_id, user_id, msg_text, message_id, self_id, reply_context=None):
+    """@机器人 or reply to bot → AI 对话, with any quote as context."""
     return handle_ai_chat_command(message, group_id, user_id, msg_text, message_id, self_id,
                                   has_at, _all_triggers, has_reply_to_bot,
-                                  image_urls=_image_urls(message))
+                                  image_urls=_image_urls(message),
+                                  reply_context=reply_context)
 
 
-def _handle_proactive(message, group_id, user_id, msg_text, message_id, self_id):
+def _handle_proactive(message, group_id, user_id, msg_text, message_id, self_id, reply_context=None):
     """主动搭话（概率触发）"""
     return handle_proactive(message, group_id, user_id, msg_text, message_id, self_id,
                             has_at, _all_triggers, has_reply,
@@ -889,7 +967,7 @@ def _handle_proactive(message, group_id, user_id, msg_text, message_id, self_id)
                             recent_context=_recent_group_context(group_id))
 
 
-def _handle_chat(message, group_id, user_id, msg_text, message_id, self_id):
+def _handle_chat(message, group_id, user_id, msg_text, message_id, self_id, reply_context=None):
     """@机器人 无实质内容 → 随机回复（兜底）"""
     if not has_at(message, self_id):
         return False
@@ -950,7 +1028,12 @@ def _dispatch_commands(message, group_id, user_id, msg_text, message_id, self_id
     is_at_other = has_at_other(message, self_id)
     is_at_bot = has_at(message, self_id)
     is_reply = has_reply(message)
-    is_reply_to_bot = has_reply_to_bot(message)
+    reply_context = _resolve_reply_context(
+        message, self_id, group_id=group_id, user_id=user_id
+    )
+    is_reply_to_bot = has_reply_to_bot(
+        message, self_id, reply_context=reply_context
+    )
 
     # 消息指向别人（@别人 或 回复别人）且没有指向 bot → 跳过
     is_targeting_other = is_at_other or (is_reply and not is_reply_to_bot)
@@ -965,7 +1048,10 @@ def _dispatch_commands(message, group_id, user_id, msg_text, message_id, self_id
         trigger = cmd["trigger"]
         if trigger is not None and not _match_trigger(msg_text, trigger):
             continue
-        if cmd["handler"](message, group_id, user_id, msg_text, message_id, self_id):
+        if cmd["handler"](
+            message, group_id, user_id, msg_text, message_id, self_id,
+            reply_context=reply_context,
+        ):
             return
 
 

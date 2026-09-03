@@ -157,12 +157,15 @@ def _run_background(task, group_id):
 
 
 def handle_ai_chat_command(message, group_id, user_id, msg_text, message_id, self_id,
-                           has_at, all_triggers, has_reply_to_bot=None, image_urls=None):
-    """@机器人 或 引用回复机器人 → AI 对话。返回 True 表示已处理"""
+                           has_at, all_triggers, has_reply_to_bot=None, image_urls=None,
+                           reply_context=None):
+    """@机器人 或 引用机器人消息 → AI 对话；任意引用内容可作为上下文。"""
     image_urls = tuple(image_urls or ())
     # @ 和引用回复都可以触发，逻辑一致
     is_at_bot = has_at(message, self_id)
-    is_reply_to_bot = has_reply_to_bot and has_reply_to_bot(message)
+    is_reply_to_bot = bool(reply_context and reply_context.get("is_bot"))
+    if not is_reply_to_bot and reply_context is None and has_reply_to_bot:
+        is_reply_to_bot = has_reply_to_bot(message, self_id)
 
     if not is_at_bot and not is_reply_to_bot:
         return False
@@ -173,11 +176,30 @@ def handle_ai_chat_command(message, group_id, user_id, msg_text, message_id, sel
     if text_stripped.startswith(all_triggers()):
         return False
 
+    quoted_text = ""
+    quoted_image_urls = ()
+    if reply_context and reply_context.get("available"):
+        quoted_text = str(reply_context.get("text") or "").strip()
+        source = str(reply_context.get("source") or "引用消息")
+        quoted_text = f"来源：{source}\n{quoted_text or '（无文字内容）'}"
+        quoted_image_urls = tuple(reply_context.get("image_urls") or ())
+
     # 有 @ 或引用回复，但没有文字内容 → 图片消息仍交给视觉模型处理
     if not text_stripped:
-        text_stripped = "请看看这张图片" if image_urls else "（用户引用了你的消息）"
+        text_stripped = (
+            "请看看这张图片"
+            if image_urls or quoted_image_urls
+            else "（用户引用了你的消息）"
+        )
         # 纯 @ 无文字也没有回复 → 留给兜底 handler
-        if not image_urls and is_at_bot and not is_reply_to_bot:
+        has_available_quote = bool(reply_context and reply_context.get("available"))
+        if (
+            not image_urls
+            and not quoted_image_urls
+            and is_at_bot
+            and not is_reply_to_bot
+            and not has_available_quote
+        ):
             return False
 
     now = time.time()
@@ -197,14 +219,17 @@ def handle_ai_chat_command(message, group_id, user_id, msg_text, message_id, sel
     def _call_and_reply():
         streamed_messages = []
         on_speech = _stream_speech_sender(group_id, streamed_messages)
-        if image_urls:
+        all_image_urls = tuple(dict.fromkeys((*quoted_image_urls, *image_urls)))
+        if all_image_urls:
             result = chat(
                 group_id, user_id, text_stripped, affection,
-                image_urls=image_urls, on_speech=on_speech,
+                image_urls=all_image_urls, quoted_context=quoted_text,
+                on_speech=on_speech,
             )
         else:
             result = chat(
                 group_id, user_id, text_stripped, affection,
+                image_urls=all_image_urls, quoted_context=quoted_text,
                 on_speech=on_speech,
             )
         if result:
