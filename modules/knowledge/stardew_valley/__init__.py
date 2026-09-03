@@ -3,6 +3,7 @@
 from modules.knowledge.stardew_valley.local_search import (
     execute_tool,
     search_game_data,
+    search_stardew,
 )
 
-__all__ = ["execute_tool", "search_game_data"]
+__all__ = ["execute_tool", "search_game_data", "search_stardew"]

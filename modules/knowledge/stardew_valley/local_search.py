@@ -3,7 +3,6 @@
 import json
 import os
 
-from config import section
 from modules.knowledge.stardew_valley.translate import (
     tr_category,
     tr_cooking,
@@ -528,121 +527,6 @@ def list_module_items(module: str) -> str:
 
 
 # ═══════════════════════════════════════════════════════════════
-# Wiki 搜索（懒加载，避免启动时就引入 Chrome 等依赖）
-# ═══════════════════════════════════════════════════════════════
-
-def _wiki_search(query: str) -> str:
-    """搜索星露谷中文 Wiki 并返回文本摘要"""
-    from urllib.parse import quote
-
-    query = str(query or "").strip()
-    if not query:
-        return "Wiki 鎼滅储闇€瑕佹彁渚涘叧閿瘝銆?"
-
-    try:
-        from modules.knowledge.stardew_valley.wiki.vanilla import (
-            WikiRequestError,
-            get_direct_page_summary,
-            get_page_full_text,
-            get_page_summary,
-            get_search_results,
-        )
-    except ImportError as e:
-        return f"Wiki 搜索模块加载失败: {e}"
-
-    WIKI_PAGE_BASE = str(section("wiki.stardew")["page_base_url"])
-
-    # URLs of utility/special pages that are never relevant game content
-    _UTILITY_PAGE_PATTERNS = [
-        "特殊:",
-        "Special:",
-        "帮助:",
-        "Help:",
-        "星露谷物语中文百科:",
-        "分类:",
-        "Category:",
-        "模板:",
-        "Template:",
-        "物品编号",
-        "测试页面",
-    ]
-
-    def _is_relevant_result(result: dict) -> bool:
-        """Filter out utility/special pages from search results."""
-        title = result.get("title", "")
-        url = result.get("url", "")
-        for pat in _UTILITY_PAGE_PATTERNS:
-            if pat in title or pat in url:
-                return False
-        return True
-
-    def _maybe_fetch_full(summary: str, url: str) -> str:
-        """If the summary is just a bare URL (no infobox), use AI summarizer or fall back to full page text."""
-        if summary and not summary.startswith("Wiki链接："):
-            return summary
-
-        # 优先用 AI 摘要（deepseek-v4-flash + 两步法 prompt），失败再回落原始全文
-        try:
-            from modules.knowledge.stardew_valley.wiki.summarize import summarize_wiki_page
-            ai_summary = summarize_wiki_page(url)
-            if ai_summary:
-                return f"{ai_summary}\n\nWiki链接：{url}"
-        except Exception:
-            pass
-
-        full = get_page_full_text(url)
-        return full if full else summary
-
-    def _try_search_results(query_str: str) -> str | None:
-        """Search with a query, filtering irrelevant results. Returns summary or None."""
-        results = get_search_results(query_str, limit=8)
-        if not results:
-            return None
-        for r in results:
-            if not _is_relevant_result(r):
-                continue
-            summary = get_page_summary(r["url"])
-            if summary:
-                return _maybe_fetch_full(summary, r["url"])
-        return None
-
-    try:
-        # 1. Direct page lookup
-        summary = get_direct_page_summary(query)
-        if summary:
-            url = WIKI_PAGE_BASE + quote(query, safe="/")
-            return _maybe_fetch_full(summary, url)
-
-        # 2. Search with full query, filtering irrelevant results
-        result = _try_search_results(query)
-        if result:
-            return result
-
-        # 3. Fallback: try individual words from the query
-        words = query.replace("，", " ").replace(",", " ").split()
-        if len(words) > 1:
-            for word in words:
-                if len(word) <= 1:
-                    continue
-                # First try direct page match
-                summary = get_direct_page_summary(word)
-                if summary:
-                    url = WIKI_PAGE_BASE + quote(word, safe="/")
-                    return _maybe_fetch_full(summary, url)
-                # Then try search
-                result = _try_search_results(word)
-                if result:
-                    return result
-
-        return f"Wiki 上没有找到关于「{query}」的内容。建议换个关键词试试。"
-
-    except WikiRequestError as e:
-        return f"Wiki 查询失败（状态码 {e.status_code}），请稍后再试。"
-    except Exception as e:
-        return f"Wiki 查询出错: {e}"
-
-
-# ═══════════════════════════════════════════════════════════════
 # Tool 执行分发
 # ═══════════════════════════════════════════════════════════════
 
@@ -661,7 +545,40 @@ def search_game_data(query: str, category: str) -> str:
     return f"未知类别「{category}」。可用类别：crop, fish, villager, cooking, item"
 
 
+def search_stardew(query: str, source: str = "auto", category: str = "") -> str:
+    """统一星露谷搜索入口；网页搜索暂不纳入来源。"""
+    query = str(query or "").strip()
+    source = str(source or "auto").strip().lower()
+    category = str(category or "").strip().lower()
+    if not query:
+        return "搜索需要提供关键词。"
+    if source == "local":
+        if not category:
+            category = "item"
+        return search_game_data(query, category)
+    if source in {"vanilla_wiki", "sve_wiki"}:
+        from modules.knowledge.stardew_valley.wiki import search_wiki_source
+        return search_wiki_source(query, source)
+    if source != "auto":
+        return f"未知搜索来源「{source}」。可用来源：auto, local, vanilla_wiki, sve_wiki"
+    # 自动模式先查结构化数据，再回退原版 Wiki；SVE 名词由提示词要求显式指定来源。
+    if category:
+        local_result = search_game_data(query, category)
+        if not any(marker in local_result for marker in ("没找到", "没有找到", "未找到", "未知类别")):
+            return local_result
+    else:
+        for local_category in ("crop", "fish", "villager", "cooking", "item"):
+            local_result = search_game_data(query, local_category)
+            if not any(marker in local_result for marker in ("没找到", "没有找到", "未找到")):
+                return local_result
+    from modules.knowledge.stardew_valley.wiki import search_wiki_source
+    return search_wiki_source(query, "vanilla_wiki")
+
+
 TOOL_HANDLERS = {
+    "search_stardew": lambda args: search_stardew(
+        args.get("query", ""), args.get("source", "auto"), args.get("category", "")
+    ),
     "search_game_data": lambda args: search_game_data(
         args.get("query", ""), args.get("category", "")
     ),
@@ -671,8 +588,16 @@ TOOL_HANDLERS = {
     "search_cooking": lambda args: search_cooking(args.get("query", "")),
     "search_item": lambda args: search_item(args.get("query", "")),
     "list_module": lambda args: list_module_items(args.get("module", "")),
-    "search_wiki": lambda args: _wiki_search(args.get("query", "")),
+    "send_card": lambda args: _send_card_action(args),
 }
+
+
+def _send_card_action(args: dict) -> str:
+    from modules.ai.cards import validate_card_action
+    action, error = validate_card_action(args.get("card_id", ""), args.get("params", {}))
+    if error:
+        return json.dumps({"ok": False, "error": error}, ensure_ascii=False)
+    return json.dumps({"ok": True, "card_action": action}, ensure_ascii=False)
 
 
 def execute_tool(name: str, arguments: dict) -> str:

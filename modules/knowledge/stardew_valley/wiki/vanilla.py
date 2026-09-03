@@ -582,8 +582,8 @@ def get_page_full_text(url: str) -> str | None:
     """Fetch a wiki page by URL and extract full text content.
 
     Used as a fallback when a page has no infobox (format_page_summary
-    would return just a bare URL).  This is NOT called by the "查询"
-    command — only by the AI's search_wiki tool via _wiki_search().
+    would return just a bare URL). This is used by the unified
+    ``search_stardew(source="vanilla_wiki")`` tool.
     """
     page = fetch_page_html_by_url(url)
     if not page:

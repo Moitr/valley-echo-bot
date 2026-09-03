@@ -1,8 +1,6 @@
 """AI 对话 handler — 由 handlers.py 注册表调用"""
 
 import base64
-import json
-import os
 import random
 import re
 import threading
@@ -10,7 +8,7 @@ import time
 from collections import defaultdict
 
 from onebot.transport import image, send_group_json_card, send_group_msg, text
-from config import PROJECT_ROOT, section
+from config import section
 from modules.ai.service import (
     chat,
     get_affection,
@@ -20,12 +18,12 @@ from modules.ai.service import (
     set_affection,
     set_cooldown,
 )
+from modules.ai.cards import fishing_image_path, load_json_card
 from logger import logger
 
 # 近期发言追踪：{group_id: {user_id: timestamp}}
 _recent_speakers: dict[str, dict[str, float]] = defaultdict(dict)
 _ai_config = section("ai")
-_storage_config = section("storage")
 _RECENT_WINDOW = float(_ai_config["recent_speaker_window_seconds"])
 _PROACTIVE_MIN_AFFECTION = float(_ai_config["proactive_min_affection"])
 
@@ -55,13 +53,6 @@ def _count_recent_speakers(group_id) -> int:
     count = sum(1 for ts in group.values() if now - ts <= _RECENT_WINDOW)
     return max(count, 1)  # 至少 1（当前用户）
 
-# 卡片数据（模组教程 + 矿洞分布）
-_CARDS_FILE = str(PROJECT_ROOT / str(_storage_config["feed_cards_file"]))
-_CARDS: dict | None = None
-
-# 星露谷钓鱼图
-_FISHING_IMAGE = str(PROJECT_ROOT / str(_storage_config["fishing_image_path"]))
-
 _FISHING_IMAGE_B64: str | None = None
 
 
@@ -69,25 +60,32 @@ def _load_fishing_image():
     """加载钓鱼图片并转为 base64"""
     global _FISHING_IMAGE_B64
     if _FISHING_IMAGE_B64 is None:
-        if os.path.exists(_FISHING_IMAGE):
-            with open(_FISHING_IMAGE, "rb") as f:
+        image_path = fishing_image_path()
+        if image_path:
+            with open(image_path, "rb") as f:
                 _FISHING_IMAGE_B64 = "base64://" + base64.b64encode(f.read()).decode("ascii")
-            logger.info(f"[AI] 钓鱼图片已加载: {_FISHING_IMAGE}")
+            logger.info(f"[AI] 钓鱼图片已加载: {image_path}")
         else:
-            logger.warning(f"[AI] 钓鱼图片不存在: {_FISHING_IMAGE}")
+            logger.warning("[AI] 钓鱼图片不存在")
     return _FISHING_IMAGE_B64
 
 
-def _load_cards():
-    global _CARDS
-    if _CARDS is None:
-        try:
-            if os.path.exists(_CARDS_FILE):
-                with open(_CARDS_FILE, encoding="utf-8") as f:
-                    _CARDS = json.load(f)
-        except Exception:
-            _CARDS = None
-    return _CARDS
+def _send_card_action(group_id, action):
+    """按统一 card_id 发送动作；卡片内容由注册表提供。"""
+    if not isinstance(action, dict):
+        return
+    card_id = str(action.get("card_id") or "").strip()
+    if card_id == "fishing_guide":
+        fish_img = _load_fishing_image()
+        if fish_img:
+            time.sleep(random.uniform(0.3, 0.6))
+            send_group_msg(group_id, [image(fish_img)])
+            logger.info(f"[群 {group_id}] 卡片已发送: {card_id}")
+        return
+    card_data = load_json_card(card_id)
+    if card_data is not None:
+        send_group_json_card(group_id, card_data)
+        logger.info(f"[群 {group_id}] 卡片已发送: {card_id}")
 
 
 def _strip_markdown(text: str) -> str:
@@ -233,27 +231,11 @@ def handle_ai_chat_command(message, group_id, user_id, msg_text, message_id, sel
                 on_speech=on_speech,
             )
         if result:
-            speech, new_affection, send_card, send_mine_card, send_calendar_card, send_fish_img = result
+            speech, new_affection, card_actions = result
             set_affection(group_id, user_id, new_affection)
             _send_unsent_speech(group_id, speech, len(streamed_messages))
-            if send_card:
-                cards = _load_cards()
-                if cards and "mod_tutorial" in cards:
-                    send_group_json_card(group_id, cards["mod_tutorial"])
-            if send_mine_card:
-                cards = _load_cards()
-                if cards and "mine_distribution" in cards:
-                    send_group_json_card(group_id, cards["mine_distribution"])
-            if send_calendar_card:
-                cards = _load_cards()
-                if cards and "calendar" in cards:
-                    send_group_json_card(group_id, cards["calendar"])
-            if send_fish_img:
-                fish_img = _load_fishing_image()
-                if fish_img:
-                    time.sleep(random.uniform(0.3, 0.6))
-                    send_group_msg(group_id, [image(fish_img)])
-                    logger.info(f"[群 {group_id}] 钓鱼图已发送")
+            for action in card_actions:
+                _send_card_action(group_id, action)
             remember_group_exchange(group_id, user_id, text_stripped)
         else:
             if streamed_messages:
@@ -341,15 +323,9 @@ def handle_proactive(message, group_id, user_id, msg_text, message_id, self_id,
                 on_speech=on_speech,
             )
         if result:
-            speech, new_affection, send_fish_img = result
+            speech, new_affection = result
             set_affection(group_id, user_id, new_affection)
             _send_unsent_speech(group_id, speech, len(streamed_messages))
-            if send_fish_img:
-                fish_img = _load_fishing_image()
-                if fish_img:
-                    time.sleep(random.uniform(0.3, 0.6))
-                    send_group_msg(group_id, [image(fish_img)])
-                    logger.info(f"[群 {group_id}] 主动搭话触发钓鱼图")
         elif streamed_messages:
             logger.warning(
                 f"[群 {group_id}] 主动搭话流式回复中断，已发送 {len(streamed_messages)} 条"

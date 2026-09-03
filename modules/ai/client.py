@@ -327,7 +327,7 @@ def _call_api(
         return None
 
 
-def _handle_tool_calls(messages: list[dict], choice: dict) -> list[dict]:
+def _handle_tool_calls(messages: list[dict], choice: dict, card_actions: list[dict] | None = None) -> list[dict]:
     """执行工具调用，追加 assistant + tool 消息到 messages"""
     assistant_message = choice.get("message") or {}
     tool_calls = assistant_message.get("tool_calls") or []
@@ -360,6 +360,15 @@ def _handle_tool_calls(messages: list[dict], choice: dict) -> list[dict]:
         result = str(execute_tool(func_name, func_args))
         logger.info(f"[AI Chat] 🔧结果: {result[:200]}")
 
+        if func_name == "send_card" and card_actions is not None:
+            try:
+                action_result = json.loads(result)
+            except (TypeError, json.JSONDecodeError):
+                action_result = {}
+            action = action_result.get("card_action") if isinstance(action_result, dict) else None
+            if isinstance(action, dict) and action not in card_actions:
+                card_actions.append(action)
+
         result = str(result)
         messages.append({
             "role": "tool",
@@ -373,6 +382,7 @@ def _handle_tool_calls(messages: list[dict], choice: dict) -> list[dict]:
 def _call_with_tools(messages: list[dict], on_speech=None) -> dict | None:
     """带 function calling 的调用循环，返回解析后的 dict 或 None"""
     suppress_stream_speech = False
+    card_actions: list[dict] = []
     for round_num in range(MAX_TOOL_ROUNDS + 1):
         stream_callback = None if suppress_stream_speech else on_speech
         stream_parser = (
@@ -413,7 +423,7 @@ def _call_with_tools(messages: list[dict], on_speech=None) -> dict | None:
                     "content": "工具查询已完成（不能再调用更多工具了）。请基于已有信息，直接输出纯JSON回复。",
                 })
                 continue
-            messages = _handle_tool_calls(messages, choice)
+            messages = _handle_tool_calls(messages, choice, card_actions)
             continue
 
         # 正常完成 → 提取 JSON
@@ -423,6 +433,7 @@ def _call_with_tools(messages: list[dict], on_speech=None) -> dict | None:
         if raw:
             parsed = _parse_json_text(raw)
             if parsed:
+                parsed["_card_actions"] = card_actions
                 return parsed
 
         # 解析失败（空内容或格式错误），尝试修复
@@ -455,6 +466,7 @@ def _call_with_tools(messages: list[dict], on_speech=None) -> dict | None:
             raw = ((choices[0].get("message") or {}).get("content") or "").strip()
             parsed = _parse_json_text(raw)
             if parsed:
+                parsed["_card_actions"] = card_actions
                 return parsed
     return None
 
@@ -530,7 +542,7 @@ def chat(
 ) -> tuple | None:
     """
     主对话：DeepSeek + function calling + 上下文历史。
-    返回 (speech, affection, send_mod_card, send_mine_card, send_calendar_card, send_fishing_image) 或 None。
+    返回 (speech, affection, card_actions) 或 None；card_actions 由 send_card 工具调用产生。
     """
     image_urls = tuple(image_urls or ())
     current_affection = _coerce_affection(current_affection, DEFAULT_AFFECTION)
@@ -579,11 +591,10 @@ def chat(
         return None
     change = _coerce_affection_change(parsed.get("change", 0))
     affection = _coerce_affection(current_affection + change, current_affection)
-    send_mod_card = _as_bool(parsed.get("send_mod_card", False))
-    send_mine_card = _as_bool(parsed.get("send_mine_card", False))
-    send_calendar_card = _as_bool(parsed.get("send_calendar_card", False))
-    send_fishing_image = _as_bool(parsed.get("send_fishing_image", False))
-    logger.info(f"[AI Chat] speech={speech!r} affection={affection} change={change} mod={send_mod_card} mine={send_mine_card} calendar={send_calendar_card} fish={send_fishing_image}")
+    card_actions = parsed.get("_card_actions", [])
+    if not isinstance(card_actions, list):
+        card_actions = []
+    logger.info(f"[AI Chat] speech={speech!r} affection={affection} change={change} cards={card_actions}")
 
     with _history_locks[key]:
         history = get_histories().setdefault(key, [])
@@ -611,7 +622,7 @@ def chat(
             get_histories()[key] = history[-MAX_HISTORY:]
         save_all()
 
-    return speech, affection, send_mod_card, send_mine_card, send_calendar_card, send_fishing_image
+    return speech, affection, card_actions
 
 
 def remember_group_exchange(group_id, user_id, user_message: str):
@@ -676,6 +687,5 @@ def proactive_chat(
         return None
     change = _coerce_affection_change(parsed.get("change", 0))
     affection = _coerce_affection(affection + change, affection)
-    send_fishing_image = _as_bool(parsed.get("send_fishing_image", False))
-    logger.info(f"[AI Chat] 主动搭话 speech={speech!r} affection={affection} fish_img={send_fishing_image}")
-    return speech, affection, send_fishing_image
+    logger.info(f"[AI Chat] 主动搭话 speech={speech!r} affection={affection}")
+    return speech, affection
