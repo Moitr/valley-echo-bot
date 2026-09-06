@@ -15,6 +15,7 @@ from modules.knowledge.stardew_valley.translate import (
     tr_villager,
     tr_weather,
 )
+from modules.knowledge.web_search import search_web
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 
@@ -545,10 +546,10 @@ def search_game_data(query: str, category: str) -> str:
     return f"未知类别「{category}」。可用类别：crop, fish, villager, cooking, item"
 
 
-def search_stardew(query: str, source: str = "auto", category: str = "") -> str:
+def search_stardew(query: str, source: str = "local", category: str = "") -> str:
     """统一星露谷搜索入口；网页搜索暂不纳入来源。"""
     query = str(query or "").strip()
-    source = str(source or "auto").strip().lower()
+    source = str(source or "local").strip().lower()
     category = str(category or "").strip().lower()
     if not query:
         return "搜索需要提供关键词。"
@@ -559,25 +560,15 @@ def search_stardew(query: str, source: str = "auto", category: str = "") -> str:
     if source in {"vanilla_wiki", "sve_wiki"}:
         from modules.knowledge.stardew_valley.wiki import search_wiki_source
         return search_wiki_source(query, source)
-    if source != "auto":
-        return f"未知搜索来源「{source}」。可用来源：auto, local, vanilla_wiki, sve_wiki"
-    # 自动模式先查结构化数据，再回退原版 Wiki；SVE 名词由提示词要求显式指定来源。
-    if category:
-        local_result = search_game_data(query, category)
-        if not any(marker in local_result for marker in ("没找到", "没有找到", "未找到", "未知类别")):
-            return local_result
-    else:
-        for local_category in ("crop", "fish", "villager", "cooking", "item"):
-            local_result = search_game_data(query, local_category)
-            if not any(marker in local_result for marker in ("没找到", "没有找到", "未找到")):
-                return local_result
-    from modules.knowledge.stardew_valley.wiki import search_wiki_source
-    return search_wiki_source(query, "vanilla_wiki")
+    return f"未知搜索来源「{source}」。可用来源：local, vanilla_wiki, sve_wiki"
 
 
 TOOL_HANDLERS = {
+    "search_web": lambda args: search_web(
+        args.get("query", ""), args.get("recency", ""), args.get("user_id")
+    ),
     "search_stardew": lambda args: search_stardew(
-        args.get("query", ""), args.get("source", "auto"), args.get("category", "")
+        args.get("query", ""), args.get("source", "local"), args.get("category", "")
     ),
     "search_game_data": lambda args: search_game_data(
         args.get("query", ""), args.get("category", "")

@@ -23,6 +23,7 @@ from modules.ai.prompt import PROACTIVE_SYSTEM_PROMPT, SYSTEM_PROMPT
 from modules.ai.streaming import SpeechStreamParser, stream_events
 from modules.ai.tools import TOOLS
 from modules.knowledge.stardew_valley import execute_tool
+from modules.knowledge.web_search import render_search_reports
 from modules.ai.group_memory import get_context as get_group_memory_context
 from modules.ai.group_memory import record as record_group_memory
 from logger import logger
@@ -327,7 +328,13 @@ def _call_api(
         return None
 
 
-def _handle_tool_calls(messages: list[dict], choice: dict, card_actions: list[dict] | None = None) -> list[dict]:
+def _handle_tool_calls(
+    messages: list[dict],
+    choice: dict,
+    card_actions: list[dict] | None = None,
+    search_actions: list[dict] | None = None,
+    tool_context: dict | None = None,
+) -> list[dict]:
     """执行工具调用，追加 assistant + tool 消息到 messages"""
     assistant_message = choice.get("message") or {}
     tool_calls = assistant_message.get("tool_calls") or []
@@ -356,9 +363,29 @@ def _handle_tool_calls(messages: list[dict], choice: dict, card_actions: list[di
         except (TypeError, json.JSONDecodeError):
             func_args = {}
 
-        logger.info(f"[AI Chat] 🔧 {func_name}({func_args})")
+        if func_name == "search_web" and tool_context:
+            func_args["user_id"] = str(tool_context.get("user_id") or "")
+
+        logger.info(f"[AI Chat] 工具调用: {func_name}({func_args})")
         result = str(execute_tool(func_name, func_args))
-        logger.info(f"[AI Chat] 🔧结果: {result[:200]}")
+        model_result = result
+
+        if func_name == "search_web":
+            try:
+                search_result = json.loads(result)
+            except (TypeError, json.JSONDecodeError):
+                search_result = {}
+            if isinstance(search_result, dict):
+                model_result = str(search_result.get("context") or result)
+                action = search_result.get("search_action")
+                if (
+                    search_actions is not None
+                    and isinstance(action, dict)
+                    and action not in search_actions
+                ):
+                    search_actions.append(action)
+
+        logger.info(f"[AI Chat] 工具结果: {model_result[:200]}")
 
         if func_name == "send_card" and card_actions is not None:
             try:
@@ -373,16 +400,38 @@ def _handle_tool_calls(messages: list[dict], choice: dict, card_actions: list[di
         messages.append({
             "role": "tool",
             "tool_call_id": tool_call_id,
-            "content": result,
+            "content": model_result,
         })
 
     return messages
 
 
-def _call_with_tools(messages: list[dict], on_speech=None) -> dict | None:
+def _finalize_search_actions(search_actions: list[dict]) -> list[dict]:
+    """将本轮多个搜索报告合并为一个截图动作。"""
+    reports = [
+        action.get("report")
+        for action in search_actions
+        if isinstance(action, dict) and action.get("type") == "search_report"
+    ]
+    reports = [report for report in reports if isinstance(report, dict)]
+    if not reports:
+        return []
+    image_data = render_search_reports(reports)
+    if not image_data:
+        logger.warning("[AI Chat] 搜索报告页面渲染失败")
+        return []
+    return [{"type": "search_report_image", "image": image_data}]
+
+
+def _call_with_tools(
+    messages: list[dict],
+    on_speech=None,
+    tool_context: dict | None = None,
+) -> dict | None:
     """带 function calling 的调用循环，返回解析后的 dict 或 None"""
     suppress_stream_speech = False
     card_actions: list[dict] = []
+    search_actions: list[dict] = []
     for round_num in range(MAX_TOOL_ROUNDS + 1):
         stream_callback = None if suppress_stream_speech else on_speech
         stream_parser = (
@@ -423,7 +472,13 @@ def _call_with_tools(messages: list[dict], on_speech=None) -> dict | None:
                     "content": "工具查询已完成（不能再调用更多工具了）。请基于已有信息，直接输出纯JSON回复。",
                 })
                 continue
-            messages = _handle_tool_calls(messages, choice, card_actions)
+            messages = _handle_tool_calls(
+                messages,
+                choice,
+                card_actions,
+                search_actions,
+                tool_context,
+            )
             continue
 
         # 正常完成 → 提取 JSON
@@ -434,6 +489,7 @@ def _call_with_tools(messages: list[dict], on_speech=None) -> dict | None:
             parsed = _parse_json_text(raw)
             if parsed:
                 parsed["_card_actions"] = card_actions
+                parsed["_search_actions"] = _finalize_search_actions(search_actions)
                 return parsed
 
         # 解析失败（空内容或格式错误），尝试修复
@@ -467,6 +523,7 @@ def _call_with_tools(messages: list[dict], on_speech=None) -> dict | None:
             parsed = _parse_json_text(raw)
             if parsed:
                 parsed["_card_actions"] = card_actions
+                parsed["_search_actions"] = _finalize_search_actions(search_actions)
                 return parsed
     return None
 
@@ -542,7 +599,8 @@ def chat(
 ) -> tuple | None:
     """
     主对话：DeepSeek + function calling + 上下文历史。
-    返回 (speech, affection, card_actions) 或 None；card_actions 由 send_card 工具调用产生。
+    返回 (speech, affection, card_actions, search_actions) 或 None；
+    card_actions 和 search_actions 由工具调用产生。
     """
     image_urls = tuple(image_urls or ())
     current_affection = _coerce_affection(current_affection, DEFAULT_AFFECTION)
@@ -581,7 +639,11 @@ def chat(
     messages.extend(history[-MAX_HISTORY:])
     messages.append({"role": "user", "content": user_content})
 
-    parsed = _call_with_tools(messages, on_speech=on_speech)
+    parsed = _call_with_tools(
+        messages,
+        on_speech=on_speech,
+        tool_context={"group_id": group_id, "user_id": user_id},
+    )
     if not parsed:
         return None
 
@@ -594,7 +656,13 @@ def chat(
     card_actions = parsed.get("_card_actions", [])
     if not isinstance(card_actions, list):
         card_actions = []
-    logger.info(f"[AI Chat] speech={speech!r} affection={affection} change={change} cards={card_actions}")
+    search_actions = parsed.get("_search_actions", [])
+    if not isinstance(search_actions, list):
+        search_actions = []
+    logger.info(
+        f"[AI Chat] speech={speech!r} affection={affection} "
+        f"change={change} cards={card_actions} searches={len(search_actions)}"
+    )
 
     with _history_locks[key]:
         history = get_histories().setdefault(key, [])
@@ -622,7 +690,7 @@ def chat(
             get_histories()[key] = history[-MAX_HISTORY:]
         save_all()
 
-    return speech, affection, card_actions
+    return speech, affection, card_actions, search_actions
 
 
 def remember_group_exchange(group_id, user_id, user_message: str):

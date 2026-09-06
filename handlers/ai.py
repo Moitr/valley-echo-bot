@@ -7,7 +7,7 @@ import threading
 import time
 from collections import defaultdict
 
-from onebot.transport import image, send_group_json_card, send_group_msg, text
+from onebot.transport import at, image, send_group_json_card, send_group_msg, text
 from config import section
 from modules.ai.service import (
     chat,
@@ -88,6 +88,31 @@ def _send_card_action(group_id, action):
         logger.info(f"[群 {group_id}] 卡片已发送: {card_id}")
 
 
+def _speech_text(speech) -> str:
+    if isinstance(speech, list):
+        return "\n".join(str(item).strip() for item in speech if str(item).strip())
+    return str(speech or "").strip()
+
+
+def _send_search_action(group_id, user_id, speech, action):
+    """在一条消息中发送 @、主 AI 回答和合并后的搜索报告截图。"""
+    if not isinstance(action, dict) or action.get("type") != "search_report_image":
+        return
+    image_data = action.get("image")
+    if not isinstance(image_data, str) or not image_data.strip():
+        return
+    try:
+        message = [at(user_id), text(" ")]
+        speech_text = _speech_text(speech)
+        if speech_text:
+            message.append(text(_strip_markdown(speech_text)))
+        message.append(image(image_data))
+        send_group_msg(group_id, message)
+        logger.info(f"[群 {group_id}] 搜索报告图片已发送: user={user_id}")
+    except Exception:
+        logger.exception(f"[群 {group_id}] 搜索报告图片发送失败")
+
+
 def _strip_markdown(text: str) -> str:
     """去掉 AI 偶尔输出的 Markdown 语法（QQ 不支持）"""
     # 粗体：**text**  __text__
@@ -120,14 +145,15 @@ def _send_speech(group_id, speech):
             send_group_msg(group_id, [text(_strip_markdown(speech))])
 
 
-def _stream_speech_sender(group_id, sent_messages):
-    """返回流式 speech 回调；每个完整消息只发送一次。"""
+def _stream_speech_sender(group_id, sent_messages, send_immediately=True):
+    """返回 speech 回调；搜索回答统一等最终图片一起发送。"""
     def _send_piece(piece):
         piece = str(piece or "").strip()
         if not piece:
             return
         try:
-            _send_speech(group_id, piece)
+            if send_immediately:
+                _send_speech(group_id, piece)
         except Exception:
             logger.exception(f"[群 {group_id}] 流式 speech 发送失败")
             return
@@ -216,7 +242,11 @@ def handle_ai_chat_command(message, group_id, user_id, msg_text, message_id, sel
 
     def _call_and_reply():
         streamed_messages = []
-        on_speech = _stream_speech_sender(group_id, streamed_messages)
+        on_speech = _stream_speech_sender(
+            group_id,
+            streamed_messages,
+            send_immediately=False,
+        )
         all_image_urls = tuple(dict.fromkeys((*quoted_image_urls, *image_urls)))
         if all_image_urls:
             result = chat(
@@ -231,9 +261,12 @@ def handle_ai_chat_command(message, group_id, user_id, msg_text, message_id, sel
                 on_speech=on_speech,
             )
         if result:
-            speech, new_affection, card_actions = result
+            speech, new_affection, card_actions, search_actions = result
             set_affection(group_id, user_id, new_affection)
-            _send_unsent_speech(group_id, speech, len(streamed_messages))
+            if search_actions:
+                _send_search_action(group_id, user_id, speech, search_actions[0])
+            else:
+                _send_speech(group_id, speech)
             for action in card_actions:
                 _send_card_action(group_id, action)
             remember_group_exchange(group_id, user_id, text_stripped)
