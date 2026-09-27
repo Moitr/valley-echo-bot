@@ -39,7 +39,7 @@ GROUPS = {
 # AI 服务和对话策略。
 AI = {
     "api_key": "",
-    "url": "",
+    "url": "https://open.bigmodel.cn/api/paas/v4/chat/completions",
     "chat_model": "glm-5.3-flash",
     "wiki_summary_model": "glm-5.3",
     "web_search_model": "glm-5.3-flash",
