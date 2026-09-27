@@ -1,6 +1,7 @@
 __pycache__/
 *.py[cod]
 venv/
+config.py
 
 # Runtime state and downloaded/generated images
 data/
