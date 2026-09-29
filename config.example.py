@@ -57,7 +57,7 @@ AI = {
     "default_affection": 45,  # 新用户的初始好感度
     "affection_change_limit": 3,  # 单次对话好感度变化的绝对值上限
     "proactive_min_affection": 35,  # 低于此值不主动搭话
-    "max_history": 20,  # 每个用户保留的历史消息条数
+    "max_history": 60,  # 每个用户保留的历史消息条数（约 30 轮问答）
     "max_tool_rounds": 5,  # 一次回答最多连续调用工具的轮数
     "recent_speaker_window_seconds": 600,  # 主动搭话统计近期发言人的时间窗口
     "chat_temperature": 1,  # 普通对话随机性；保留变化，避免措辞过度发散

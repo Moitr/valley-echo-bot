@@ -4,6 +4,28 @@ TOOLS = [
     {
         "type": "function",
         "function": {
+            "name": "search_web_simple",
+            "description": "搜索少量实时网络信息并返回简短文字摘要，不生成或发送图片。用于简单的时效性问题；拿到结果后直接用一到两句话回答，不要追加详细报告。普通闲聊和稳定常识不要调用。",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "网络搜索关键词，尽量简洁，最多 70 个字符",
+                    },
+                    "recency": {
+                        "type": "string",
+                        "enum": ["oneDay", "oneWeek", "oneMonth", "oneYear", "noLimit"],
+                        "description": "时间范围；不限定时使用 noLimit",
+                    },
+                },
+                "required": ["query"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
             "name": "search_web",
             "description": "搜索实时网络信息并生成整理报告，同时准备一张简洁的搜索报告图片。用于新闻、最新版本、近期事件、实时价格、对比或其他可能变化的资料。先根据用户问题进行一次精准搜索；收到报告后，如果资料不足、需要核对另一个对象、存在冲突或关键词不匹配，再自行使用不同关键词追加搜索。资料已经足够时不要重复搜索；普通闲聊和稳定常识不要调用。",
             "parameters": {

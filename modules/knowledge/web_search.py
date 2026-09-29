@@ -31,6 +31,9 @@ WEB_SEARCH_PAGE_MAX_HEIGHT = int(_ai_config["web_search_page_max_height"])
 _VALID_RECENCY_FILTERS = {"oneDay", "oneWeek", "oneMonth", "oneYear", "noLimit"}
 _MAX_QUERY_LENGTH = 70
 _MAX_MERGED_SEARCH_RESULTS = 24
+_SIMPLE_SEARCH_RESULT_COUNT = 3
+_SIMPLE_SEARCH_CONTENT_LENGTH = 420
+_SIMPLE_SEARCH_CONTENT_SIZE = "low"
 _URL_PATTERN = re.compile(r"https?://[^\s<>]+", re.IGNORECASE)
 _EXCLUDED_SEARCH_DOMAINS = ("weixin.qq.com",)
 
@@ -556,14 +559,20 @@ def render_search_reports(reports: list[dict]) -> str | None:
     )
 
 
-def _search_web_api(query: str, recency: str, user_id: str) -> list[dict]:
+def _search_web_api(
+    query: str,
+    recency: str,
+    user_id: str,
+    count: int | None = None,
+    content_size: str | None = None,
+) -> list[dict]:
     payload = {
         "search_query": query,
         "search_engine": WEB_SEARCH_ENGINE,
         "search_intent": False,
-        "count": WEB_SEARCH_COUNT,
+        "count": count if count is not None else WEB_SEARCH_COUNT,
         "search_recency_filter": recency,
-        "content_size": WEB_SEARCH_CONTENT_SIZE,
+        "content_size": content_size or WEB_SEARCH_CONTENT_SIZE,
         "user_id": user_id,
     }
     try:
@@ -762,5 +771,69 @@ def search_web(query: str, recency: str = "", user_id: str | None = None) -> str
                 "report": report,
             },
         },
+        ensure_ascii=False,
+    )
+
+
+def search_web_simple(query: str, recency: str = "", user_id: str | None = None) -> str:
+    """搜索少量资料，返回给主 AI 做简短回答，不生成报告图片。"""
+    query = " ".join(str(query or "").split())
+    if not query:
+        return json.dumps(
+            {"ok": False, "context": "网络搜索需要提供关键词。"},
+            ensure_ascii=False,
+        )
+    if not DEEPSEEK_KEY:
+        logger.error("[Web Search Simple] API Key 未配置")
+        return json.dumps(
+            {"ok": False, "context": "网络搜索暂时不可用，请先配置 API Key。"},
+            ensure_ascii=False,
+        )
+    if len(query) > _MAX_QUERY_LENGTH:
+        logger.warning("[Web Search Simple] 搜索关键词超过 70 字符，已截断")
+        query = query[:_MAX_QUERY_LENGTH].rstrip()
+
+    recency = str(recency or WEB_SEARCH_DEFAULT_RECENCY).strip()
+    if recency not in _VALID_RECENCY_FILTERS:
+        return json.dumps(
+            {
+                "ok": False,
+                "context": (
+                    f"网络搜索时间范围无效「{recency}」。可用范围："
+                    "oneDay, oneWeek, oneMonth, oneYear, noLimit"
+                ),
+            },
+            ensure_ascii=False,
+        )
+
+    normalized_user_id = _normalize_user_id(user_id)
+    sources = _search_web_api(
+        query,
+        recency,
+        normalized_user_id,
+        count=_SIMPLE_SEARCH_RESULT_COUNT,
+        content_size=_SIMPLE_SEARCH_CONTENT_SIZE,
+    )
+    if not sources:
+        return json.dumps(
+            {"ok": False, "context": "网络搜索没有找到可用的搜索结果。"},
+            ensure_ascii=False,
+        )
+
+    brief_lines = [f"网络搜索结果（仅供回答，最多参考 {_SIMPLE_SEARCH_RESULT_COUNT} 条）："]
+    for index, source in enumerate(sources[:_SIMPLE_SEARCH_RESULT_COUNT], 1):
+        title = _clip(_without_links(source.get("title")), 120)
+        content = _clip(_without_links(source.get("content")), _SIMPLE_SEARCH_CONTENT_LENGTH)
+        line = f"{index}. {title or '搜索结果'}"
+        if content:
+            line += f"：{content}"
+        brief_lines.append(line)
+    brief_lines.append("请基于以上资料直接回答用户，保持简短；资料不足时明确说不知道。")
+    logger.info(
+        f"[Web Search Simple] 搜索完成: query={query!r}, user={normalized_user_id}, "
+        f"results={min(len(sources), _SIMPLE_SEARCH_RESULT_COUNT)}"
+    )
+    return json.dumps(
+        {"ok": True, "context": "\n".join(brief_lines)},
         ensure_ascii=False,
     )

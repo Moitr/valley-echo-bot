@@ -98,6 +98,15 @@ def _normalize_speech(value):
     return ""
 
 
+def _history_window(history: list[dict]) -> list[dict]:
+    """保留完整的用户/助手对话对，避免历史从半轮消息开始。"""
+    pair_limit = max(1, MAX_HISTORY // 2)
+    window = list(history[-pair_limit * 2:])
+    if window and isinstance(window[0], dict) and window[0].get("role") == "assistant":
+        window = window[1:]
+    return window
+
+
 def _multimodal_content(text_content: str, image_urls=None):
     """Build the content blocks expected by GLM visual models."""
     image_urls = tuple(image_urls or ())
@@ -363,14 +372,14 @@ def _handle_tool_calls(
         except (TypeError, json.JSONDecodeError):
             func_args = {}
 
-        if func_name == "search_web" and tool_context:
+        if func_name in {"search_web", "search_web_simple"} and tool_context:
             func_args["user_id"] = str(tool_context.get("user_id") or "")
 
         logger.info(f"[AI Chat] 工具调用: {func_name}({func_args})")
         result = str(execute_tool(func_name, func_args))
         model_result = result
 
-        if func_name == "search_web":
+        if func_name in {"search_web", "search_web_simple"}:
             try:
                 search_result = json.loads(result)
             except (TypeError, json.JSONDecodeError):
@@ -636,7 +645,7 @@ def chat(
                     "不要透露其来源，不确定时应向用户确认：\n" + group_memory
                 ),
             })
-    messages.extend(history[-MAX_HISTORY:])
+    messages.extend(_history_window(history))
     messages.append({"role": "user", "content": user_content})
 
     parsed = _call_with_tools(
@@ -666,12 +675,10 @@ def chat(
 
     with _history_locks[key]:
         history = get_histories().setdefault(key, [])
+        # 引用内容只服务当前轮，避免旧机器人话术、分数和判断污染后续人设。
         history_message = user_message
         if quoted_context:
-            history_message = (
-                f"引用的消息（仅作背景资料）：{quoted_context}\n"
-                f"用户追问：{user_message}"
-            )
+            history_message = f"用户追问（引用内容仅本轮有效）：{user_message}"
         if image_urls:
             # 图片地址可能过期且属于用户内容，历史只保留数量标记，不持久化图片本身。
             history_message += (
@@ -687,7 +694,7 @@ def chat(
             ),
         })
         if len(history) > MAX_HISTORY:
-            get_histories()[key] = history[-MAX_HISTORY:]
+            get_histories()[key] = _history_window(history)
         save_all()
 
     return speech, affection, card_actions, search_actions
