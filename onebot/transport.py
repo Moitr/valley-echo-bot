@@ -210,6 +210,16 @@ def send_like(user_id, times=1) -> dict | None:
     return None
 
 
+def set_msg_emoji_like(message_id, emoji_id, set_like=True) -> bool:
+    """Add or remove an emoji reaction on a group message."""
+    result = _call_api("set_msg_emoji_like", {
+        "message_id": int(message_id),
+        "emoji_id": int(emoji_id),
+        "set": bool(set_like),
+    })
+    return bool(result and result.get("status") == "ok")
+
+
 def forward_node(content, uin=None, name=None) -> dict:
     """构造一条群聊合并转发节点。
 

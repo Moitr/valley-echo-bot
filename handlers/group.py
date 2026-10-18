@@ -29,6 +29,7 @@ from onebot.transport import (
     send_group_forward_msg,
     send_group_msg,
     send_like,
+    set_msg_emoji_like,
     send_poke,
     set_group_add_request,
     set_group_special_title,
@@ -96,6 +97,13 @@ _recent_group_messages: defaultdict[str, deque[str]] = defaultdict(
 )
 _recent_group_messages_lock = threading.RLock()
 _like_me_lock = threading.RLock()
+_EMOJI_OK = 478
+_EMOJI_ERROR = 479
+
+
+def _react_to_message(message_id, emoji_id):
+    if message_id is not None:
+        set_msg_emoji_like(message_id, emoji_id)
 
 
 def _handle_like_me(message, group_id, user_id, msg_text, message_id, self_id, reply_context=None):
@@ -116,6 +124,7 @@ def _handle_like_me(message, group_id, user_id, msg_text, message_id, self_id, r
         except (OSError, json.JSONDecodeError) as err:
             logger.error(f"赞我记录读取失败: {err}")
             send_group_msg(group_id, [reply(message_id), text("呜呜，今天的点赞记录读取失败了 (；ω；)")])
+            _react_to_message(message_id, _EMOJI_ERROR)
             return True
 
         today_users = records.get(today, [])
@@ -123,10 +132,12 @@ def _handle_like_me(message, group_id, user_id, msg_text, message_id, self_id, r
             today_users = []
         if user_key in today_users:
             send_group_msg(group_id, [reply(message_id), text("今天已经给你赞过啦，明天再来找我哦 (๑˃ᴗ˂)ﻭ")])
+            _react_to_message(message_id, _EMOJI_ERROR)
             return True
 
         if send_like(user_id, times=20) is None:
             send_group_msg(group_id, [reply(message_id), text("点赞好像失败了，等会儿再试试嘛 (｡•́︿•̀｡)")])
+            _react_to_message(message_id, _EMOJI_ERROR)
             return True
 
         records = {today: today_users + [user_key]}
@@ -140,9 +151,11 @@ def _handle_like_me(message, group_id, user_id, msg_text, message_id, self_id, r
         except OSError as err:
             logger.error(f"赞我记录写入失败: {err}")
             send_group_msg(group_id, [reply(message_id), text("赞好啦，不过记录没存成功…请先别重复喊我哦 (＞﹏＜)")])
+            _react_to_message(message_id, _EMOJI_ERROR)
             return True
 
     send_group_msg(group_id, [reply(message_id), text("已经赞好咯，送你 20 个赞！(ﾉ˶>ᗜ<˵)ﾉ♡")])
+    _react_to_message(message_id, _EMOJI_OK)
     return True
 
 
@@ -691,12 +704,14 @@ def send_wiki_summary(
             structured=structured,
         ),
     )
+    _react_to_message(message_id, _EMOJI_OK)
     if image_path:
         send_image_with_retry(group_id, image_path)
 
 
 def send_wiki_error(group_id, message_id, err):
     send_group_msg(group_id, [reply(message_id), text(f"发生错误，错误代码：{err.status_code}。\n这并不是机器人的问题")])
+    _react_to_message(message_id, _EMOJI_ERROR)
 
 
 def _auto_summarize(group_id, message_id, summary, page_url):
@@ -750,12 +765,14 @@ def sve_send_wiki_summary(
             structured=structured,
         ),
     )
+    _react_to_message(message_id, _EMOJI_OK)
     if image_path:
         send_image_with_retry(group_id, image_path)
 
 
 def sve_send_wiki_error(group_id, message_id, err):
     send_group_msg(group_id, [reply(message_id), text(f"发生错误，错误代码：{err.status_code}。\n这并不是机器人的问题")])
+    _react_to_message(message_id, _EMOJI_ERROR)
 
 
 def _timeout_search(key):
@@ -766,6 +783,7 @@ def _timeout_search(key):
             pending["group_id"],
             [reply(pending["message_id"]), text("回复超时")],
         )
+        _react_to_message(pending["message_id"], _EMOJI_ERROR)
 
 
 def _sve_timeout_search(key):
@@ -776,6 +794,7 @@ def _sve_timeout_search(key):
             pending["group_id"],
             [reply(pending["message_id"]), text("SVE回复超时")],
         )
+        _react_to_message(pending["message_id"], _EMOJI_ERROR)
 
 
 def handle_wiki_command(message, group_id, user_id, message_id, self_id):
@@ -865,6 +884,7 @@ def handle_wiki_command(message, group_id, user_id, message_id, self_id):
     if msg_text.startswith("查询"):
         if pending:
             send_group_msg(group_id, [reply(message_id), text("上一个查询没有完成")])
+            _react_to_message(message_id, _EMOJI_ERROR)
             return True
 
         search_text = msg_text.removeprefix("查询").strip()
@@ -918,12 +938,14 @@ def handle_wiki_command(message, group_id, user_id, message_id, self_id):
                     }
                 timer.start()
             send_group_msg(group_id, [reply(message_id), text(result_text)])
+            _react_to_message(message_id, _EMOJI_OK)
         return True
 
     # sve查询
     if msg_text.startswith("sve查询"):
         if sve_pending:
             send_group_msg(group_id, [reply(message_id), text("上一个SVE查询没有完成")])
+            _react_to_message(message_id, _EMOJI_ERROR)
             return True
 
         search_text = msg_text.removeprefix("sve查询").strip()
@@ -976,6 +998,7 @@ def handle_wiki_command(message, group_id, user_id, message_id, self_id):
                     }
                 timer.start()
             send_group_msg(group_id, [reply(message_id), text(result_text)])
+            _react_to_message(message_id, _EMOJI_OK)
         return True
 
     return False
