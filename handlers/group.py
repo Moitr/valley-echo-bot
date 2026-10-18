@@ -2,6 +2,7 @@
 
 import base64
 import io
+import json
 import os
 import random
 import re
@@ -27,6 +28,7 @@ from onebot.transport import (
     send_group_json_card,
     send_group_forward_msg,
     send_group_msg,
+    send_like,
     send_poke,
     set_group_add_request,
     set_group_special_title,
@@ -35,6 +37,7 @@ from onebot.transport import (
 from config import (
     AI_CHAT_GROUPS,
     LEAVE_GROUPS,
+    LIKE_ME_GROUPS,
     POKE_GROUPS,
     TITLE_GROUPS,
     WELCOME_GROUPS,
@@ -66,6 +69,8 @@ from modules.knowledge.stardew_valley.wiki.summarize import summarize_wiki_page
 _welcome_config = section("welcome")
 _wiki_config = section("wiki")
 _poke_config = section("poke")
+_like_me_config = section("storage")
+LIKE_ME_DAILY_FILE = PROJECT_ROOT / str(_like_me_config["like_me_daily_file"])
 WELCOME_IMAGE = str(PROJECT_ROOT / str(_welcome_config["image_path"]))
 MAX_SIZE = int(_welcome_config["max_image_size"])
 SELECTION_TIMEOUT_SECONDS = float(_wiki_config["selection_timeout_seconds"])
@@ -90,6 +95,55 @@ _recent_group_messages: defaultdict[str, deque[str]] = defaultdict(
     lambda: deque(maxlen=_RECENT_CONTEXT_MESSAGES)
 )
 _recent_group_messages_lock = threading.RLock()
+_like_me_lock = threading.RLock()
+
+
+def _handle_like_me(message, group_id, user_id, msg_text, message_id, self_id, reply_context=None):
+    """Give the requesting user 20 likes once per day and quote the request."""
+    if not msg_text.strip().startswith("赞我"):
+        return False
+
+    today = datetime.now().date().isoformat()
+    user_key = str(user_id)
+    with _like_me_lock:
+        try:
+            with LIKE_ME_DAILY_FILE.open("r", encoding="utf-8") as file:
+                records = json.load(file)
+            if not isinstance(records, dict):
+                records = {}
+        except FileNotFoundError:
+            records = {}
+        except (OSError, json.JSONDecodeError) as err:
+            logger.error(f"赞我记录读取失败: {err}")
+            send_group_msg(group_id, [reply(message_id), text("呜呜，今天的点赞记录读取失败了 (；ω；)")])
+            return True
+
+        today_users = records.get(today, [])
+        if not isinstance(today_users, list):
+            today_users = []
+        if user_key in today_users:
+            send_group_msg(group_id, [reply(message_id), text("今天已经给你赞过啦，明天再来找我哦 (๑˃ᴗ˂)ﻭ")])
+            return True
+
+        if send_like(user_id, times=20) is None:
+            send_group_msg(group_id, [reply(message_id), text("点赞好像失败了，等会儿再试试嘛 (｡•́︿•̀｡)")])
+            return True
+
+        records = {today: today_users + [user_key]}
+        LIKE_ME_DAILY_FILE.parent.mkdir(parents=True, exist_ok=True)
+        temp_file = LIKE_ME_DAILY_FILE.with_suffix(LIKE_ME_DAILY_FILE.suffix + ".tmp")
+        try:
+            with temp_file.open("w", encoding="utf-8") as file:
+                json.dump(records, file, ensure_ascii=False, indent=2)
+                file.write("\n")
+            os.replace(temp_file, LIKE_ME_DAILY_FILE)
+        except OSError as err:
+            logger.error(f"赞我记录写入失败: {err}")
+            send_group_msg(group_id, [reply(message_id), text("赞好啦，不过记录没存成功…请先别重复喊我哦 (＞﹏＜)")])
+            return True
+
+    send_group_msg(group_id, [reply(message_id), text("已经赞好咯，送你 20 个赞！(ﾉ˶>ᗜ<˵)ﾉ♡")])
+    return True
 
 
 def load_welcome_image():
@@ -990,6 +1044,11 @@ def _handle_chat(message, group_id, user_id, msg_text, message_id, self_id, repl
 # ═══════════════════════════════════════════════════════════════════════
 
 _commands = [
+    {
+        "trigger": "赞我",
+        "handler": _handle_like_me,
+        "groups": LIKE_ME_GROUPS,
+    },
     {
         "trigger": None,
         "handler": _handle_wiki,

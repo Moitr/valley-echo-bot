@@ -201,6 +201,15 @@ def send_group_msg(group_id, message: list) -> dict | None:
     return None
 
 
+def send_like(user_id, times=1) -> dict | None:
+    """Give a user likes through the LuckyLillia OneBot extension."""
+    result = _call_api("send_like", {"user_id": int(user_id), "times": int(times)})
+    if result and result.get("status") == "ok":
+        return result
+    logger.info(f"[API] 点赞失败: user={user_id}, times={times}")
+    return None
+
+
 def forward_node(content, uin=None, name=None) -> dict:
     """构造一条群聊合并转发节点。
 

@@ -34,6 +34,7 @@ GROUPS = {
     "title": "off",  # 头衔功能
     "wiki": "off",  # Wiki 查询
     "poke": "off",  # 被戳一戳时回复并戳回
+    "like_me": "off",  # 用户发送“赞我”时给本人点赞
 }
 
 # AI 服务和对话策略。
@@ -133,6 +134,7 @@ STORAGE = {
     "affections_file": "data/affections.json",
     "ai_histories_file": "data/ai_histories.json",
     "shared_memories_file": "data/shared_memories.json",
+    "like_me_daily_file": "data/like_me_daily.json",
     "feed_cards_file": "resources/feed_cards.json",
     "fishing_image_path": "resources/images/fishing_guide.jpg",
 }
@@ -186,6 +188,7 @@ SHARED_MEMORY_GROUPS = group_ids("shared_memory")
 TITLE_GROUPS = group_ids("title")
 WIKI_GROUPS = group_ids("wiki")
 POKE_GROUPS = group_ids("poke")
+LIKE_ME_GROUPS = group_ids("like_me")
 
 _AI = section("ai")
 DEEPSEEK_KEY = str(_AI["api_key"]).strip()
