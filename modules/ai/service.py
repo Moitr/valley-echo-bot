@@ -8,7 +8,6 @@ from modules.ai.client import (
     get_affection,
     is_cooldown,
     proactive_chat,
-    remember_group_exchange,
     set_affection,
     set_cooldown,
 )
@@ -18,7 +17,6 @@ __all__ = [
     "get_affection",
     "is_cooldown",
     "proactive_chat",
-    "remember_group_exchange",
     "set_affection",
     "set_cooldown",
 ]

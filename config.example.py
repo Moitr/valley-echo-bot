@@ -30,7 +30,6 @@ GROUPS = {
     "welcome": "off",  # 入群欢迎和自动审批
     "leave": "off",  # 离开/被踢通知
     "ai_chat": "off",  # 主动搭话和 AI 对话
-    "shared_memory": "off",  # 群聊共享记忆；只影响该群的 AI 对话
     "title": "off",  # 头衔功能
     "wiki": "off",  # Wiki 查询
     "poke": "off",  # 被戳一戳时回复并戳回
@@ -40,15 +39,15 @@ GROUPS = {
 # AI 服务和对话策略。
 AI = {
     "api_key": "",
-    "url": "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-    "chat_model": "glm-5.3-flash",
-    "wiki_summary_model": "glm-5.3",
-    "web_search_model": "glm-5.3-flash",
-    "web_search_url": "https://open.bigmodel.cn/api/paas/v4/web_search",
+    "url": "https://api.deepseek.com/chat/completions",
+    "chat_model": "deepseek-flash",
+    "wiki_summary_model": "deepseek-flash",
+    "web_search_model": "deepseek-flash",
+    "web_search_url": "https://api.deepseek.com/v1/tools/search",
     "web_search_count": 12,
     "web_search_recency_filter": "noLimit",
     "web_search_content_size": "high",
-    "web_search_max_tokens": 4096,
+    "web_search_max_tokens": 8192,
     "web_search_temperature": 0.2,
     "web_search_request_timeout_seconds": 120,
     "web_search_page_width": 1000,
@@ -71,12 +70,6 @@ AI = {
     "reply_context_max_characters": 2000,  # 引用消息注入 AI 的最大字符数
     "proactive_context_messages": 6,  # 主动搭话读取的近期消息数
     "proactive_context_max_characters": 1200,  # 主动搭话上下文最大字符数
-    "shared_memory_model": "glm-5.3-flash",  # 群共享记忆审核模型
-    "shared_memory_max_items_per_group": 60,  # 每个群最多保留的事实条数
-    "shared_memory_max_fact_characters": 160,  # 单条事实最大字符数
-    "shared_memory_context_max_characters": 1600,  # 注入普通对话的群记忆最大字符数
-    "shared_memory_extraction_context_max_characters": 600,  # 记忆审核带入的旧记忆字符数
-    "shared_memory_extraction_max_tokens": 80,  # 记忆审核模型最大输出 token 数
 }
 
 
@@ -103,7 +96,7 @@ POKE = {
         " 欸？怎么突然戳我啦？",
         " 收到啦，我也戳你一下。",
         " 好痒呀，不许欺负我哦。",
-        " 嘿嘿，戳回去啦！",
+        " 戳回去啦！",
     ],
     "poke_back": True,
 }
@@ -133,7 +126,6 @@ BROWSER = {
 STORAGE = {
     "affections_file": "data/affections.json",
     "ai_histories_file": "data/ai_histories.json",
-    "shared_memories_file": "data/shared_memories.json",
     "like_me_daily_file": "data/like_me_daily.json",
     "feed_cards_file": "resources/feed_cards.json",
     "fishing_image_path": "resources/images/fishing_guide.jpg",
@@ -184,7 +176,6 @@ def group_ids(name: str) -> list[int] | None:
 WELCOME_GROUPS = group_ids("welcome")
 LEAVE_GROUPS = group_ids("leave")
 AI_CHAT_GROUPS = group_ids("ai_chat")
-SHARED_MEMORY_GROUPS = group_ids("shared_memory")
 TITLE_GROUPS = group_ids("title")
 WIKI_GROUPS = group_ids("wiki")
 POKE_GROUPS = group_ids("poke")

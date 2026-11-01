@@ -15,7 +15,7 @@ from modules.knowledge.stardew_valley.translate import (
     tr_villager,
     tr_weather,
 )
-from modules.knowledge.web_search import search_web, search_web_simple
+from modules.knowledge.web_search import fetch_web, search_web, search_web_simple
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 
@@ -564,6 +564,7 @@ def search_stardew(query: str, source: str = "local", category: str = "") -> str
 
 
 TOOL_HANDLERS = {
+    "fetch_web": lambda args: fetch_web(args.get("url", "")),
     "search_web": lambda args: search_web(
         args.get("query", ""), args.get("recency", ""), args.get("user_id")
     ),

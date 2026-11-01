@@ -14,7 +14,6 @@ from modules.ai.service import (
     get_affection,
     is_cooldown,
     proactive_chat,
-    remember_group_exchange,
     set_affection,
     set_cooldown,
 )
@@ -95,7 +94,7 @@ def _speech_text(speech) -> str:
 
 
 def _send_search_action(group_id, user_id, speech, action):
-    """在一条消息中发送 @、主 AI 回答和合并后的搜索报告截图。"""
+    """先发送主 AI 文字，再单独发送搜索报告截图。"""
     if not isinstance(action, dict) or action.get("type") != "search_report_image":
         return
     image_data = action.get("image")
@@ -106,8 +105,9 @@ def _send_search_action(group_id, user_id, speech, action):
         speech_text = _speech_text(speech)
         if speech_text:
             message.append(text(_strip_markdown(speech_text)))
-        message.append(image(image_data))
         send_group_msg(group_id, message)
+        time.sleep(random.uniform(0.4, 0.8))
+        send_group_msg(group_id, [image(image_data)])
         logger.info(f"[群 {group_id}] 搜索报告图片已发送: user={user_id}")
     except Exception:
         logger.exception(f"[群 {group_id}] 搜索报告图片发送失败")
@@ -269,7 +269,6 @@ def handle_ai_chat_command(message, group_id, user_id, msg_text, message_id, sel
                 _send_speech(group_id, speech)
             for action in card_actions:
                 _send_card_action(group_id, action)
-            remember_group_exchange(group_id, user_id, text_stripped)
         else:
             if streamed_messages:
                 logger.warning(
