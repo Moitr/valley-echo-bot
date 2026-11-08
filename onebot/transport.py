@@ -392,6 +392,32 @@ def get_group_member_info(group_id: int, user_id: int) -> dict | None:
     return None
 
 
+def get_stranger_info(user_id: int, no_cache: bool = False) -> dict | None:
+    """获取用户昵称等陌生人信息。"""
+    result = _call_api("get_stranger_info", {
+        "user_id": user_id,
+        "no_cache": bool(no_cache),
+    })
+    if result and result.get("status") == "ok":
+        data = result.get("data")
+        return data if isinstance(data, dict) else None
+    logger.warning(f"[API] 获取用户信息失败: user_id={user_id}, response={result}")
+    return None
+
+
+def get_group_member_list(group_id: int, no_cache: bool = False) -> list[dict] | None:
+    """获取群成员列表，用于识别群主和管理员。"""
+    result = _call_api("get_group_member_list", {
+        "group_id": group_id,
+        "no_cache": bool(no_cache),
+    })
+    if result and result.get("status") == "ok":
+        data = result.get("data")
+        return data if isinstance(data, list) else None
+    logger.warning(f"[群 {group_id}] 获取成员列表失败: response={result}")
+    return None
+
+
 def get_group_msg_history(
     group_id: int,
     message_seq: int | None = None,

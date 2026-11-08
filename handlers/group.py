@@ -20,6 +20,8 @@ from onebot.transport import (
     get_bot_nickname,
     get_bot_user_id,
     get_group_member_info,
+    get_group_member_list,
+    get_stranger_info,
     get_image,
     get_msg,
     image,
@@ -98,8 +100,36 @@ _recent_group_messages: defaultdict[str, deque[str]] = defaultdict(
 )
 _recent_group_messages_lock = threading.RLock()
 _like_me_lock = threading.RLock()
+_pending_request_lock = threading.RLock()
+_pending_request_reviews: dict[str, dict] = {}
+_welcome_sent_users: dict[tuple[str, str], float] = {}
+_welcome_lock = threading.RLock()
 _EMOJI_OK = 478
 _EMOJI_ERROR = 479
+_REVIEW_MESSAGE = (
+    "这条申请我有点拿不准啦，管理员帮忙看看嘛～\n"
+    "昵称：{nickname}\n"
+    "{application}\n"
+    "答案：{answer}\n"
+    "\n"
+    "对勾同意，叉叉拒绝啦！"
+)
+
+
+def _send_welcome_once(group_id, user_id):
+    """在审批回调和入群通知竞争时只发送一次欢迎消息。"""
+    key = (str(group_id), str(user_id))
+    now = time.time()
+    with _welcome_lock:
+        expired = [item for item, sent_at in _welcome_sent_users.items() if now - sent_at > 600]
+        for item in expired:
+            _welcome_sent_users.pop(item, None)
+        if key in _welcome_sent_users:
+            logger.info(f"[群 {group_id}] 已发送欢迎，跳过重复欢迎: user={user_id}")
+            return False
+        _welcome_sent_users[key] = now
+    send_welcome_message(group_id, user_id)
+    return True
 
 
 def _react_to_message(message_id, emoji_id):
@@ -394,12 +424,8 @@ def _handle_notice(body):
         return None
 
     sub_type = body.get("sub_type")
-    if sub_type == "approve":
-        logger.info(f"[群 {group_id}] sub_type=approve，已在 _handle_request 中发送欢迎，跳过")
-        return None
-
     logger.info(f"[群 {group_id}] 新成员加入: {user_id} (sub_type={sub_type})")
-    send_welcome_message(group_id, user_id)
+    _send_welcome_once(group_id, user_id)
     return None
 
 
@@ -416,12 +442,15 @@ def _handle_request(body):
     )
     moderation = moderate_group_request(comment)
     if moderation is None:
-        logger.warning(f"[群 {group_id}] AI 审核失败，保持不处理")
+        _publish_request_review(
+            group_id, user_id, flag, comment, "小芳暂时没能完成判断。"
+        )
         return None
 
     decision, reason = moderation
     logger.info(f"[群 {group_id}] AI 审核结果: {decision}, 理由={reason}")
     if decision == "ignore":
+        _publish_request_review(group_id, user_id, flag, comment, reason)
         return None
 
     result = set_group_add_request(
@@ -433,7 +462,134 @@ def _handle_request(body):
 
     if result and decision == "approve":
         logger.info(f"[群 {group_id}] 申请已同意，发送欢迎消息给 {user_id}")
-        send_welcome_message(group_id, user_id)
+        _send_welcome_once(group_id, review["user_id"])
+    return None
+
+
+def _publish_request_review(group_id, user_id, flag, comment, reason):
+    """发送待人工审核消息，并记录申请与消息的对应关系。"""
+    member = get_stranger_info(int(user_id), no_cache=True) or {}
+    nickname = str(member.get("nickname") or user_id).strip()
+    application, answer = _split_request_comment(comment)
+    review_text = _REVIEW_MESSAGE.format(
+        nickname=f"{nickname}（{user_id}）",
+        application=application,
+        answer=answer,
+        reason=str(reason or "回答不知道呢，信息不太够，先放一放吧～"),
+    )
+    result = send_group_msg(
+        group_id,
+        [text(review_text)],
+    )
+    message_id = result.get("message_id") if isinstance(result, dict) else None
+    if message_id is None:
+        logger.warning(f"[群 {group_id}] 待审核提示发送失败，无法等待表情审核")
+        return
+    set_msg_emoji_like(message_id, _EMOJI_OK, set_like=True)
+    set_msg_emoji_like(message_id, _EMOJI_ERROR, set_like=True)
+    with _pending_request_lock:
+        _pending_request_reviews[str(message_id)] = {
+            "group_id": group_id,
+            "user_id": user_id,
+            "flag": flag,
+            "comment": comment,
+            "reason": reason,
+        }
+    logger.info(f"[群 {group_id}] 入群申请已转人工审核: message_id={message_id}")
+
+
+def _split_request_comment(comment):
+    """将申请验证信息拆成申请和答案两部分。"""
+    comment = str(comment or "（未填写）").replace("\r", "")
+    application = comment
+    answer = "（未填写）"
+    lines = comment.split("\n")
+    for index, line in enumerate(lines):
+        if "答案：" in line or "答案:" in line:
+            marker = "答案：" if "答案：" in line else "答案:"
+            answer = line.split(marker, 1)[1].strip() or "（未填写）"
+            application = "\n".join(lines[:index]).strip() or comment
+            break
+    return application, answer
+
+
+def _group_admin_ids(group_id):
+    members = get_group_member_list(group_id, no_cache=True)
+    if members is None:
+        return None
+    return {
+        str(member.get("user_id"))
+        for member in members
+        if isinstance(member, dict)
+        and member.get("role") in {"owner", "admin"}
+    }
+
+
+def _handle_request_review_reaction(body):
+    """仅允许群主/管理员用表情处理待审核入群申请。"""
+    message_id = body.get("message_id")
+    group_id = body.get("group_id")
+    operator_id = body.get("user_id")
+    self_id = body.get("self_id") or get_bot_user_id()
+    if body.get("is_add") is not True:
+        logger.info(f"[群 {group_id}] 忽略移除表情事件: message_id={message_id}")
+        return None
+    if self_id is not None and str(operator_id) == str(self_id):
+        logger.info(f"[群 {group_id}] 忽略机器人自身审核表情: user_id={operator_id}, message_id={message_id}")
+        return None
+    likes = body.get("likes") or []
+    emoji_ids = {
+        str(item.get("emoji_id"))
+        for item in likes
+        if isinstance(item, dict)
+    }
+    direct_emoji_id = body.get("emoji_id", body.get("emoji"))
+    if direct_emoji_id is not None:
+        emoji_ids.add(str(direct_emoji_id))
+    if str(_EMOJI_OK) in emoji_ids:
+        emoji_id = _EMOJI_OK
+    elif str(_EMOJI_ERROR) in emoji_ids:
+        emoji_id = _EMOJI_ERROR
+    else:
+        return None
+
+    with _pending_request_lock:
+        review = _pending_request_reviews.get(str(message_id))
+    if review is None:
+        logger.info(f"[群 {group_id}] 忽略无效或已处理的审核表情: message_id={message_id}")
+        return None
+    admin_ids = _group_admin_ids(group_id)
+    if admin_ids is None or str(operator_id) not in admin_ids:
+        logger.info(f"[群 {group_id}] 忽略非管理员审核表情: user={operator_id}, message_id={message_id}")
+        return None
+    with _pending_request_lock:
+        review = _pending_request_reviews.pop(str(message_id), None)
+    if review is None:
+        logger.info(f"[群 {group_id}] 忽略重复审核表情: message_id={message_id}")
+        return None
+
+    set_msg_emoji_like(message_id, _EMOJI_OK, set_like=False)
+    set_msg_emoji_like(message_id, _EMOJI_ERROR, set_like=False)
+    approve = emoji_id == _EMOJI_OK
+    prompt = (
+        "好哒，我先记下啦～"
+        if approve else
+        "好哒，我收到啦～"
+    )
+    send_group_msg(group_id, [at(operator_id), text(" " + prompt)])
+    time.sleep(1)
+    result = set_group_add_request(
+        review["flag"],
+        approve=approve,
+        reason="管理员审核通过" if approve else "管理员审核未通过",
+    )
+    if result:
+        if approve:
+            _send_welcome_once(group_id, review["user_id"])
+    logger.info(
+        f"[群 {group_id}] 表情审核{'同意' if approve else '拒绝'}: "
+        f"applicant={review['user_id']} operator={operator_id} result={result}"
+    )
     return None
 
 
@@ -501,6 +657,11 @@ def _handle_poke(body):
 
 
 _event_handlers = [
+    {
+        "match": {"post_type": "notice", "notice_type": "group_msg_emoji_like"},
+        "handler": _handle_request_review_reaction,
+        "groups": None,
+    },
     {
         "match": {"post_type": "notice", "notice_type": "group_increase"},
         "handler": _handle_notice,
@@ -1189,6 +1350,10 @@ def dispatch_group_event(body):
     user_id = sender.get("user_id")
     group_id = body.get("group_id")
     nickname = sender.get("nickname")
+
+    if self_id is not None and str(user_id) == str(self_id):
+        logger.info(f"[群 {group_id}] 已忽略机器人自身消息: user_id={user_id}, message_id={message_id}")
+        return None
 
     # 日志
     if message_type == "group":
