@@ -20,7 +20,7 @@ import uuid
 
 from config import section
 
-logger = logging.getLogger("basic-bot.browser")
+logger = logging.getLogger("valley-echo-bot.browser")
 
 _browser_config = section("browser")
 BROWSER_NAME = str(_browser_config["browser"]).strip().lower()

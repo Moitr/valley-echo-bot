@@ -62,6 +62,7 @@ from modules.knowledge.stardew_valley.wiki.vanilla import (
     SCREENSHOT_DIR as STARDEW_SCREENSHOT_DIR,
 )
 from modules.knowledge.stardew_valley.wiki.summarize import summarize_wiki_page
+from modules.ai.service import moderate_group_request
 
 # ═══════════════════════════════════════════════════════════════════════
 # 欢迎消息
@@ -413,10 +414,24 @@ def _handle_request(body):
         f"[群 {group_id}] 收到入群申请: 用户={user_id}, "
         f"验证信息={comment}, flag={flag}"
     )
-    result = set_group_add_request(flag, approve=True)
+    moderation = moderate_group_request(comment)
+    if moderation is None:
+        logger.warning(f"[群 {group_id}] AI 审核失败，保持不处理")
+        return None
+
+    decision, reason = moderation
+    logger.info(f"[群 {group_id}] AI 审核结果: {decision}, 理由={reason}")
+    if decision == "ignore":
+        return None
+
+    result = set_group_add_request(
+        flag,
+        approve=decision == "approve",
+        reason=reason,
+    )
     logger.info(f"[群 {group_id}] 入群申请处理结果: {result}")
 
-    if result:
+    if result and decision == "approve":
         logger.info(f"[群 {group_id}] 申请已同意，发送欢迎消息给 {user_id}")
         send_welcome_message(group_id, user_id)
     return None

@@ -1,4 +1,4 @@
-"""basic-bot — 正向 WebSocket 客户端，连接 llbot 收发事件与 API 调用"""
+"""valley-echo-bot — 正向 WebSocket 客户端，连接 llbot 收发事件与 API 调用"""
 import json
 import logging
 import os
@@ -22,9 +22,12 @@ LOG_LEVEL = str(_websocket_config["log_level"])
 RECONNECT_SECONDS = float(_websocket_config["reconnect_seconds"])
 PING_INTERVAL_SECONDS = float(_websocket_config["ping_interval_seconds"])
 PING_TIMEOUT_SECONDS = float(_websocket_config["ping_timeout_seconds"])
-AUTORELOAD_ENABLED = bool(_websocket_config["autoreload_enabled"])
+AUTORELOAD_ENABLED = (
+    bool(_websocket_config["autoreload_enabled"])
+    and LOG_LEVEL.upper() == "DEBUG"
+)
 AUTORELOAD_POLL_SECONDS = float(_websocket_config["autoreload_poll_seconds"])
-logging.getLogger("basic-bot").setLevel(
+logging.getLogger("valley-echo-bot").setLevel(
     getattr(logging, LOG_LEVEL.upper(), logging.INFO)
 )
 
@@ -43,21 +46,26 @@ def _request_shutdown(signum=None, _frame=None):
     if _shutdown_event.is_set():
         return
     _shutdown_event.set()
-    try:
-        signal_name = signal.Signals(signum).name if signum else "KeyboardInterrupt"
-    except (ValueError, TypeError):
-        signal_name = str(signum or "KeyboardInterrupt")
-    logging.getLogger("basic-bot").info(
-        "[退出] 收到 %s，正在关闭 WebSocket 和后台任务...",
-        signal_name,
-    )
     with _active_ws_lock:
         ws = _active_ws
     if ws is not None:
+        # websocket-client 的 run_forever 可能在 close 后仍继续循环，先关闭运行标志。
         try:
-            ws.close()
+            ws.keep_running = False
         except Exception:
             pass
+
+        def _close_ws():
+            try:
+                ws.close()
+            except Exception:
+                pass
+
+        # 不在信号处理器中直接执行可能阻塞的 WebSocket 清理。
+        threading.Thread(target=_close_ws, daemon=True, name="shutdown-ws").start()
+    # 让主线程立即跳出 websocket-client 的阻塞调用，进入统一清理流程。
+    if signum == signal.SIGINT:
+        raise KeyboardInterrupt
 
 
 def _shutdown_runtime():
@@ -73,7 +81,7 @@ def _shutdown_runtime():
         from modules.infrastructure.browser import reset_browser_path_cache
         reset_browser_path_cache()
     except Exception:
-        logging.getLogger("basic-bot").exception("[退出] 关闭浏览器失败")
+        logging.getLogger("valley-echo-bot").exception("[退出] 关闭浏览器失败")
 
 
 def _authorization_header(token: str) -> list[str]:
@@ -103,7 +111,7 @@ def _start_autoreload():
                             pass
 
     _collect_py_files()
-    logger = logging.getLogger("basic-bot")
+    logger = logging.getLogger("valley-echo-bot")
     logger.info("[重载] 文件监控已启动，修改 .py 文件自动重启")
 
     while not _shutdown_event.is_set():
@@ -117,10 +125,11 @@ def _start_autoreload():
                     continue
                 if new_mtime > old_mtime:
                     logger.info(f"[重载] 检测到文件变化: {os.path.relpath(path, _watch_root)}")
-                    # 子进程启动新实例，当前进程退出
+                    # 子进程启动新实例，当前进程走正常退出流程。
                     import subprocess
                     subprocess.Popen([sys.executable] + sys.argv)
-                    os._exit(0)
+                    _request_shutdown()
+                    return
             _collect_py_files()  # 定期重新扫描，发现新文件
         except Exception:
             pass
@@ -140,7 +149,7 @@ def _load_bot_identity():
 def on_open(ws):
     """WS 连接成功后异步获取机器人登录信息。"""
     set_ws(ws)
-    logging.getLogger("basic-bot").info(f"[WS] 已连接到 llbot ({WS_URL})")
+    logging.getLogger("valley-echo-bot").info(f"[WS] 已连接到 llbot ({WS_URL})")
     threading.Thread(
         target=_load_bot_identity,
         daemon=True,
@@ -150,15 +159,16 @@ def on_open(ws):
 
 def on_message(_ws, raw):
     """收到 WS 消息，分发：API 响应 或 事件上报"""
+    logging.getLogger("valley-echo-bot").debug("[WS] 收到原始 JSON: %s", raw)
     try:
         data = json.loads(raw)
     except (TypeError, json.JSONDecodeError):
-        logging.getLogger("basic-bot").error(f"[WS] 无法解析消息: {raw[:200]}")
+        logging.getLogger("valley-echo-bot").error(f"[WS] 无法解析消息: {raw[:200]}")
         return
 
     # API 响应（有 echo 字段）— 立即处理，不阻塞
     if not isinstance(data, dict):
-        logging.getLogger("basic-bot").warning("[WS] 忽略非对象消息")
+        logging.getLogger("valley-echo-bot").warning("[WS] 忽略非对象消息")
         return
 
     self_id = data.get("self_id")
@@ -174,13 +184,13 @@ def on_message(_ws, raw):
         handle_auth_failure(data)
 
     if data.get("post_type") == "meta_event" and data.get("meta_event_type") == "heartbeat":
-        logging.getLogger("basic-bot").info(
+        logging.getLogger("valley-echo-bot").info(
             f"[WS] 心跳已接收: self_id={self_id} status={data.get('status')}"
         )
         return
 
     if "status" in data or "retcode" in data:
-        logging.getLogger("basic-bot").warning(
+        logging.getLogger("valley-echo-bot").warning(
             "[WS] 收到未匹配的服务端消息: "
             f"post_type={data.get('post_type')!r} "
             f"meta_event_type={data.get('meta_event_type')!r} "
@@ -197,11 +207,13 @@ def _dispatch_event_safe(data):
     try:
         dispatch_group_event(data)
     except Exception:
-        logging.getLogger("basic-bot").exception("[事件] 处理群事件时发生未捕获异常")
+        logging.getLogger("valley-echo-bot").exception("[事件] 处理群事件时发生未捕获异常")
 
 
 def on_error(_ws, err):
-    logging.getLogger("basic-bot").error(f"[WS] 连接错误: {err}")
+    if _shutdown_event.is_set():
+        return
+    logging.getLogger("valley-echo-bot").error(f"[WS] 连接错误: {err}")
 
 
 def on_close(_ws, code, msg):
@@ -212,15 +224,16 @@ def on_close(_ws, code, msg):
         "retcode": 1000,
         "message": "WebSocket connection closed",
     })
-    reason = msg or "服务器未提供关闭原因"
-    logging.getLogger("basic-bot").warning(
-        f"[WS] 连接关闭: code={code} msg={reason}；请检查 WS 地址、Authorization Token 和 llbot 正向 WS 配置"
-    )
+    if not _shutdown_event.is_set():
+        reason = msg or "服务器未提供关闭原因"
+        logging.getLogger("valley-echo-bot").warning(
+            f"[WS] 连接关闭: code={code} msg={reason}；请检查 WS 地址、Authorization Token 和 llbot 正向 WS 配置"
+        )
 
 
 def run():
     global _active_ws
-    logger = logging.getLogger("basic-bot")
+    logger = logging.getLogger("valley-echo-bot")
     logger.info(f"[配置] 当前配置文件: {CONFIG_PATH}")
     logger.info(f"[配置] WebSocket Token: {'已设置' if ACCESS_TOKEN else '未设置'}（长度={len(ACCESS_TOKEN)}）")
     if not ACCESS_TOKEN:
@@ -233,13 +246,14 @@ def run():
             "[配置] AI['api_key'] 为空，AI 功能将不可用；"
             f"请编辑 {CONFIG_PATH}"
         )
-    if AUTORELOAD_ENABLED:
-        threading.Thread(target=_start_autoreload, daemon=True, name="autoreload").start()
-    else:
-        logger.info("[重载] 已关闭源码自动重载（服务器部署模式）")
+    # 先注册信号，再启动 WebSocket/自动重载线程，确保 Ctrl+C 始终由主进程接管。
     signal.signal(signal.SIGINT, _request_shutdown)
     if hasattr(signal, "SIGTERM"):
         signal.signal(signal.SIGTERM, _request_shutdown)
+    if AUTORELOAD_ENABLED:
+        threading.Thread(target=_start_autoreload, daemon=True, name="autoreload").start()
+    else:
+        logger.info("[重载] 已关闭源码自动重载（仅 DEBUG 级别启用）")
 
     try:
         while not _shutdown_event.is_set():
@@ -278,7 +292,7 @@ def run():
     finally:
         _request_shutdown()
         _shutdown_runtime()
-        logger.info("[退出] basic-bot 已停止")
+        logger.info("[退出] valley-echo-bot 已停止")
 
 
 if __name__ == "__main__":

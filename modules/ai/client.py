@@ -628,6 +628,67 @@ def chat(
     return speech, affection, card_actions, search_actions
 
 
+def moderate_group_request(comment: str) -> tuple[str, str] | None:
+    """审核入群验证信息，返回 (decision, reason)。失败时返回 None。"""
+    prompt = (
+        "请审核一条以《星露谷物语》NPC为答案的 QQ 群入群申请验证信息。"
+        "只能根据验证信息本身判断，不要臆测用户身份。"
+        "问题通常是在询问最喜欢的星露谷 NPC；答案是星露谷 NPC 的中文名、英文名、常见译名、昵称、音译，"
+        "或明显指向该 NPC 的少量错别字时，都视为正确并 decision=approve。"
+        "例如海莉、Haley、哈莉，或仅有一两个字母/汉字错误但可以明确对应某个 NPC，也应放行。"
+        "明确回答正确或明显合理时 decision=approve；"
+        "不确定、信息不足或无法判断时 decision=ignore；"
+        "答案明显离谱、无关、恶意或不适合入群时 decision=reject。"
+        "reason 要用小芳的语气，礼貌、简短、自然，像17岁可爱乖巧的群友；拒绝时不要训斥或攻击申请人。"
+        "只输出 JSON，不要输出 Markdown，格式为："
+        '{"decision":"approve|ignore|reject","reason":"不超过20字的简短中文理由"}。\n'
+        f"验证信息：{comment}"
+    )
+    messages = [
+        {
+            "role": "system",
+                "content": (
+                    "你是小芳，一名17岁的高中女生，说话可爱、乖巧、礼貌又有分寸。"
+                    "你负责严格、谨慎地审核 QQ 群入群申请。不要输出思考过程，只输出结果 JSON。"
+                ),
+        },
+        {"role": "user", "content": prompt},
+    ]
+    parsed = None
+    for attempt in range(2):
+        data = _call_api(
+            messages,
+            with_tools=False,
+            model=DEEPSEEK_MODEL,
+            temperature=0,
+            top_p=1,
+            max_tokens=512,
+            stream=False,
+        )
+        if not isinstance(data, dict):
+            continue
+        choices = data.get("choices")
+        if not isinstance(choices, list) or not choices:
+            continue
+        message = choices[0].get("message") if isinstance(choices[0], dict) else None
+        raw = message.get("content") if isinstance(message, dict) else ""
+        parsed = _parse_json_text(raw)
+        if isinstance(parsed, dict):
+            break
+        if attempt == 0:
+            messages.append({
+                "role": "user",
+                "content": "上一次输出不完整。请重新输出完整且合法的单个 JSON 对象，不要输出 reasoning 或 Markdown。",
+            })
+    if not isinstance(parsed, dict):
+        return None
+    decision = str(parsed.get("decision", "")).strip().lower()
+    if decision not in {"approve", "ignore", "reject"}:
+        return None
+    reason = str(parsed.get("reason", "")).strip()[:60] or "未提供理由"
+    return decision, reason
+
+
 def proactive_chat(
     group_id,
     user_id,

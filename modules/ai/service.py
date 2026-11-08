@@ -5,6 +5,7 @@ Bot 层只依赖这里的公开能力，底层 API、流式协议和状态实现
 
 from modules.ai.client import (
     chat,
+    moderate_group_request,
     get_affection,
     is_cooldown,
     proactive_chat,
@@ -14,6 +15,7 @@ from modules.ai.client import (
 
 __all__ = [
     "chat",
+    "moderate_group_request",
     "get_affection",
     "is_cooldown",
     "proactive_chat",

@@ -10,7 +10,7 @@ import requests
 from config import section, state_path
 from modules.infrastructure.browser import screenshot_element
 
-logger = logging.getLogger("basic-bot.wiki_search")
+logger = logging.getLogger("valley-echo-bot.wiki_search")
 
 
 _wiki_config = section("wiki")

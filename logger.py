@@ -2,7 +2,7 @@ import logging
 
 
 def create_logger():
-    logger = logging.getLogger("basic-bot")
+    logger = logging.getLogger("valley-echo-bot")
     logger.setLevel(logging.INFO)
 
     if logger.handlers:
