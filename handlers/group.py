@@ -112,7 +112,7 @@ _REVIEW_MESSAGE = (
     "{application}\n"
     "答案：{answer}\n"
     "\n"
-    "对勾同意，叉叉拒绝啦！"
+    "对勾同意，叉叉拒绝！"
 )
 
 
