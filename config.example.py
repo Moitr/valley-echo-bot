@@ -50,6 +50,7 @@ AI = {
     "web_search_max_tokens": 8192,
     "web_search_temperature": 0.2,
     "web_search_request_timeout_seconds": 120,
+    "web_search_report_layout": "summary",  # summary（摘要）、table（表格）、timeline（时间线）
     "web_search_page_width": 1000,
     "web_search_page_height": 800,
     "web_search_page_max_height": 7200,
@@ -121,6 +122,7 @@ BROWSER = {
     "headless": True,
     "page_load_timeout_seconds": 30,
     "element_timeout_seconds": 20,
+    "full_page_screenshot_timeout_seconds": 90,
 }
 
 STORAGE = {

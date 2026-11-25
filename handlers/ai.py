@@ -98,19 +98,23 @@ def _send_search_action(group_id, user_id, speech, action):
     if not isinstance(action, dict) or action.get("type") != "search_report_image":
         return
     image_data = action.get("image")
-    if not isinstance(image_data, str) or not image_data.strip():
-        return
-    try:
-        message = [at(user_id), text(" ")]
-        speech_text = _speech_text(speech)
-        if speech_text:
-            message.append(text(_strip_markdown(speech_text)))
-        send_group_msg(group_id, message)
-        time.sleep(random.uniform(0.4, 0.8))
-        send_group_msg(group_id, [image(image_data)])
-        logger.info(f"[群 {group_id}] 搜索报告图片已发送: user={user_id}")
-    except Exception:
-        logger.exception(f"[群 {group_id}] 搜索报告图片发送失败")
+    message = [at(user_id), text(" ")]
+    speech_text = _speech_text(speech)
+    if speech_text:
+        message.append(text(_strip_markdown(speech_text)))
+    if image_data:
+        try:
+            if speech_text:
+                send_group_msg(group_id, message)
+                time.sleep(random.uniform(0.4, 0.8))
+            if send_group_msg(group_id, [image(image_data)]):
+                logger.info(f"[群 {group_id}] 搜索报告图片已发送: user={user_id}")
+                return
+        except Exception:
+            logger.exception(f"[群 {group_id}] 搜索报告图片发送异常")
+        logger.warning(f"[群 {group_id}] 搜索报告图片发送失败，改发文字摘要")
+    fallback = text(action["fallback"])
+    send_group_msg(group_id, [fallback] if image_data and speech_text else [*message, text("\n"), fallback] if speech_text else [*message, fallback])
 
 
 def _strip_markdown(text: str) -> str:

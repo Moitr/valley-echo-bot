@@ -28,6 +28,10 @@ BROWSER_PATH = str(_browser_config["path"]).strip()
 HEADLESS = bool(_browser_config["headless"])
 PAGE_LOAD_TIMEOUT_SECONDS = float(_browser_config["page_load_timeout_seconds"])
 ELEMENT_TIMEOUT_SECONDS = float(_browser_config["element_timeout_seconds"])
+FULL_PAGE_SCREENSHOT_TIMEOUT_SECONDS = max(
+    PAGE_LOAD_TIMEOUT_SECONDS + 5,
+    float(_browser_config.get("full_page_screenshot_timeout_seconds", 90)),
+)
 
 _VALID_BROWSERS = {"auto", "chromium", "firefox", "webkit"}
 if BROWSER_NAME not in _VALID_BROWSERS:
@@ -262,12 +266,17 @@ class _BrowserWorker:
             if future.cancelled():
                 continue
             if self._startup_error is not None:
-                future.set_exception(self._startup_error)
+                if not future.done():
+                    future.set_exception(self._startup_error)
                 continue
             try:
-                future.set_result(task(session))
+                result = task(session)
             except Exception as error:
-                future.set_exception(error)
+                if not future.done():
+                    future.set_exception(error)
+            else:
+                if not future.done():
+                    future.set_result(result)
 
         if session is not None:
             session.close()
@@ -398,7 +407,7 @@ def screenshot_full_page(
     try:
         return _get_worker().submit(
             lambda session: _capture_full_page(session, html_content, width, height, max_height),
-            timeout=PAGE_LOAD_TIMEOUT_SECONDS + 5,
+            timeout=FULL_PAGE_SCREENSHOT_TIMEOUT_SECONDS,
         )
     except Exception as error:
         _screenshot_error("全页截图", error)

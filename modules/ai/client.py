@@ -420,10 +420,17 @@ def _finalize_search_actions(search_actions: list[dict]) -> list[dict]:
     if not reports:
         return []
     image_data = render_search_reports(reports)
-    if not image_data:
-        logger.warning("[AI Chat] 搜索报告页面渲染失败")
-        return []
-    return [{"type": "search_report_image", "image": image_data}]
+    summaries = list(dict.fromkeys(
+        report["summary"] for report in reports if report.get("summary")
+    ))[:3]
+    if not summaries:
+        summaries = [
+            point["text"]
+            for report in reports
+            for point in report.get("key_points", [])[:2]
+        ][:3]
+    fallback = "\n".join(summaries) or "搜索报告暂时无法发送。"
+    return [{"type": "search_report_image", "image": image_data, "fallback": fallback}]
 
 
 def _call_with_tools(

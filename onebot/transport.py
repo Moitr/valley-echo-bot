@@ -196,7 +196,7 @@ def send_group_msg(group_id, message: list) -> dict | None:
     result = _call_api("send_group_msg", {"group_id": group_id, "message": message})
     if result and result.get("status") == "ok":
         logger.info(f"[群 {group_id}] 发送消息 成功: {fmt_msg(message)}")
-        return result.get("data")
+        return result.get("data") or {"status": "ok"}
     logger.info(f"[群 {group_id}] 发送消息 失败")
     return None
 

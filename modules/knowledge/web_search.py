@@ -1,12 +1,18 @@
 """DeepSeek Search 与独立整理 AI、搜索结果页面渲染。"""
 
+from base64 import b64decode
+from binascii import Error as Base64Error
 from datetime import datetime
 from html import escape, unescape
+from io import BytesIO
 import json
+import math
 import re
+import unicodedata
 from urllib.parse import urlparse
 
 import requests
+from PIL import Image
 
 from config import DEEPSEEK_KEY, DEEPSEEK_URL, section
 from logger import logger
@@ -20,9 +26,14 @@ WEB_SEARCH_DEFAULT_RECENCY = str(_ai_config["web_search_recency_filter"]).strip(
 WEB_SEARCH_MAX_TOKENS = int(_ai_config["web_search_max_tokens"])
 WEB_SEARCH_TEMPERATURE = float(_ai_config["web_search_temperature"])
 WEB_SEARCH_TIMEOUT_SECONDS = float(_ai_config["web_search_request_timeout_seconds"])
-WEB_SEARCH_PAGE_WIDTH = int(_ai_config["web_search_page_width"])
-WEB_SEARCH_PAGE_HEIGHT = int(_ai_config["web_search_page_height"])
-WEB_SEARCH_PAGE_MAX_HEIGHT = int(_ai_config["web_search_page_max_height"])
+WEB_SEARCH_REPORT_LAYOUT = str(_ai_config.get("web_search_report_layout", "table")).strip().lower()
+if WEB_SEARCH_REPORT_LAYOUT not in {"summary", "table", "timeline"}:
+    WEB_SEARCH_REPORT_LAYOUT = "summary"
+WEB_SEARCH_PAGE_WIDTH = max(640, min(1080, int(_ai_config["web_search_page_width"])))
+WEB_SEARCH_PAGE_MAX_HEIGHT = max(300, min(7200, int(_ai_config["web_search_page_max_height"])))
+WEB_SEARCH_PAGE_HEIGHT = max(300, min(WEB_SEARCH_PAGE_MAX_HEIGHT, int(_ai_config["web_search_page_height"])))
+_MAX_REPORT_IMAGE_BYTES = 2 * 1024 * 1024
+_MAX_REPORT_SOURCES = 6
 
 _VALID_RECENCY_FILTERS = {"oneDay", "oneWeek", "oneMonth", "oneYear", "noLimit"}
 _MAX_QUERY_LENGTH = 70
@@ -44,10 +55,14 @@ SEARCH_AI_PROMPT = """<role>
 </task>
 
 <output>
-只输出一个合法 JSON 对象，不要代码围栏、解释或搜索过程。title 要用一句简短中文概括本次资料主题，不要写“搜索报告”“网络搜索”或“资料汇总”；source_ids 对应资料前的编号；正文不要写 URL，来源信息由程序从搜索结果保留：
-{"title":"标题","summary":"结论摘要","sections":[{"title":"自定义章节","type":"list","items":[{"icon":"✓","text":"内容","source_ids":[1]}]},{"title":"对比表","type":"table","columns":["维度","选项一","选项二"],"rows":[["价格","低","高"]],"source_ids":[1,2]}],"key_points":[{"text":"重点1","source_ids":[1]}],"comparison":[{"aspect":"比较维度","left":"选项一","right":"选项二","source_ids":[1,2]}],"conclusion":"综合结论"}
-
-报告要尽量覆盖用户问题的关键维度。sections 是可选的自定义章节，章节标题、type 和内容由你根据问题决定；样式固定但内容可以自定义。支持 type=list（带 icon 的条目）、table（columns/rows 表格）、timeline（items 含 date/text）、metrics（items 含 label/value）、callout（level/title/text 提示框）。需要时使用它替代或补充 key_points/comparison。每个条目、表格或时间线内容都要标注依据 source_ids，只能使用资料中存在的编号。key_points 写 4 至 8 条，comparison 写 3 至 8 个维度；没有足够资料时宁缺毋滥。每条重点直接写事实，不要重复标题或使用“根据搜索结果”“检索显示”“需要注意”等套话开头。summary 只写一次总览，conclusion 只写一次判断，不要重复正文。
+只输出一个合法 JSON 对象，使用以下固定字段：
+{"title":"主题","summary":"摘要","key_points":[{"label":"主题维度","date":"2025-01-01","text":"事实","source_ids":[1]}],"conclusion":"结论"}
+资料含同一指标、同一单位的可比较数据时，可额外填写 chart：
+{"title":"指标名","unit":"单位","items":[{"label":"对象","value":120,"source_ids":[1]}]}。
+图表需有 2 至 6 个数据点，值为有来源的非负数字。缺少可比数据时省略 chart。
+标题不超过 60 字，摘要不超过 240 字，重点最多 8 条，每条不超过 160 字，结论不超过 180 字。
+日期只填写资料明确给出的 YYYY、YYYY-MM 或 YYYY-MM-DD，缺失时填空字符串。source_ids 只使用资料前的编号。
+只填写内容字段，使用纯文本，不输出 URL、Markdown、图标或排版指令。
 </output>
 
 <safety>
@@ -141,7 +156,7 @@ def _normalize_source_ids(value, source_count: int) -> list[int]:
     for item in value:
         try:
             source_id = int(item)
-        except (TypeError, ValueError):
+        except (TypeError, ValueError, OverflowError):
             continue
         if 1 <= source_id <= source_count and source_id not in result:
             result.append(source_id)
@@ -227,132 +242,68 @@ def _merge_search_results(result_sets: list[list[dict]]) -> list[dict]:
     return merged
 
 
-def _normalize_key_points(value, source_count: int, title: str = "") -> list[dict]:
-    if not isinstance(value, list):
-        return []
-    result = []
-    for item in value:
-        if isinstance(item, dict):
-            text = item.get("text") or item.get("content") or ""
-            source_ids = item.get("source_ids")
-        else:
-            text = item
-            source_ids = []
-        text = _clip(_without_links(text), 600)
-        if title:
-            text = re.sub(rf"^{re.escape(title)}\s*[：:]\s*", "", text).strip()
-        if text:
-            result.append({
+def _report_text(value, limit: int) -> str:
+    if not isinstance(value, str):
+        return ""
+    value = unicodedata.normalize("NFC", unescape(value))
+    value = "".join(
+        " " if char.isspace() else char
+        for char in value
+        if char.isspace() or (not unicodedata.category(char).startswith("C") and char != "\ufffd")
+    )
+    return _clip(" ".join(_without_links(value).split()), limit)
+
+
+def _normalize_report(content: str, query: str, source_catalog: list[dict]) -> dict:
+    parsed = _parse_json_object(content) or {}
+    summary = _report_text(parsed.get("summary"), 240)
+    conclusion = _report_text(parsed.get("conclusion"), 180)
+    points = []
+    items = parsed.get("key_points")
+    if isinstance(items, list):
+        for item in items[:8]:
+            if not isinstance(item, dict):
+                continue
+            text = _report_text(item.get("text"), 160)
+            if not text:
+                continue
+            date = item.get("date")
+            date = date.strip() if isinstance(date, str) else ""
+            points.append({
+                "label": _report_text(item.get("label"), 24),
+                "date": date if re.fullmatch(r"[0-9]{4}(?:-(?:0[1-9]|1[0-2])(?:-(?:0[1-9]|[12][0-9]|3[01]))?)?", date) else "",
                 "text": text,
-                "source_ids": _normalize_source_ids(source_ids, source_count),
+                "source_ids": _normalize_source_ids(item.get("source_ids"), len(source_catalog))[:3],
             })
-        if len(result) >= 8:
-            break
-    return result
-
-
-def _normalize_comparison(value, source_count: int) -> list[dict]:
-    if not isinstance(value, list):
-        return []
-    result = []
-    for item in value:
-        if not isinstance(item, dict):
-            continue
-        aspect = _clip(_without_links(item.get("aspect")), 120)
-        left = _clip(_without_links(item.get("left")), 500)
-        right = _clip(_without_links(item.get("right")), 500)
-        if aspect and (left or right):
-            result.append({
-                "aspect": aspect,
-                "left": left,
-                "right": right,
-                "source_ids": _normalize_source_ids(item.get("source_ids"), source_count),
-            })
-        if len(result) >= 8:
-            break
-    return result
-
-
-def _normalize_report(content: str, query: str, source_catalog: list[dict] | None = None) -> dict:
-    parsed = _parse_json_object(content)
-    source_catalog = source_catalog or []
-    if isinstance(parsed, dict):
-        title = _clip(_without_links(parsed.get("title")), 160) or query
-        summary = _clip(_without_links(parsed.get("summary")), 1200)
-        sources = source_catalog or _normalize_sources(parsed.get("sources"))
-        sections = _normalize_sections(parsed.get("sections"), len(sources))
-        key_points = _normalize_key_points(parsed.get("key_points"), len(sources), title)
-        comparison = _normalize_comparison(parsed.get("comparison"), len(sources))
-        conclusion = _clip(_without_links(parsed.get("conclusion")), 1200)
-        if summary or sections or key_points or comparison or conclusion:
-            return {
-                "title": title,
-                "summary": summary or "搜索结果未提供明确摘要。",
-                "sections": sections,
-                "key_points": key_points,
-                "comparison": comparison,
-                "conclusion": conclusion,
-                "sources": sources,
-            }
-
+    if not (summary or points or conclusion):
+        return _fallback_report(query, source_catalog)
     return {
-        "title": _clip(query, 160),
-        "summary": "独立搜索 AI 返回的资料格式异常，暂时无法整理。",
-        "sections": [],
-        "key_points": [],
-        "comparison": [],
-        "conclusion": "请以图片中的其他已整理资料和权威来源为准。",
+        "title": _report_text(parsed.get("title"), 60) or _report_text(query, 60),
+        "summary": summary,
+        "key_points": points,
+        "chart": _normalize_chart(parsed.get("chart"), len(source_catalog)),
+        "conclusion": conclusion,
         "sources": source_catalog,
     }
 
 
-def _normalize_sections(value, source_count: int) -> list[dict]:
-    if not isinstance(value, list):
-        return []
-    sections = []
-    for section in value[:8]:
-        if not isinstance(section, dict):
+def _normalize_chart(value, source_count: int) -> dict | None:
+    if not isinstance(value, dict) or not isinstance(value.get("items"), list):
+        return None
+    title = _report_text(value.get("title"), 40)
+    unit = _report_text(value.get("unit"), 12)
+    items = []
+    for item in value["items"][:6]:
+        if not isinstance(item, dict):
             continue
-        title = _clip(_without_links(section.get("title")), 120)
-        section_type = str(section.get("type") or "list").strip().lower()
-        if section_type not in {"list", "table", "timeline", "metrics", "callout"}:
-            section_type = "list"
-        source_ids = _normalize_source_ids(section.get("source_ids"), source_count)
-        items = []
-        for item in (section.get("items") or [])[:12]:
-            if isinstance(item, dict):
-                text = _clip(_without_links(item.get("text")), 800)
-                item_source_ids = _normalize_source_ids(item.get("source_ids"), source_count) or source_ids
-                item = {
-                    "icon": _clip(item.get("icon"), 8),
-                    "date": _clip(item.get("date"), 40),
-                    "label": _clip(item.get("label"), 100),
-                    "value": _clip(item.get("value"), 180),
-                    "text": text,
-                    "source_ids": item_source_ids,
-                }
-            else:
-                text = _clip(_without_links(item), 800)
-                item = {"text": text, "source_ids": source_ids}
-            if text:
-                items.append(item)
-        columns = [_clip(_without_links(column), 80) for column in (section.get("columns") or [])[:8]]
-        rows = []
-        for row in (section.get("rows") or [])[:16]:
-            if isinstance(row, list):
-                rows.append([_clip(_without_links(cell), 240) for cell in row[:8]])
-        callout_text = _clip(_without_links(section.get("text")), 1200)
-        if title and (items or rows or (section_type == "callout" and callout_text)):
-            sections.append({
-                "title": title,
-                "type": section_type,
-                "items": items,
-                "columns": columns,
-                "rows": rows,
-                "level": _clip(section.get("level"), 20) or "info",
-                "text": callout_text,
-            })
-    return sections
+        label = _report_text(item.get("label"), 24)
+        number = item.get("value")
+        sources = _normalize_source_ids(item.get("source_ids"), source_count)[:3]
+        if label and sources and type(number) in (int, float) and 0 <= number <= 1e15:
+            items.append({"label": label, "value": number, "source_ids": sources})
+    if title and len(items) >= 2:
+        return {"title": title, "unit": unit, "items": items}
+    return None
 
 
 def _report_context(report: dict) -> str:
@@ -417,33 +368,22 @@ def fetch_web(url: str) -> str:
 def _fallback_report(query: str, sources: list[dict]) -> dict:
     """整理模型超时或达到长度上限时，仍用搜索结果生成可发送报告。"""
     points = []
-    for source in sources[:6]:
-        title = _clip(source.get("title"), 180)
-        content = _clip(_without_links(source.get("content")), 280)
-        if title and content:
-            points.append({"text": f"{title}：{content}", "source_ids": [len(points) + 1]})
+    for index, source in enumerate(sources[:_MAX_REPORT_SOURCES], 1):
+        title = _report_text(source.get("title"), 24)
+        content = _report_text(source.get("content"), 160)
+        if content:
+            points.append({"label": title, "date": "", "text": content, "source_ids": [index]})
     return {
-        "title": _clip(query, 160),
-        "summary": f"搜索已返回 {len(sources)} 条资料；整理模型未在限定时间内完成结构化总结，以下为搜索摘要。",
-        "sections": [{
-            "title": "搜索结果摘要",
-            "type": "list",
-            "items": [
-                {"icon": "•", "text": point["text"], "source_ids": point["source_ids"]}
-                for point in points
-            ],
-        }],
-        "key_points": [],
-        "comparison": [],
-        "conclusion": "请结合来源和摘要阅读，必要时继续追问具体对象。",
-        "sources": sources[:10],
+        "title": _report_text(query, 60) or "搜索结果",
+        "summary": f"搜索返回 {len(sources)} 条资料，以下为可用的搜索摘要。",
+        "key_points": points,
+        "conclusion": "",
+        "sources": sources,
     }
 
 
 def _html_text(value) -> str:
-    value = escape(str(value or ""))
-    value = re.sub(r"`([^`]+)`", r"<code>\1</code>", value)
-    return value.replace("\n", "<br>")
+    return escape(_report_text(value, 240))
 
 
 def _source_refs(source_ids) -> str:
@@ -458,80 +398,64 @@ def _source_refs(source_ids) -> str:
     return " " + "".join(refs) if refs else ""
 
 
-def _point_parts(point) -> tuple[str, list[int]]:
-    if isinstance(point, dict):
-        return str(point.get("text") or ""), point.get("source_ids") or []
-    return str(point or ""), []
+def _render_report_chart(chart) -> str:
+    if not chart:
+        return ""
+    peak = max(item["value"] for item in chart["items"]) or 1
+    unit = _html_text(chart["unit"])
+    bars = []
+    for item in chart["items"]:
+        value = item["value"]
+        bars.append(
+            f'<div class="bar-row"><span>{_html_text(item["label"])}</span>'
+            f'<div class="bar-track"><div class="bar" style="width:{value / peak:.2%}"></div></div>'
+            f'<strong>{value:.8g} {unit}{_source_refs(item["source_ids"])}</strong></div>'
+        )
+    return f'<section class="chart"><h2>{_html_text(chart["title"])}</h2>{"".join(bars)}</section>'
 
 
-def _render_report_page(report: dict, query: str) -> str:
-    header = f"<header><h1>{_html_text(report['title'])}</h1></header>" if report["title"] else ""
-    summary_blocks = report.get("summary_blocks") or []
-    if summary_blocks:
-        summary_content = "".join(
-            f"<div class=summary-block><h3>{_html_text(block['title'])}</h3>"
-            f"<p>{_html_text(block['summary'])}</p></div>"
-            for block in summary_blocks
-        )
-        summary_section = f"<section class=summary>{summary_content}</section>"
-    else:
-        summary_section = (
-            f"<section class=summary><h2>结论摘要</h2><p>{_html_text(report['summary'])}</p></section>"
-        )
-    custom_sections = ""
-    for custom in report.get("sections") or []:
-        section_type = custom.get("type", "list")
-        body = ""
-        if section_type == "table" and custom.get("columns"):
-            head = "".join(f"<th>{_html_text(column)}</th>" for column in custom["columns"])
+def _render_report_page(report: dict) -> str:
+    header = f"<header><h1>{_html_text(report['title'])}</h1></header>"
+    metric_section = (
+        '<div class="metrics">'
+        f'<div class="metric"><b>{len(report["key_points"])}</b><span>重点信息</span></div>'
+        f'<div class="metric"><b>{len(report["sources"])}</b><span>参考来源</span></div>'
+        '</div>'
+    )
+    summary_section = "".join(
+        f"<section><h2>{_html_text(block['title'])}</h2><p>{_html_text(block['summary'])}</p></section>"
+        for block in report["summary_blocks"]
+    )
+    points = report["key_points"]
+    points_section = ""
+    if points:
+        def detail(point):
+            return _html_text(point["text"]) + _source_refs(point["source_ids"])
+
+        if WEB_SEARCH_REPORT_LAYOUT == "table":
             rows = "".join(
-                "<tr>" + "".join(f"<td>{_html_text(cell)}</td>" for cell in row) + "</tr>"
-                for row in custom.get("rows") or []
+                f"<tr><th scope=row>{_html_text(point['label'] or '重点')}</th><td>{detail(point)}</td></tr>"
+                for point in points
             )
-            body = f"<div class=table-wrap><table><thead><tr>{head}</tr></thead><tbody>{rows}</tbody></table></div>"
-        elif section_type == "callout":
-            body = f"<div class=\"callout {escape(custom.get('level', 'info'))}\"><strong>{_html_text(custom.get('text') or '')}</strong></div>"
-        elif section_type == "metrics":
-            body = "<div class=metrics>" + "".join(
-                f"<div class=metric><span>{_html_text(item.get('label'))}</span><b>{_html_text(item.get('value'))}</b></div>"
-                for item in custom.get("items") or []
-            ) + "</div>"
-        elif section_type == "timeline":
-            body = "<div class=timeline>" + "".join(
-                f"<div class=timeline-item><b>{_html_text(item.get('date'))}</b><span>{_html_text(item.get('text'))}{_source_refs(item.get('source_ids'))}</span></div>"
-                for item in custom.get("items") or []
-            ) + "</div>"
+            body = f"<table><thead><tr><th>主题</th><th>重点内容</th></tr></thead><tbody>{rows}</tbody></table>"
+        elif WEB_SEARCH_REPORT_LAYOUT == "timeline":
+            ordered = sorted(points, key=lambda point: (not point["date"], point["date"]))
+            body = "<ol class=timeline>" + "".join(
+                f"<li><b>{escape(point['date'] or '日期未注明')}</b> {detail(point)}</li>"
+                for point in ordered
+            ) + "</ol>"
         else:
-            body = "<ul>" + "".join(
-                f"<li><span class=icon>{_html_text(item.get('icon') or '•')}</span> {_html_text(item.get('text'))}{_source_refs(item.get('source_ids'))}</li>"
-                for item in custom.get("items") or []
+            body = '<ul class="point-cards">' + "".join(
+                f"<li><strong>{_html_text(point['label'])}</strong>{detail(point)}</li>"
+                for point in points
             ) + "</ul>"
-        custom_sections += f"<section><h2>{_html_text(custom['title'])}</h2>{body}</section>"
-    points = "".join(
-        f"<li>{_html_text(text)}{_source_refs(source_ids)}</li>"
-        for text, source_ids in (_point_parts(point) for point in report["key_points"])
-        if text
-    )
-    comparison_rows = "".join(
-        f"<p><span class=label>{_html_text(row['aspect'])}</span> "
-        f"{_html_text(row['left'])}；{_html_text(row['right'])}"
-        f"{_source_refs(row.get('source_ids'))}</p>"
-        for row in report["comparison"]
-    )
-    comparison_section = ""
-    if comparison_rows:
-        comparison_section = f"<section><h2>对比整理</h2>{comparison_rows}</section>"
-    points_section = (
-        f"<section><h2>重点信息</h2><ul>{points}</ul></section>"
-        if points
-        else ""
-    )
+        points_section = f"<section><h2>重点信息</h2>{body}</section>"
     conclusion_section = (
         f"<section class=conclusion><h2>综合结论</h2><p>{_html_text(report['conclusion'])}</p></section>"
         if report["conclusion"]
         else ""
     )
-    sources = [source for source in (report.get("sources") or []) if isinstance(source, dict)][:10]
+    sources = [source for source in (report.get("sources") or []) if isinstance(source, dict)][:_MAX_REPORT_SOURCES]
     sources_section = ""
     if sources:
         def render_source_url(source):
@@ -557,38 +481,34 @@ def _render_report_page(report: dict, query: str) -> str:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 * {{ box-sizing: border-box; }}
-body {{ margin: 0; background: #f4efe6; color: #302d29; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans CJK SC", sans-serif; }}
+body {{ margin: 0; background: #f4efe6; color: #302d29; font-family: "Noto Sans CJK SC", "Source Han Sans SC", "Microsoft YaHei", "PingFang SC", sans-serif; overflow-wrap: anywhere; }}
 .sheet {{ width: 100%; max-width: 1080px; margin: 0 auto; background: #f4efe6; overflow: hidden; }}
 header {{ padding: 48px 64px 20px; }}
 h1 {{ margin: 0; color: #2d2a27; font-size: 34px; font-weight: 500; line-height: 1.45; }}
 main {{ padding: 0 64px 52px; }}
 section {{ padding: 20px 0 10px; }}
+.metrics {{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 8px 0 12px; }}
+.metric {{ padding: 16px 18px; border: 1px solid #d2c0a8; border-radius: 8px; background: #fffaf2; text-align: center; }}
+.metric b {{ display: block; color: #75532d; font-size: 30px; line-height: 1.1; }}
+.metric span {{ display: block; margin-top: 5px; color: #6b6258; font-size: 16px; }}
+.chart {{ margin: 12px 0; padding: 16px 18px; border-radius: 8px; background: #fffaf2; }}
+.bar-row {{ display: grid; grid-template-columns: 1fr 2fr 1fr; align-items: center; gap: 12px; margin-top: 10px; font-size: 18px; }}
+.bar-track {{ height: 16px; border-radius: 4px; background: #ece2d5; overflow: hidden; }}
+.bar {{ height: 100%; border-radius: 4px; background: #476b70; }}
+.point-cards {{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0; list-style: none; }}
+.point-cards li {{ margin: 0; padding: 12px; border-radius: 8px; background: #fffaf2; }}
+.point-cards strong {{ display: block; color: #75532d; }}
 h2 {{ margin: 0 0 10px; color: #75532d; font-size: 23px; font-weight: 500; line-height: 1.5; }}
 p, li {{ font-size: 25px; line-height: 1.65; }}
 p {{ margin: 0 0 18px; }}
 ul {{ margin: 0; padding-left: 28px; }}
 li + li {{ margin-top: 10px; }}
-.icon {{ display: inline-block; min-width: 1.2em; color: #75532d; font-weight: 700; }}
-.table-wrap {{ overflow-x: auto; }}
-table {{ width: 100%; border-collapse: collapse; font-size: 19px; line-height: 1.45; }}
+table {{ width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 22px; line-height: 1.5; }}
 th, td {{ border: 1px solid #cfc5b7; padding: 10px 12px; text-align: left; vertical-align: top; }}
-th {{ background: #e8dfd3; color: #75532d; font-weight: 700; }}
-.timeline {{ border-left: 3px solid #b59a78; padding-left: 18px; }}
-.timeline-item {{ display: grid; grid-template-columns: 150px 1fr; gap: 12px; padding: 8px 0; }}
-.timeline-item b {{ color: #75532d; }}
-.metrics {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }}
-.metric {{ padding: 12px; background: #e8dfd3; border-radius: 5px; }}
-.metric span, .metric b {{ display: block; }}
-.metric span {{ color: #75532d; font-size: 16px; }}
-.metric b {{ margin-top: 4px; font-size: 24px; }}
-.callout {{ padding: 14px 16px; border-left: 5px solid #75532d; background: #e8dfd3; }}
-.callout.warning {{ border-color: #9a6a32; background: #f1e2cd; }}
-.callout.danger {{ border-color: #9a3f32; background: #f1d8d3; }}
-.summary {{ padding-top: 12px; }}
-.summary h2 {{ display: none; }}
-.summary-block + .summary-block {{ margin-top: 24px; }}
-.summary-block h3 {{ margin: 0 0 8px; color: #75532d; font-size: 20px; font-weight: 600; line-height: 1.5; }}
-.label {{ color: #75532d; }}
+th {{ background: #e8dfd3; color: #75532d; }}
+th:first-child {{ width: 25%; }}
+.timeline {{ list-style: none; border-left: 3px solid #b59a78; padding-left: 18px; }}
+.timeline b {{ color: #75532d; }}
 .conclusion {{ padding-bottom: 0; }}
 .sources {{ padding-top: 28px; }}
 .sources ol {{ margin: 0; padding-left: 28px; }}
@@ -597,18 +517,16 @@ th {{ background: #e8dfd3; color: #75532d; font-weight: 700; }}
 .source-number {{ color: #75532d; font-weight: 700; }}
 sup {{ color: #75532d; font-size: .62em; font-weight: 700; vertical-align: super; }}
 footer {{ padding: 16px 64px 26px; color: #877f75; font-size: 14px; }}
-code {{ padding: 1px 7px; border-radius: 5px; background: #e3ddd3; color: #38342f; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9em; }}
-@media (max-width: 700px) {{ .metrics {{ grid-template-columns: 1fr 1fr; }} .timeline-item {{ grid-template-columns: 1fr; gap: 2px; }} table {{ font-size: 16px; }} }}
 </style>
 </head>
 <body>
 <article class="sheet">
 {header}
 <main>
+{metric_section}
 {summary_section}
-{custom_sections}
+{_render_report_chart(report.get("chart"))}
 {points_section}
-{comparison_section}
 {conclusion_section}
 {sources_section}
 </main>
@@ -649,57 +567,34 @@ def render_search_reports(reports: list[dict]) -> str | None:
 
     def remap_source_ids(report, source_ids):
         indexes = source_indexes.get(id(report), {})
-        return [indexes[source_id] for source_id in source_ids if source_id in indexes]
-
-    def dedupe_text(items):
-        result = []
-        seen = set()
-        for item in items:
-            key = re.sub(r"\s+", " ", str(item).strip()).casefold()
-            if key and key not in seen:
-                result.append(item)
-                seen.add(key)
-        return result
+        return [indexes[source_id] for source_id in source_ids if source_id in indexes and indexes[source_id] <= _MAX_REPORT_SOURCES]
 
     summary_blocks = []
     seen_summaries = set()
     for report in reports:
-        summary = str(report.get("summary") or "").strip()
+        summary = _report_text(report.get("summary"), 180)
         key = re.sub(r"\s+", " ", summary).casefold()
         if not key or key in seen_summaries:
             continue
         seen_summaries.add(key)
         summary_blocks.append({
-            "title": str(report.get("title") or "搜索结果").strip(),
+            "title": report.get("title") or "搜索结果",
             "summary": summary,
         })
     point_items = []
     seen_points = set()
     for report in reports:
         for point in report.get("key_points") or []:
-            text, source_ids = _point_parts(point)
-            key = re.sub(r"\s+", " ", text).strip().casefold()
+            text = _report_text(point.get("text"), 160)
+            key = text.casefold()
             if not key or key in seen_points:
                 continue
             seen_points.add(key)
             point_items.append({
+                "label": point.get("label", ""),
+                "date": point.get("date", ""),
                 "text": text,
-                "source_ids": remap_source_ids(report, source_ids),
-            })
-
-    comparison_items = []
-    seen_comparisons = set()
-    for report in reports:
-        for row in report.get("comparison") or []:
-            key = tuple(str(row.get(field) or "").strip().casefold() for field in ("aspect", "left", "right"))
-            if not any(key) or key in seen_comparisons:
-                continue
-            seen_comparisons.add(key)
-            comparison_items.append({
-                "aspect": row.get("aspect", ""),
-                "left": row.get("left", ""),
-                "right": row.get("right", ""),
-                "source_ids": remap_source_ids(report, row.get("source_ids") or []),
+                "source_ids": remap_source_ids(report, point.get("source_ids") or []),
             })
 
     combined = {
@@ -711,27 +606,46 @@ def render_search_reports(reports: list[dict]) -> str | None:
             ),
             "搜索结果整理",
         ),
-        "summary": "",
-        "summary_blocks": summary_blocks,
-        "sections": [
-            section
-            for report in reports
-            for section in (report.get("sections") or [])
-        ][:8],
-        "key_points": point_items[:16],
-        "comparison": comparison_items[:16],
-        "conclusion": "\n".join(dedupe_text(
-            report.get("conclusion", "") for report in reports if report.get("conclusion")
-        )),
-        "sources": combined_sources[:12],
+        "summary_blocks": summary_blocks[:3],
+        "key_points": point_items[:8],
+        "conclusion": next((report["conclusion"] for report in reports if report.get("conclusion")), ""),
+        "sources": combined_sources[:_MAX_REPORT_SOURCES],
     }
-    html_content = _render_report_page(combined, "本轮搜索资料汇总")
-    return screenshot_full_page(
-        html_content,
+    for report in reports:
+        chart = report.get("chart")
+        if not chart:
+            continue
+        items = []
+        for item in chart["items"]:
+            refs = remap_source_ids(report, item["source_ids"])
+            if refs:
+                items.append({**item, "source_ids": refs})
+        if len(items) >= 2:
+            combined["chart"] = {**chart, "items": items}
+            break
+    payload = screenshot_full_page(
+        _render_report_page(combined),
         width=WEB_SEARCH_PAGE_WIDTH,
         height=WEB_SEARCH_PAGE_HEIGHT,
         max_height=WEB_SEARCH_PAGE_MAX_HEIGHT,
     )
+    if not payload or not payload.startswith("base64://"):
+        return None
+    encoded = payload.removeprefix("base64://")
+    if len(encoded) > 4 * ((_MAX_REPORT_IMAGE_BYTES + 2) // 3):
+        return None
+    try:
+        raw_image = b64decode(encoded, validate=True)
+        with Image.open(BytesIO(raw_image), formats=["PNG"]) as png:
+            if len(raw_image) > _MAX_REPORT_IMAGE_BYTES:
+                return None
+            if not (1 <= png.width <= WEB_SEARCH_PAGE_WIDTH and 1 <= png.height <= WEB_SEARCH_PAGE_MAX_HEIGHT):
+                return None
+            png.verify()
+    except (Base64Error, OSError, ValueError, SyntaxError, Image.DecompressionBombError):
+        return None
+    return payload
+
 
 
 def _search_web_api(
