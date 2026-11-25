@@ -122,6 +122,7 @@ BROWSER = {
     "headless": True,
     "page_load_timeout_seconds": 30,
     "element_timeout_seconds": 20,
+    "element_navigation_timeout_seconds": 60,
     "full_page_screenshot_timeout_seconds": 90,
 }
 

@@ -28,6 +28,10 @@ BROWSER_PATH = str(_browser_config["path"]).strip()
 HEADLESS = bool(_browser_config["headless"])
 PAGE_LOAD_TIMEOUT_SECONDS = float(_browser_config["page_load_timeout_seconds"])
 ELEMENT_TIMEOUT_SECONDS = float(_browser_config["element_timeout_seconds"])
+ELEMENT_NAVIGATION_TIMEOUT_SECONDS = max(
+    PAGE_LOAD_TIMEOUT_SECONDS,
+    float(_browser_config.get("element_navigation_timeout_seconds", 60)),
+)
 FULL_PAGE_SCREENSHOT_TIMEOUT_SECONDS = max(
     PAGE_LOAD_TIMEOUT_SECONDS + 5,
     float(_browser_config.get("full_page_screenshot_timeout_seconds", 90)),
@@ -353,7 +357,7 @@ def screenshot_element(
         width, height = (int(value) for value in window_size.split(",", 1))
         return _get_worker().submit(
             lambda session: _capture_element(session, url, selector, output_dir, width, height),
-            timeout=PAGE_LOAD_TIMEOUT_SECONDS + ELEMENT_TIMEOUT_SECONDS + 5,
+            timeout=ELEMENT_NAVIGATION_TIMEOUT_SECONDS + ELEMENT_TIMEOUT_SECONDS + 5,
         )
     except Exception as error:
         _screenshot_error(f"元素截图 ({url})", error)
@@ -372,9 +376,12 @@ def _capture_element(
         context = _new_context(session, width, height)
         page = context.new_page()
         page.set_default_timeout(ELEMENT_TIMEOUT_SECONDS * 1000)
-        page.set_default_navigation_timeout(PAGE_LOAD_TIMEOUT_SECONDS * 1000)
+        page.set_default_navigation_timeout(ELEMENT_NAVIGATION_TIMEOUT_SECONDS * 1000)
         try:
-            page.goto(url, wait_until="domcontentloaded")
+            # Wiki hosts may delay DOMContentLoaded on server deployments even
+            # when the response has committed. Continue as soon as navigation
+            # starts, then wait for the infobox selector itself below.
+            page.goto(url, wait_until="commit")
             _wait_for_network_idle(page)
             _wait_for_fonts(page)
             locator = page.locator(selector).first
